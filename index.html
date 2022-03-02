@@ -5,11 +5,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Left</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --bgcolor: 'red';
+      }
+      body {
+        display: flex;
+        width: 100vw;
+        height: 100vh;
+        background-color: #f5f5d5;
+      }
+      .box {
+        margin: auto;
+      }
+      .box li {
+        color: #000;
+        margin: 20px 0;
+      }
+    </style>
   </head>
   <body>
-    <h1>Hello Word</h1>
-    <ul>
-      <li>2022-03-01 <a href="./src/2022-03-01.html">我想睡觉了!</a></li>
-    </ul>
+    <div class="box">
+      <li><a href="">文章列表</a></li>
+      <li><a href="">关于作者</a></li>
+    </div>
   </body>
 </html>
