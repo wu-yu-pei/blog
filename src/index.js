@@ -1,5 +1,7 @@
 const fs = require('fs');
 const showdown = require('showdown');
+const ejs = require('ejs');
+
 let converter = new showdown.Converter();
 
 function findFile() {
@@ -37,5 +39,29 @@ function mdToml() {
     console.log(`编译成功:${file}.md`);
   });
 }
+
+function createListHtml() {
+  let info = [];
+  // 列表
+  let data = fs.readdirSync('./html');
+
+  data.forEach((item) => {
+    let stat = fs.statSync(`./html/${item}`);
+    console.log(stat);
+    let itemInfo = {
+      name: item.split('.')[0],
+      ct: stat.ctime,
+    };
+  });
+  
+  ejs.renderFile('./ejs/list.ejs', { data: info }, {}, function (err, str) {
+    if (err) {
+      console.log(err);
+    }
+    fs.writeFileSync('../list.html', str, { encoding: 'utf-8' });
+  });
+}
+
+createListHtml();
 
 mdToml();
