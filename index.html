@@ -1,44 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Left</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-        }
-        
-         :root {
-            --bgcolor: 'red';
-        }
-        
-        body {
-            display: flex;
-            width: 100vw;
-            height: 100vh;
-            background-color: #f5f5d5;
-        }
-        
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      a {
+        color: #fff;
+        text-decoration: none;
+      }
+      body {
+        display: flex;
+        width: 100vw;
+        height: 100vh;
+        background: url(./src/img/a.jpg);
+        background-size: cover;
+        background-position: center;
+        user-select: none;
+      }
+      .box {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 30px;
+        width: 600px;
+        height: 300px;
+        padding: 0 30px;
+        box-sizing: border-box;
+        background-color: rgba(0, 0, 0, 0.3);
+        transition: width linear 0.5s;
+      }
+      .box h1 {
+        text-align: center;
+        letter-spacing: 10px;
+        font-family: fangsong;
+        margin: 20px;
+      }
+      .box h1 span:hover {
+        border-bottom: 2px solid #000;
+        cursor: pointer;
+      }
+      .box ul li {
+        list-style: none;
+        margin: 25px 0;
+        background-color: rgba(255, 255, 255, 0.5);
+        padding: 10px 10px;
+        border-radius: 5px;
+        color: #fefefe;
+        font-size: 24px;
+        font-weight: 500;
+        font-family: cursive;
+        text-shadow: 0 5px 4px #333;
+      }
+      .box ul li:hover {
+        background-color: #fff;
+      }
+      .box ul li:hover a {
+        color: #000;
+        border-bottom: 2px solid #000;
+      }
+      .box .fotter {
+        text-align: right;
+        color: #fff;
+        letter-spacing: 5px;
+        font-size: 18px;
+        cursor: pointer;
+      }
+      .box .fotter span:hover {
+        color: transparent;
+      }
+
+      @media screen and (max-width: 700px) {
         .box {
-            margin: auto;
+          width: 500px;
         }
-        
-        .box li {
-            color: #000;
-            margin: 20px 0;
+      }
+      @media screen and (max-width: 600px) {
+        .box {
+          width: 400px;
         }
+      }
+      @media screen and (max-width: 500px) {
+        .box {
+          width: 300px;
+        }
+        .box h1 {
+          letter-spacing: 5px;
+          font-size: 24px;
+        }
+        .box ul li {
+          font-size: 20px;
+        }
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="box">
-        <li><a href="./list.html">文章列表</a></li>
-        <li><a href="./profile.html">关于作者</a></li>
+      <h1>
+        <span class="cspan">吴玉配的随笔</span>
+      </h1>
+      <hr />
+      <ul>
+        <li><a href="./list.html">·|文章列表</a></li>
+        <li><a href="./profile.html">·|关于作者</a></li>
+      </ul>
+      <div class="fotter">
+        <span>----不善言辞</span>
+      </div>
     </div>
-</body>
-
+  </body>
+  <script>
+    let cspan = document.querySelector('.cspan');
+    cspan.addEventListener('click', () => {
+      console.log('改换背景了');
+    });
+  </script>
 </html>
