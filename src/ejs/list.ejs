@@ -20,7 +20,7 @@
         justify-content: center;
       }
       p {
-        margin-top: 20px;
+        margin: 15px 0;
       }
       li {
         color: blue;
@@ -38,6 +38,7 @@
 
   <body>
     <ul>
+      <p>List:</p>
       <% data.forEach(function(item){ %>
       <li>
         <a href="./src/html/<%= item.name %>.html"> <%= item.ct %> -------- <%= item.name %> </a>
