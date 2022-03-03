@@ -34,6 +34,24 @@
         overflow-x: hidden;
         overflow-y: auto;
       }
+      a {
+        text-decoration: none;
+        position: relative;
+      }
+      a::after {
+        content: '';
+        position: absolute;
+        display: block;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: pink;
+        transition: width 0.2s linear;
+      }
+      a:hover::after {
+        width: 100%;
+      }
     </style>
   </head>
 
