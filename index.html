@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Left</title>
+    <link rel="icon" href="/favicon.ico" />
     <link rel="stylesheet" href="./src/css/color.css" />
     <style>
       * {
@@ -115,11 +116,16 @@
           font-size: 20px;
         }
       }
+      .audio {
+        display: none;
+      }
     </style>
   </head>
 
   <body>
-    <div class="check"></div>
+    <div class="check">
+      <audio src="./src/audio/audio.wav" class="autio"></audio>
+    </div>
     <div class="box">
       <h1>
         <span class="cspan">吴玉配的随笔</span>
@@ -130,28 +136,34 @@
         <li><a href="./profile.html">·|关于作者</a></li>
       </ul>
       <div class="fotter">
-        <span>----不善言辞</span>
+        <span>----Hello!</span>
       </div>
     </div>
   </body>
   <script>
     let cspan = document.querySelector('.cspan');
+
     cspan.addEventListener('click', () => {
       console.log('改换背景了');
     });
 
     let isLight = true;
     let check = document.querySelector('.check');
+    let audio = document.querySelector('.autio');
     // 主题切换
     check.addEventListener('click', () => {
       if (isLight) {
+        // 播放声音
+        audio.play();
         check.style.background = 'url(./src/img/bai.png) no-repeat';
-        document.documentElement.style.setProperty('--bg-color', '#1d1919');
+        document.documentElement.style.setProperty('--bg-color', '#715e5e');
         document.documentElement.style.setProperty('--bb-color', '#000');
         document.documentElement.style.setProperty('--ht-color', '#fff');
         document.documentElement.style.setProperty('--hoverli-color', '#fff');
         document.documentElement.style.setProperty('--boxbg-color', 'rgba(255, 255, 255, 0.3)');
       } else {
+        // 播放声音
+        audio.play();
         check.style.background = 'url(./src/img/hei.png) no-repeat';
         document.documentElement.style.setProperty('--bg-color', '#f5f5d5');
         document.documentElement.style.setProperty('--bb-color', '#000');
