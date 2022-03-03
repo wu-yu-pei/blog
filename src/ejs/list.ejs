@@ -1,40 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>List</title>
+    <link rel="stylesheet" href="./src/css/color.css" />
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-        }
-        
-         :root {
-            --bgcolor: 'red';
-        }
-        
-        body {
-            width: 100vw;
-            height: 100vh;
-            background-color: #f5f5d5;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        width: 100vw;
+        height: 100vh;
+        background-color: var(--bg-color);
+        display: flex;
+        justify-content: center;
+      }
+      p {
+        margin-top: 20px;
+      }
+      li {
+        color: blue;
+        margin: 10px 0;
+      }
+      ul {
+        min-width: 50%;
+        margin-top: 100px;
+        height: 500px;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <ul>
-        <% data.forEach(function(item){ %>
-            <li>
-                <a href="./src/html/<%= item.name %>.html">
-                    <%= item.ct %>
-                        <%= item.name %>
-                </a>
-            </li>
-            <% }); %>
+      <% data.forEach(function(item){ %>
+      <li>
+        <a href="./src/html/<%= item.name %>.html"> <%= item.ct %> <%= item.name %> </a>
+      </li>
+      <% }); %>
     </ul>
-</body>
-
+  </body>
 </html>
