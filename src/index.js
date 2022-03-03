@@ -67,9 +67,13 @@ function createListHtml() {
     let itemInfo = {
       name: item.split('.')[0],
       ct: getTime(stat.ctimeMs),
+      time: stat.ctime,
     };
     info.push(itemInfo);
   });
+
+  // 排序
+  info.sort((a, b) => b.time - a.time);
 
   ejs.renderFile('./ejs/list.ejs', { data: info }, {}, function (err, str) {
     if (err) {
