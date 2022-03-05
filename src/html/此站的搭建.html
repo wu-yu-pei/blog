@@ -25,7 +25,109 @@
   </head>
 
   <body>
-    <div class="content"><h3 id="">以后再写…</h3></div>
+    <div class="content">
+      <h4 id="">出于兴趣爱好,搭建了此站点</h4>
+      <blockquote>
+        <p>
+          之前使用hexo,
+          vue-press等来搭建自己的blog,都是基于别人的框架,没有自己动手那味,于是乎就有了此站点,自己手动搭建一个bolg,使用起来更加轻松,和有成就感,此站的还有许多功能没有加入进去,比如:评论留言,搜索等功能,由于此站是大概两天弄出来的,还有许多不足,后面慢慢优化吧,下面是此站的搭建过程
+        </p>
+      </blockquote>
+      <h4 id="-1">站点使用的核心技术</h4>
+      <p>node+ejs+markdown</p>
+      <h4 id="-2">站的搭建的思路</h4>
+      <p>md -&gt; html -&gt; gitpage</p>
+      <h4 id="-3">具体方法</h4>
+      <ol>
+        <li>由于我使用的是markdown记录笔记等,因此需要把编写的所有md 转化为 htm</li>
+        <li>showdown:md -&gt; html</li>
+        <li>ejs模板编译</li>
+        <li>动态生成list.html页面</li>
+        <li>编译文章ejs模板</li>
+      </ol>
+      <h4 id="-4">代码实现</h4>
+      <ol>
+        <li>markdown --&gt; html</li>
+        <li>ejs ---&gt; 编译</li>
+      </ol>
+      <pre><code class="js language-js">function mdToml() {
+  let files = findFile();
+
+  if (files.length === 0) {
+    console.log('无更新内容|如果你是修改内容,请删除源md文件,再运行程序');
+    return 0;
+  }
+
+  files.forEach((file) =&gt; {
+    let text = fs.readFileSync(`./md/${file}.md`, { encoding: 'utf-8' }).toString();
+
+    let html = converter.makeHtml(text);
+
+    ejs.renderFile('./ejs/article.ejs', { title: file, html }, {}, function (err, str) {
+      if (err) {
+        console.log(err);
+      }
+      fs.writeFileSync(`./html/${file}.html`, str, { encoding: 'utf-8' });
+    });
+
+    console.log(`编译成功:${file}.md`);
+  });
+}
+</code></pre>
+      <ol start="3">
+        <li>动态生成list.html</li>
+      </ol>
+      <pre><code class="js language-js">function createListHtml() {
+  // TODO 待优化（每次都会调用，）
+  let info = [];
+  // 列表
+  let data = fs.readdirSync('./html');
+  data.forEach((item) =&gt; {
+    let stat = fs.statSync(`./html/${item}`);
+    let itemInfo = {
+      name: item.split('.')[0],
+      ct: getTime(stat.ctimeMs),
+      time: stat.ctime,
+    };
+    info.push(itemInfo);
+  });
+
+  // 排序
+  info.sort((a, b) =&gt; b.time - a.time);
+
+  ejs.renderFile('./ejs/list.ejs', { data: info }, {}, function (err, str) {
+    if (err) {
+      console.log(err);
+    }
+    fs.writeFileSync('../list.html', str, { encoding: 'utf-8' });
+  });
+}
+</code></pre>
+      <ol start="5">
+        <li>排序</li>
+      </ol>
+      <pre><code class="js language-js">// 按时间排序
+function getTime(t) {
+  let time = new Date(t);
+  return (
+    [time.getFullYear(), time.getMonth() + 1, time.getDate()].join('-') +
+    ' ' +
+    [time.getHours(), time.getMinutes(), time.getSeconds()].join(':')
+  );
+}
+</code></pre>
+      <ol start="6">
+        <li>
+          <p>优化</p>
+          <p>每一次都不会编译所有的md,而是只编译新加了md</p>
+        </li>
+        <li><p>剩余的都是html,css了,没什么说的</p></li>
+      </ol>
+      <p>今天做了美团的面试题:</p>
+      <p>我: 好难,是人做的吗?</p>
+      <p>其他人:………..(不清楚)</p>
+      <p>4道算法题,太难了, 看来leetcode刷100道题是远远不够的, 继续……..</p>
+    </div>
     <script src="../js/click.js"></script>
   </body>
 </html>
