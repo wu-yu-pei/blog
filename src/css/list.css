@@ -16,6 +16,7 @@ li {
   color: #000;
   margin: 10px 0;
   list-style: none;
+  font-family: cursive;
 }
 li::before {
   content: '|';
