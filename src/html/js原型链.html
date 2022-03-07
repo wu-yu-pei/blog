@@ -18,6 +18,7 @@
         border: 1px solid #fcfc;
         width: 800px;
         height: 100%;
+        overflow-x: scroll;
         margin: 0 auto;
         background-color: #f3f4f4;
       }
@@ -25,11 +26,17 @@
   </head>
 
   <body>
-    <div class="content"><h2 id="js">js继承</h2>
-<p><a href="https://wu-yu-pei.github.io/2021/10/05/js%E7%BB%A7%E6%89%BF%E7%9A%846%E7%A7%8D%E6%96%B9%E5%BC%8F/">上一篇继承</a></p>
-<p>代码:</p>
-<!--more-->
-<pre><code class="js language-js">javascript对象的继承再研究
+    <div class="content">
+      <h2 id="js">js继承</h2>
+      <p>
+        <a
+          href="https://wu-yu-pei.github.io/2021/10/05/js%E7%BB%A7%E6%89%BF%E7%9A%846%E7%A7%8D%E6%96%B9%E5%BC%8F/"
+          >上一篇继承</a
+        >
+      </p>
+      <p>代码:</p>
+      <!--more-->
+      <pre><code class="js language-js">javascript对象的继承再研究
 1. 原型链继承
 function Person() {}
 Person.prototype.say = function () {
@@ -164,7 +171,8 @@ var s = new Student('wuyupei', 20, 'sudent')
 console.log(s)
 s.say()
 s.sayType()
-</code></pre></div>
+</code></pre>
+    </div>
     <script src="../js/click.js"></script>
   </body>
 </html>

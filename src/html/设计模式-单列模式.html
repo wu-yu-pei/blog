@@ -19,14 +19,16 @@
         width: 800px;
         height: 100%;
         margin: 0 auto;
+        overflow-x: scroll;
         background-color: #f3f4f4;
       }
     </style>
   </head>
 
   <body>
-    <div class="content"><h3 id="javascript">学习 JavaScript 设计模式与开发实践 之 单列模式</h3>
-<pre><code class="js language-js">//4.1 一个最简单的单列模式的实现
+    <div class="content">
+      <h3 id="javascript">学习 JavaScript 设计模式与开发实践 之 单列模式</h3>
+      <pre><code class="js language-js">//4.1 一个最简单的单列模式的实现
 function Singleton(name) {
 this.name = name;
 this.instance = null;
@@ -124,7 +126,8 @@ console.log(a === b);
 
 // 4.5惰性单列模式
     ...
-</code></pre></div>
+</code></pre>
+    </div>
     <script src="../js/click.js"></script>
   </body>
 </html>
