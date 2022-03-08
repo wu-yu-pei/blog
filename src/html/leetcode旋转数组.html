@@ -23,34 +23,42 @@
         margin: 0 auto;
         background-color: #f3f4f4;
       }
+      code {
+        font-family: cursive;
+      }
     </style>
   </head>
 
   <body>
-    <div class="content"><h4 id="189httpsleetcodecncomproblemsrotatearray"><a href="https://leetcode-cn.com/problems/rotate-array/">189. 轮转数组</a></h4>
-<p>难度中等 1370 收藏分享切换为英文接收动态反馈</p>
-<p>给你一个数组，将数组中的元素向右轮转 <code>k</code> 个位置，其中 <code>k</code> 是非负数。</p>
-<p><strong>示例 1:</strong></p>
-<pre><code>输入: nums = [1,2,3,4,5,6,7], k = 3
+    <div class="content">
+      <h4 id="189httpsleetcodecncomproblemsrotatearray">
+        <a href="https://leetcode-cn.com/problems/rotate-array/">189. 轮转数组</a>
+      </h4>
+      <p>难度中等 1370 收藏分享切换为英文接收动态反馈</p>
+      <p>
+        给你一个数组，将数组中的元素向右轮转 <code>k</code> 个位置，其中 <code>k</code> 是非负数。
+      </p>
+      <p><strong>示例 1:</strong></p>
+      <pre><code>输入: nums = [1,2,3,4,5,6,7], k = 3
 输出: [5,6,7,1,2,3,4]
 解释:
 向右轮转 1 步: [7,1,2,3,4,5,6]
 向右轮转 2 步: [6,7,1,2,3,4,5]
 向右轮转 3 步: [5,6,7,1,2,3,4]
 </code></pre>
-<p><strong>示例 2:</strong></p>
-<pre><code>输入：nums = [-1,-100,3,99], k = 2
+      <p><strong>示例 2:</strong></p>
+      <pre><code>输入：nums = [-1,-100,3,99], k = 2
 输出：[3,99,-1,-100]
 解释:
 向右轮转 1 步: [99,-1,-100,3]
 向右轮转 2 步: [3,99,-1,-100]
 </code></pre>
-<p><strong>思路:</strong></p>
-<p><strong>代码</strong></p>
-<ol>
-<li>自己的解法 超时了~</li>
-</ol>
-<pre><code class="js language-js">/**
+      <p><strong>思路:</strong></p>
+      <p><strong>代码</strong></p>
+      <ol>
+        <li>自己的解法 超时了~</li>
+      </ol>
+      <pre><code class="js language-js">/**
  * @param {number[]} nums
  * @param {number} k
  * @return {void} Do not return anything, modify nums in-place instead.
@@ -67,8 +75,8 @@ var rotate = function (nums, k) {
 };
 console.log(rotate([-1, -100, 3, 99], 2));
 </code></pre>
-<p>2.自己的解法 没超时 但是 k 的取值不萌超过 nums.length</p>
-<pre><code class="js language-js">/**
+      <p>2.自己的解法 没超时 但是 k 的取值不萌超过 nums.length</p>
+      <pre><code class="js language-js">/**
  * @param {number[]} nums
  * @param {number} k
  * @return {void} Do not return anything, modify nums in-place instead.
@@ -82,10 +90,10 @@ var rotate = function (nums, k) {
   return arr;
 };
 </code></pre>
-<ol start="3">
-<li>改进 2 关键代码 k = k % nums.length; 求余操作 提交了 25 次 终于成功了~</li>
-</ol>
-<pre><code class="js language-js">/**
+      <ol start="3">
+        <li>改进 2 关键代码 k = k % nums.length; 求余操作 提交了 25 次 终于成功了~</li>
+      </ol>
+      <pre><code class="js language-js">/**
  * @param {number[]} nums
  * @param {number} k
  * @return {void} Do not return anything, modify nums in-place instead.
@@ -104,7 +112,8 @@ var rotate = function (nums, k) {
   // ok
   return arr;
 };
-</code></pre></div>
+</code></pre>
+    </div>
     <script src="../js/click.js"></script>
   </body>
 </html>

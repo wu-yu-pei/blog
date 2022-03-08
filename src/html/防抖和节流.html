@@ -23,23 +23,30 @@
         margin: 0 auto;
         background-color: #f3f4f4;
       }
+      code {
+        font-family: cursive;
+      }
     </style>
   </head>
 
   <body>
-    <div class="content"><h1 id="">防抖和节流</h1>
-<blockquote>
-  <p>可以说它们是优化中的一员吧! 其实他们的应用场景非常多,比如:联想输入内容,页面尺寸改变等场景,他们发挥这重要的作用,可以大大提高浏览器的性能或者减轻服务器的负担等..</p>
-</blockquote>
-<!--more-->
-<h2 id="-1">防抖</h2>
-<blockquote>
-  <p>多次调用一个事件,只会执行最后一次</p>
-</blockquote>
-<h3 id="-2">思路</h3>
-<p>利用闭包 当timer不是null的时候里面清除 是null的时候为其赋值</p>
-<h3 id="11">1.1</h3>
-<pre><code class="js language-js">function change(e) {
+    <div class="content">
+      <h1 id="">防抖和节流</h1>
+      <blockquote>
+        <p>
+          可以说它们是优化中的一员吧!
+          其实他们的应用场景非常多,比如:联想输入内容,页面尺寸改变等场景,他们发挥这重要的作用,可以大大提高浏览器的性能或者减轻服务器的负担等..
+        </p>
+      </blockquote>
+      <!--more-->
+      <h2 id="-1">防抖</h2>
+      <blockquote>
+        <p>多次调用一个事件,只会执行最后一次</p>
+      </blockquote>
+      <h3 id="-2">思路</h3>
+      <p>利用闭包 当timer不是null的时候里面清除 是null的时候为其赋值</p>
+      <h3 id="11">1.1</h3>
+      <pre><code class="js language-js">function change(e) {
   console.log('改变了', e, this)
 }
 // (不可以接受获取到event参数,this执行此时执行的是当前fn所定义的环境中的this)
@@ -55,8 +62,8 @@ function debounce(fn, delay) {
   }
 }
 </code></pre>
-<h3 id="12">1.2</h3>
-<pre><code class="js language-js">// 优化参数和this指向
+      <h3 id="12">1.2</h3>
+      <pre><code class="js language-js">// 优化参数和this指向
 function debounce(fn, delay) {
   let timer = null
   return function () {
@@ -71,18 +78,21 @@ function debounce(fn, delay) {
   }
 }
 </code></pre>
-<h3 id="-3">测试</h3>
-<pre><code class="js language-js">var deChange = debounce(change, 100)
+      <h3 id="-3">测试</h3>
+      <pre><code class="js language-js">var deChange = debounce(change, 100)
 window.addEventListener('resize', deChange)
 </code></pre>
-<h2 id="-4">节流</h2>
-<blockquote>
-  <p>多次调用一个事件,会按照一定的频率执行</p>
-</blockquote>
-<h3 id="-5">思路</h3>
-<p>上一个定时器执行完 立马把timer置为null这样下一个函数进来就可以添加进定时器的回调中了(利用了闭包)</p>
-<h3 id="21">2.1</h3>
-<pre><code class="js language-js">// 获取不到事件对象 this指向的是当前fn所定义的环境里
+      <h2 id="-4">节流</h2>
+      <blockquote>
+        <p>多次调用一个事件,会按照一定的频率执行</p>
+      </blockquote>
+      <h3 id="-5">思路</h3>
+      <p>
+        上一个定时器执行完
+        立马把timer置为null这样下一个函数进来就可以添加进定时器的回调中了(利用了闭包)
+      </p>
+      <h3 id="21">2.1</h3>
+      <pre><code class="js language-js">// 获取不到事件对象 this指向的是当前fn所定义的环境里
 function throttle(fn, delay) {
   let timer = null
   return function () {
@@ -95,8 +105,8 @@ function throttle(fn, delay) {
   }
 }
 </code></pre>
-<h3 id="22">2.2</h3>
-<pre><code class="js language-js">function throttle(fn, delay) {
+      <h3 id="22">2.2</h3>
+      <pre><code class="js language-js">function throttle(fn, delay) {
   let timer = null
   return function () {
     let args = arguments
@@ -109,12 +119,13 @@ function throttle(fn, delay) {
   }
 }
 </code></pre>
-<h3 id="-6">测试</h3>
-<pre><code class="js language-js">var thChage = throttle(change, 500)
+      <h3 id="-6">测试</h3>
+      <pre><code class="js language-js">var thChage = throttle(change, 500)
 window.addEventListener('resize', thChage)
 </code></pre>
-<h2 id="-7">最后</h2>
-<p>防抖和节流还可以有更好的封装,这里只是基本的封装和使用</p></div>
+      <h2 id="-7">最后</h2>
+      <p>防抖和节流还可以有更好的封装,这里只是基本的封装和使用</p>
+    </div>
     <script src="../js/click.js"></script>
   </body>
 </html>
