@@ -1,76 +1,126 @@
-(function() {
-  let mytext = ['A','B','C','D','E','F','G','H','I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+(function () {
+  let mytext = [
+    'A',
+    'ღ',
+    'B',
+    'ღ',
+    'C',
+    'ღ',
+    'D',
+    'ღ',
+    'E',
+    'ღ',
+    'F',
+    'ღ',
+    'G',
+    'ღ',
+    'H',
+    'ღ',
+    'I',
+    'ღ',
+    'J',
+    'ღ',
+    'K',
+    'ღ',
+    'L',
+    'ღ',
+    'M',
+    'ღ',
+    'N',
+    'ღ',
+    'O',
+    'ღ',
+    'P',
+    'ღ',
+    'Q',
+    'ღ',
+    'R',
+    'ღ',
+    'S',
+    'ღ',
+    'T',
+    'ღ',
+    'U',
+    'ღ',
+    'V',
+    'ღ',
+    'W',
+    'ღ',
+    'X',
+    'ღ',
+    'Y',
+    'ღ',
+    'Z',
+    'ღ',
+    'ღ',
+  ];
 
-  let mydiv = document.createElement('div')
+  let mydiv = document.createElement('div');
 
-  let mytimer
+  let mytimer;
 
-  document.addEventListener('click',(e) => {
+  document.addEventListener('click', (e) => {
+    clearInterval(mytimer);
 
-      clearInterval(mytimer)
+    let opacity = 1;
 
-      let opacity = 1
+    let top = e.clientY;
 
-      let top = e.clientY
+    let left = e.clientX;
 
-      let left = e.clientX
+    let _top = top;
 
-      let _top = top
+    mydiv.innerText = mytext[Math.floor(Math.random() * mytext.length)];
 
-      mydiv.innerText = mytext[Math.floor( Math.random() * mytext.length)]
+    mydiv.style.position = 'fixed';
 
-      mydiv.style.position = "fixed"
+    mydiv.style.top = top - 15 + 'px';
 
-      mydiv.style.top = top - 15 + 'px'
+    mydiv.style.left = left - 15 + 'px';
 
-      mydiv.style.left = left - 15 + 'px'
+    mydiv.style.width = '50px';
 
-      mydiv.style.width = "50px"
+    mydiv.style.textAlign = 'center';
 
-      mydiv.style.textAlign = "center"
+    mydiv.style.letterSpacing = 3 + 'px';
 
-      mydiv.style.letterSpacing = 3 + 'px'
+    mydiv.style.fontSize = 18 + 'px';
 
-      mydiv.style.fontSize = 18 + 'px'
+    mydiv.style.cursor = 'default';
 
-      mydiv.style.cursor = "default"
+    mydiv.style.color = getColor();
 
-      mydiv.style.color = getColor()
+    mydiv.style.opacity = opacity;
 
-      mydiv.style.opacity = opacity
+    mydiv.style.zIndex = 100000000000;
 
-      mydiv.style.zIndex = 100000000000
+    mydiv.style.fontFamily = 'FZShuTi';
 
-      mydiv.style.fontFamily = "FZShuTi"
+    document.body.appendChild(mydiv);
 
-      document.body.appendChild(mydiv)
-
-      mytimer = setInterval(() => {
-
-          if(opacity > 0) {
-              mydiv.style.opacity = opacity -= 0.005
-          }
-
-          if (_top - top > 100) {
-              document.body.removeChild(mydiv)
-              clearInterval(mytimer)
-          }
-
-          mydiv.style.top = (top--) - 15 + 'px'
-      },5)
-  })
-
-  function getColor() {
-
-      let colorarr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f']
-
-      let color = "#"
-
-      for (let i = 0; i < 6; i++) {
-          color += colorarr[Math.floor(Math.random() * colorarr.length)]
+    mytimer = setInterval(() => {
+      if (opacity > 0) {
+        mydiv.style.opacity = opacity -= 0.005;
       }
 
-      return color
-  }
+      if (_top - top > 100) {
+        document.body.removeChild(mydiv);
+        clearInterval(mytimer);
+      }
 
+      mydiv.style.top = top-- - 15 + 'px';
+    }, 5);
+  });
+
+  function getColor() {
+    let colorarr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f'];
+
+    let color = '#';
+
+    for (let i = 0; i < 6; i++) {
+      color += colorarr[Math.floor(Math.random() * colorarr.length)];
+    }
+
+    return color;
+  }
 })(document);
