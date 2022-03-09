@@ -96,25 +96,26 @@
 输出：[1,2]
 解释：-1 与 0 之和等于目标数 -1 。因此 index1 = 1, index2 = 2 。返回 [1, 2] 。</p>
 <p><strong>代码:</strong></p>
-<pre><code class="js language-js">// 自己的代码 不是最优解
-var twoSum = function (numbers, target) {
-  // for(let i = 0; i &lt; numbers.length; i++) {
-  //     for(let j = i + 1; j &lt; numbers.length; j++) {
-  //         if(numbers[i] + numbers[j] === target) {
-  //             return [i+1, j+1]
-  //         }
-  //     }
-  // }
+<pre><code class="js language-js">var twoSum = function (numbers, target) {
+  // 自己的代码 不是最优解 暴力双重for
+  for (let i = 0; i &lt; numbers.length; i++) {
+    for (let j = i + 1; j &lt; numbers.length; j++) {
+      if (numbers[i] + numbers[j] === target) {
+        return [i + 1, j + 1];
+      }
+    }
+  }
   // leetcode 网友解法 超时~
-  //     for (let i = numbers.length - 1; i &gt;= 0; i--) {
-  //     let b = i;
-  //     while (b &gt;= 0) {
-  //       b--;
-  //       if (numbers[i] + numbers[b] === target) {
-  //         return [b + 1, i + 1]
-  //       }
-  //     }
-  //   }
+  for (let i = numbers.length - 1; i &gt;= 0; i--) {
+    let b = i;
+    while (b &gt;= 0) {
+      b--;
+      if (numbers[i] + numbers[b] === target) {
+        return [b + 1, i + 1];
+      }
+    }
+  }
+
   //  加入二分优化
   for (let i = 0; i &lt; numbers.length; i++) {
     // 左闭右闭区间
@@ -128,6 +129,21 @@ var twoSum = function (numbers, target) {
     }
   }
   return [-1, -1];
+
+  // 双指针法
+  // 定义左右双指针 js这样写会比较简洁一点
+  let [left, right] = [0, numbers.length - 1];
+  while (left &lt; right) {
+    if (numbers[left] + numbers[right] &gt; target) {
+      // 太大了，要小一点，则right左移一位
+      right--;
+    } else if (numbers[left] + numbers[right] &lt; target) {
+      // 太小了，要大一点，则left右移一位
+      left++;
+    } else {
+      return [left + 1, right + 1];
+    }
+  }
 };
 </code></pre></div>
     <script src="../js/click.js"></script>

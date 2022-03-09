@@ -78,25 +78,26 @@ var moveZeroes = function (nums) {
 **代码:**
 
 ```js
-// 自己的代码 不是最优解
 var twoSum = function (numbers, target) {
-  // for(let i = 0; i < numbers.length; i++) {
-  //     for(let j = i + 1; j < numbers.length; j++) {
-  //         if(numbers[i] + numbers[j] === target) {
-  //             return [i+1, j+1]
-  //         }
-  //     }
-  // }
+  // 自己的代码 不是最优解 暴力双重for
+  for (let i = 0; i < numbers.length; i++) {
+    for (let j = i + 1; j < numbers.length; j++) {
+      if (numbers[i] + numbers[j] === target) {
+        return [i + 1, j + 1];
+      }
+    }
+  }
   // leetcode 网友解法 超时~
-  //     for (let i = numbers.length - 1; i >= 0; i--) {
-  //     let b = i;
-  //     while (b >= 0) {
-  //       b--;
-  //       if (numbers[i] + numbers[b] === target) {
-  //         return [b + 1, i + 1]
-  //       }
-  //     }
-  //   }
+  for (let i = numbers.length - 1; i >= 0; i--) {
+    let b = i;
+    while (b >= 0) {
+      b--;
+      if (numbers[i] + numbers[b] === target) {
+        return [b + 1, i + 1];
+      }
+    }
+  }
+
   //  加入二分优化
   for (let i = 0; i < numbers.length; i++) {
     // 左闭右闭区间
@@ -110,5 +111,20 @@ var twoSum = function (numbers, target) {
     }
   }
   return [-1, -1];
+
+  // 双指针法
+  // 定义左右双指针 js这样写会比较简洁一点
+  let [left, right] = [0, numbers.length - 1];
+  while (left < right) {
+    if (numbers[left] + numbers[right] > target) {
+      // 太大了，要小一点，则right左移一位
+      right--;
+    } else if (numbers[left] + numbers[right] < target) {
+      // 太小了，要大一点，则left右移一位
+      left++;
+    } else {
+      return [left + 1, right + 1];
+    }
+  }
 };
 ```
