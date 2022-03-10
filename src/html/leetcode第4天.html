@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-leetcode第4天</title>
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/github.css" />
+    <link rel="stylesheet" href="../css/color.css" />
+    <style>
+      body {
+        background-color: var(--bg-color);
+      }
+      .content {
+        padding: 0 20px;
+        border: 1px solid #fcfc;
+        width: 800px;
+        overflow-x: scroll;
+        font-family: fangsong;
+        height: 100%;
+        margin: 0 auto;
+        background-color: #f3f4f4;
+      }
+      code {
+        font-family: fangsong;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="content"><h4 id="27httpsleetcodecncomproblemsremoveelement"><a href="https://leetcode-cn.com/problems/remove-element/">27. 移除元素</a></h4>
+<p>给你一个数组 <code>nums</code> 和一个值 <code>val</code>，你需要 <strong><a href="https://baike.baidu.com/item/原地算法">原地</a></strong> 移除所有数值等于 <code>val</code> 的元素，并返回移除后数组的新长度。</p>
+<p>不要使用额外的数组空间，你必须仅使用 <code>O(1)</code> 额外空间并 <strong><a href="https://baike.baidu.com/item/原地算法">原地 </a>修改输入数组</strong>。</p>
+<p>元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。</p>
+<p><strong>说明:</strong></p>
+<p>为什么返回数值是整数，但输出的答案是数组呢?</p>
+<p>请注意，输入数组是以<strong>「引用」</strong>方式传递的，这意味着在函数里修改输入数组对于调用者是可见的。</p>
+<p>你可以想象内部操作如下:</p>
+<pre><code>// nums 是以“引用”方式传递的。也就是说，不对实参作任何拷贝
+int len = removeElement(nums, val);
+
+// 在函数里修改输入数组对于调用者是可见的。
+// 根据你的函数返回的长度, 它会打印出数组中 该长度范围内 的所有元素。
+for (int i = 0; i &lt; len; i++) {
+    print(nums[i]);
+}
+</code></pre>
+<p><strong>示例 1：</strong></p>
+<pre><code>输入：nums = [3,2,2,3], val = 3
+输出：2, nums = [2,2]
+解释：函数应该返回新的长度 2, 并且 nums 中的前两个元素均为 2。你不需要考虑数组中超出新长度后面的元素。例如，函数返回的新长度为 2 ，而 nums = [2,2,3,3] 或 nums = [2,2,0,0]，也会被视作正确答案。
+</code></pre>
+<p><strong>示例 2：</strong></p>
+<pre><code>输入：nums = [0,1,2,2,3,0,4,2], val = 2
+输出：5, nums = [0,1,4,0,3]
+解释：函数应该返回新的长度 5, 并且 nums 中的前五个元素为 0, 1, 3, 0, 4。注意这五个元素可为任意顺序。你不需要考虑数组中超出新长度后面的元素。
+</code></pre>
+<p><strong>代码:</strong></p>
+<pre><code class="js language-js">/**
+ * @param {number[]} nums
+ * @param {number} val
+ * @return {number}
+ */
+var removeElement = function(nums, val) {
+    //   let j = 0;
+    //   let count = 0;
+    //   for (let i = 0; i &lt; nums.length; i++) {
+    //     if (nums[i] !== val) {
+    //       nums[j] = nums[i];
+    //       j++;
+    //     } else {
+    //       count++;
+    //     }
+    //   }
+    //   nums.splice(j, count);
+
+    // 双指针解法
+    // i慢指针, j 快指针
+    let i = j = 0;
+    for(; j &lt; nums.length; j++) {
+        if(nums[j] !== val) {
+            nums[i] = nums[j]
+            i++
+        }
+    }
+   nums.splice(i)
+};
+</code></pre>
+<h4 id="557iiihttpsleetcodecncomproblemsreversewordsinastringiii"><a href="https://leetcode-cn.com/problems/reverse-words-in-a-string-iii/">557. 反转字符串中的单词 III</a></h4>
+<p>给定一个字符串 <code>s</code> ，你需要反转字符串中每个单词的字符顺序，同时仍保留空格和单词的初始顺序。</p>
+<p><strong>示例 1：</strong></p>
+<pre><code>输入：s = "Let's take LeetCode contest"
+输出："s'teL ekat edoCteeL tsetnoc"
+</code></pre>
+<p><strong>示例 2:</strong></p>
+<pre><code>输入： s = "God Ding"
+输出："doG gniD"
+</code></pre>
+<p><strong>代码:</strong></p>
+<pre><code class="js language-js">/**
+ * @param {string} s
+ * @return {string}
+ */
+var reverseWords = function(s) {
+
+    function reverse(w) {
+        let len = w.length;
+        w = w.split('')
+        for(let i = 0, j = len - 1; i &lt; j; i++, j--) {
+            [w[i], w[j]] = [w[j], w[i]];
+        }
+        return w.join('')
+    }
+
+    s = s.split(' ')
+    for(let i = 0; i &lt; s.length; i++) {
+        s[i] = reverse(s[i])
+    }
+    return s.join(' ')
+};
+</code></pre>
+<h4 id="344httpsleetcodecncomproblemsreversestring"><a href="https://leetcode-cn.com/problems/reverse-string/">344. 反转字符串</a></h4>
+<p>编写一个函数，其作用是将输入的字符串反转过来。输入字符串以字符数组 <code>s</code> 的形式给出。</p>
+<p>不要给另外的数组分配额外的空间，你必须<strong><a href="https://baike.baidu.com/item/原地算法">原地</a>修改输入数组</strong>、使用 O(1) 的额外空间解决这一问题。</p>
+<p><strong>示例 1：</strong></p>
+<pre><code>输入：s = ["h","e","l","l","o"]
+输出：["o","l","l","e","h"]
+</code></pre>
+<p><strong>示例 2：</strong></p>
+<pre><code>输入：s = ["H","a","n","n","a","h"]
+输出：["h","a","n","n","a","H"]
+</code></pre>
+<p><strong>代码:</strong></p>
+<pre><code class="js language-js">/**
+ * @param {character[]} s
+ * @return {void} Do not return anything, modify s in-place instead.
+ */
+var reverseString = function(s) {
+    // 双指针 while循环
+    // let i = 0;
+    // let j = s.length - 1;
+    // while(i &lt; j) {
+    //     [s[i], s[j]] = [s[j], s[i]]
+    //     i++;
+    //     j--;
+    // }
+    // return s
+
+    // 双指针 for循环
+    let len = s.length;
+    for(let i = 0, j = len - 1; i &lt; j; i++, j--) {
+        [s[i], s[j]] = [s[j], s[i]]
+    }
+    return s
+};
+</code></pre>
+<h4 id="offer05httpsleetcodecncomproblemstihuankonggelcof"><a href="https://leetcode-cn.com/problems/ti-huan-kong-ge-lcof/">剑指 Offer 05. 替换空格</a></h4>
+<p>请实现一个函数，把字符串 <code>s</code> 中的每个空格替换成"%20"。</p>
+<p><strong>示例 1：</strong></p>
+<pre><code>输入：s = "We are happy."
+输出："We%20are%20happy."
+</code></pre>
+<p><strong>代码:</strong></p>
+<pre><code class="js language-js">/**
+ * @param {string} s
+ * @return {string}
+ */
+var replaceSpace = function(s) {
+    //return s.replaceAll(' ', '%20')
+    //return s.replace(/[ ]/g, '%20')
+        s = s.split("");
+
+    // 把字符串转化成数组
+    // 1. 计算原长度
+    let oldLen = s.length;
+    let spaceCount = 0;
+    for (let i = 0; i &lt; oldLen; i++) {
+        if (s[i] === ' ') spaceCount++;
+    }
+    // 计算把空格替换为20%后的长度
+    s.length += spaceCount * 2;
+    // 从后往前遍历 防止字符串被修改
+    for (let i = oldLen - 1, j = s.length - 1; i &gt;= 0; i--, j--) {
+        if (s[i] !== ' ') s[j] = s[i];
+        else {
+            s[j - 2] = '%';
+            s[j - 1] = '2';
+            s[j] = '0';
+            j -= 2;
+        }
+    }
+    return s.join('');
+};
+</code></pre>
+<h4 id="offerii024httpsleetcodecncomproblemsuhnkqh"><a href="https://leetcode-cn.com/problems/UHnkqh/">剑指 Offer II 024. 反转链表</a></h4>
+<p>给定单链表的头节点 <code>head</code> ，请反转链表，并返回反转后的链表的头节点。</p>
+<p><strong>示例 1：</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2021/02/19/rev1ex1.jpg" alt="img" /></p>
+<pre><code>输入：head = [1,2,3,4,5]
+输出：[5,4,3,2,1]
+</code></pre>
+<p><strong>示例 2：</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2021/02/19/rev1ex2.jpg" alt="img" /></p>
+<pre><code>输入：head = [1,2]
+输出：[2,1]
+</code></pre>
+<p><strong>示例 3：</strong></p>
+<pre><code>输入：head = []
+输出：[]
+</code></pre>
+<p><strong>思路:</strong>
+<img src="../mdimg/%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8.gif" alt="img" /></p>
+<p><strong>代码:</strong></p>
+<pre><code class="js language-js">/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+var reverseList = function(head) {
+    // 双指针
+    // l --&gt; 左指针 r --&gt; 右指针
+    // let l = null
+    // let r = head
+    // // 如果右指针
+    // while(r) {
+    //     // 保留一下next
+    //     let n = r.next
+    //     // 交换指针位置
+    //     r.next = l
+    //     l = r
+    //     // next
+    //     r = n
+    // }
+    // return l
+
+
+    // 递归法
+    var reverse = function(pre, head) {
+        if(!head) return pre;
+        const temp = head.next;
+        head.next = pre;
+        pre = head
+        return reverse(pre, temp);
+    }
+
+    return reverse(null, head);
+};
+</code></pre></div>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+  </body>
+</html>
