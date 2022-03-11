@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-leetcode第5天</title>
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/github.css" />
+    <link rel="stylesheet" href="../css/color.css" />
+    <style>
+      body {
+        background-color: var(--bg-color);
+      }
+      .content {
+        padding: 0 20px;
+        border: 1px solid #fcfc;
+        width: 800px;
+        overflow-x: scroll;
+        font-family: fangsong;
+        height: 100%;
+        margin: 0 auto;
+        background-color: #f3f4f4;
+      }
+      code {
+        font-family: fangsong;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="content"><ol>
+1. 
+</ol>
+<h4 id="876httpsleetcodecncomproblemsmiddleofthelinkedlist"><a href="https://leetcode-cn.com/problems/middle-of-the-linked-list/">876. 链表的中间结点</a></h4>
+<p>给定一个头结点为 <code>head</code> 的非空单链表，返回链表的中间结点。</p>
+<p>如果有两个中间结点，则返回第二个中间结点。</p>
+<p><strong>示例 1：</strong></p>
+<pre><code>输入：[1,2,3,4,5]
+输出：此列表中的结点 3 (序列化形式：[3,4,5])
+返回的结点值为 3 。 (测评系统对该结点序列化表述是 [3,4,5])。
+注意，我们返回了一个 ListNode 类型的对象 ans，这样：
+ans.val = 3, ans.next.val = 4, ans.next.next.val = 5, 以及 ans.next.next.next = NULL.
+</code></pre>
+<p><strong>示例 2：</strong></p>
+<pre><code>输入：[1,2,3,4,5,6]
+输出：此列表中的结点 4 (序列化形式：[4,5,6])
+由于该列表有两个中间结点，值分别为 3 和 4，我们返回第二个结点。
+</code></pre>
+<p><strong>思路:</strong></p>
+<ul>
+<li>先遍历一遍,计算链表长度</li>
+<li>找出中间点</li>
+<li>开始移动head指针</li>
+</ul>
+<p><strong>官方思路:</strong></p>
+<ul>
+<li>双指针</li>
+<li>慢指针一次走一步,快指针一次走两步</li>
+<li>快指针走到头.慢指针一定是再中间</li>
+<li>返回慢指针就ok</li>
+</ul>
+<p><strong>代码:</strong></p>
+<pre><code class="js language-js">/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+var middleNode = function(head) {
+    // // leetcode题解  懂了
+    // // 慢指针
+    // let left = head;
+    // // 快指针
+    // let right = head;
+    // while(right !== null &amp;&amp; right.next !== null) {
+    //     // 慢指针一次走一步
+    //     left = left.next;
+    //     // 快指针一次走两步
+    //     right = right.next.next
+    // }
+    // // 返回慢指针
+    // return left;
+
+    // 我的解法
+    // 1. 先遍历一遍链表 算出长度
+    let h = head;
+    let length = 0;
+    while(h) {
+        length++
+        h = h.next
+    }
+    // 2. 计算中间点
+    let mid = Math.floor(length / 2)
+    // 3. 移动head指针
+    while(mid &gt; 0) {
+        head = head.next;
+        mid--
+    }
+    return head
+};
+</code></pre>
+<ol start="2">
+2. 
+</ol>
+<h4 id="19nhttpsleetcodecncomproblemsremoventhnodefromendoflist"><a href="https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/">19. 删除链表的倒数第 N 个结点</a></h4>
+<p>给你一个链表，删除链表的倒数第 <code>n</code> 个结点，并且返回链表的头结点。</p>
+<p><strong>示例 1：</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/10/03/remove_ex1.jpg" alt="img" /></p>
+<pre><code>输入：head = [1,2,3,4,5], n = 2
+输出：[1,2,3,5]
+</code></pre>
+<p><strong>示例 2：</strong></p>
+<pre><code>输入：head = [1], n = 1
+输出：[]
+</code></pre>
+<p><strong>示例 3：</strong></p>
+<pre><code>输入：head = [1,2], n = 1
+输出：[1]
+</code></pre>
+<p><strong>思路:</strong></p>
+<ul>
+<li>双指针</li>
+<li>块指针先走n步,慢指针再开始走</li>
+<li>快指针走到头,慢指针的下一个节点就是要删除的节点</li>
+</ul>
+<p><strong>代码:</strong></p>
+<pre><code class="js language-js">/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @param {number} n
+ * @return {ListNode}
+ */
+var removeNthFromEnd = function(head, n) {
+    // 占位节点
+    const demp = new ListNode()
+    demp.next = head
+
+    // 快指针
+    let l = demp;
+    // 慢指针
+    let r = demp;
+
+    // 快指针先走n步
+    while(n &gt; 0) {
+        r = r.next;
+        n--;
+    }
+
+    // 快慢指针一起走
+    while(r.next) {
+        l = l.next;
+        r = r.next;
+    }
+
+    l.next = l.next.next
+
+    return demp.next
+};
+</code></pre></div>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+  </body>
+</html>
