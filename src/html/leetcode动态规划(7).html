@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-leetcode动态规划(7)</title>
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/github.css" />
+    <link rel="stylesheet" href="../css/color.css" />
+    <style>
+      body {
+        background-color: var(--bg-color);
+      }
+      .content {
+        padding: 0 20px;
+        border: 1px solid #fcfc;
+        width: 800px;
+        overflow-x: scroll;
+        font-family: fangsong;
+        height: 100%;
+        margin: 0 auto;
+        background-color: #f3f4f4;
+      }
+      code {
+        font-family: fangsong;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="content"><h4 id="1httpsleetcodecncomproblemsbestsightseeingpair"><a href="https://leetcode-cn.com/problems/best-sightseeing-pair/">1. 最佳观光组合</a></h4>
+<p>难度中等</p>
+<p>给你一个正整数数组 <code>values</code>，其中 <code>values[i]</code> 表示第 <code>i</code> 个观光景点的评分，并且两个景点 <code>i</code> 和 <code>j</code> 之间的 <strong>距离</strong> 为 <code>j - i</code>。</p>
+<p>一对景点（<code>i &lt; j</code>）组成的观光组合的得分为 <code>values[i] + values[j] + i - j</code> ，也就是景点的评分之和 <strong>减去</strong> 它们两者之间的距离。</p>
+<p>返回一对观光景点能取得的最高分。</p>
+<p><strong>示例 1：</strong></p>
+<pre><code>输入：values = [8,1,5,2,6]
+输出：11
+解释：i = 0, j = 2, values[i] + values[j] + i - j = 8 + 5 + 0 - 2 = 11
+</code></pre>
+<p><strong>示例 2：</strong></p>
+<pre><code>输入：values = [1,2]
+输出：2
+</code></pre>
+<p><strong>思路:</strong></p>
+<ul>
+<li>动态规划</li>
+<li>题中已给出公式</li>
+</ul>
+<p><strong>代码:</strong></p>
+<pre><code class="js language-js">/**
+ * @param {number[]} values
+ * @return {number}
+ */
+var maxScoreSightseeingPair = function(values) {
+    // 初始化最大值为0
+    let max = 0;
+    for(let i = 0; i &lt; values.length; i++) {
+        for(let j = i + 1; j &lt; values.length; j++) {
+            // 遍历每一次都求max
+            max = Math.max(max, values[i] + values[j] + i - j)
+        }
+    }
+    return max
+};
+</code></pre>
+<h4 id="2httpsleetcodecncomproblemsbesttimetobuyandsellstock"><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/">2. 买卖股票的最佳时机</a></h4>
+<p>难度简单</p>
+<p>给定一个数组 <code>prices</code> ，它的第 <code>i</code> 个元素 <code>prices[i]</code> 表示一支给定股票第 <code>i</code> 天的价格。</p>
+<p>你只能选择 <strong>某一天</strong> 买入这只股票，并选择在 <strong>未来的某一个不同的日子</strong> 卖出该股票。设计一个算法来计算你所能获取的最大利润。</p>
+<p>返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 <code>0</code> 。</p>
+<p><strong>示例 1：</strong></p>
+<pre><code>输入：[7,1,5,3,6,4]
+输出：5
+解释：在第 2 天（股票价格 = 1）的时候买入，在第 5 天（股票价格 = 6）的时候卖出，最大利润 = 6-1 = 5 。
+     注意利润不能是 7-1 = 6, 因为卖出价格需要大于买入价格；同时，你不能在买入前卖出股票。
+</code></pre>
+<p><strong>示例 2：</strong></p>
+<pre><code>输入：prices = [7,6,4,3,1]
+输出：0
+解释：在这种情况下, 没有交易完成, 所以最大利润为 0。
+</code></pre>
+<p><strong>思路:</strong></p>
+<p><img src="../mdimg/leetcode股票.png" alt="思路" /></p>
+<ul>
+<li>max记录可获取的最大利润</li>
+<li>minprice记录最小股票值</li>
+<li>遍历数组</li>
+<li>跟新最小股票值,更新最大利润</li>
+</ul>
+<p><strong>代码:</strong></p>
+<pre><code class="js language-js">/**
+ * @param {number[]} prices
+ * @return {number}
+ */
+var maxProfit = function(prices) {
+    // 超出时间限制
+    // let max = 0
+    // for(let i = 0; i &lt; prices.length; i++) {
+    //     for(let j = i + 1; j &lt;= prices.length - 1; j++) {
+    //         if(prices[j] - prices[i] &gt; max) {
+    //             max = prices[j] - prices[i]
+    //         }
+    //     }
+    // }
+    // return max
+
+    // 出来了~
+    // 两个变量, max--&gt; 最大值  minprice --&gt; 维护一个最小值
+    let max = 0, minprice = prices[0]
+    for(let i = 0; i &lt; prices.length; i++) {
+        // 如果某一个值不最小值还小的话, 就更新最小值
+        if(prices[i] &lt; minprice) {
+            minprice = prices[i]
+        }
+        // 否则的话 记录max
+        if(prices[i] - minprice &gt; max) {
+            max = prices[i] - minprice
+        }
+    }
+    return max
+
+};
+</code></pre>
+<h4 id="3iihttpsleetcodecncomproblemsbesttimetobuyandsellstockii"><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/">3. 买卖股票的最佳时机 II</a></h4>
+<p>难度中等1588收藏分享切换为英文接收动态反馈</p>
+<p>给定一个数组 <code>prices</code> ，其中 <code>prices[i]</code> 表示股票第 <code>i</code> 天的价格。</p>
+<p>在每一天，你可能会决定购买和/或出售股票。你在任何时候 <strong>最多</strong> 只能持有 <strong>一股</strong> 股票。你也可以购买它，然后在 <strong>同一天</strong> 出售。
+返回 <em>你能获得的 <strong>最大</strong> 利润</em> 。</p>
+<p><strong>示例 1:</strong></p>
+<pre><code>输入: prices = [7,1,5,3,6,4]
+输出: 7
+解释: 在第 2 天（股票价格 = 1）的时候买入，在第 3 天（股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。
+     随后，在第 4 天（股票价格 = 3）的时候买入，在第 5 天（股票价格 = 6）的时候卖出, 这笔交易所能获得利润 = 6-3 = 3 。
+</code></pre>
+<p><strong>示例 2:</strong></p>
+<pre><code>输入: prices = [1,2,3,4,5]
+输出: 4
+解释: 在第 1 天（股票价格 = 1）的时候买入，在第 5 天 （股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。
+     注意你不能在第 1 天和第 2 天接连购买股票，之后再将它们卖出。因为这样属于同时参与了多笔交易，你必须在再次购买前出售掉之前的股票。
+</code></pre>
+<p><strong>示例 3:</strong></p>
+<pre><code>输入: prices = [7,6,4,3,1]
+输出: 0
+解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。
+</code></pre>
+<p><strong>思路:</strong></p>
+<ul>
+<li>0</li>
+<li>完全没思路</li>
+<li>下次再来</li>
+</ul>
+<p><strong>代码:</strong></p>
+<pre><code class="js language-js">/**
+ * @param {number[]} prices
+ * @return {number}
+ */
+var maxProfit = function(prices) {
+
+};
+</code></pre></div>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+  </body>
+</html>
