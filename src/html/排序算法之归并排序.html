@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-排序算法之归并排序</title>
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/github.css" />
+    <link rel="stylesheet" href="../css/color.css" />
+    <style>
+      body {
+        background-color: var(--bg-color);
+      }
+      .content {
+        padding: 0 20px;
+        border: 1px solid #fcfc;
+        width: 800px;
+        overflow-x: scroll;
+        font-family: fangsong;
+        height: 100%;
+        margin: 0 auto;
+        background-color: #f3f4f4;
+      }
+      code {
+        font-family: fangsong;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="content"><h4 id="">归并排序</h4>
+<p><strong>思路分析:</strong></p>
+<blockquote>
+  <p>思路分析摘自 修言 数据结构与算法 排序篇</p>
+</blockquote>
+<p>归并排序是对分治思想的典型应用，它按照如下的思路对分治思想“三步走”的框架进行了填充：</p>
+<p>分解子问题：将需要被排序的数组从中间分割为两半，然后再将分割出来的每个子数组各分割为两半，重复以上操作，直到单个子数组只有一个元素为止。
+求解每个子问题：从粒度最小的子数组开始，两两合并、确保每次合并出来的数组都是有序的。（这里的“子问题”指的就是对每个子数组进行排序）。
+合并子问题的解，得出大问题的解：当数组被合并至原有的规模时，就得到了一个完全排序的数组
+真实排序过程演示
+下面我们基于归并排序的思路，尝试对以下数组进行排序：</p>
+<p>[8, 7, 6, 5, 4, 3, 2, 1]
+首先重复地分割数组，整个分割过程如下：
+首次分割，将数组整个对半分：</p>
+<p>[8, 7, 6, 5,| 4, 3, 2, 1]
+二次分割，将分割出的左右两个子数组各自对半分：</p>
+<p>[8, 7,| 6, 5,| 4, 3,| 2, 1]
+三次分割，四个子数组各自对半分后，每个子数组内都只有一个元素了：</p>
+<p>[8,| 7,| 6,| 5,| 4,| 3,| 2,| 1]
+接下来开始尝试解决每个子问题。将规模为 1 的子数组两两合并为规模为 2 的子数组，合并时确保有序，我们会得到这样的结果：</p>
+<p>[7, 8,| 5, 6,| 3, 4,| 1, 2]
+继续将规模为 2 的按照有序原则合并为规模为 4 的子数组：</p>
+<p>[5, 6, 7, 8,| 1, 2, 3, 4]
+最后将规模为 4 的子数组合并为规模为 8 的数组：</p>
+<p>[1, 2, 3, 4, 5, 6, 7, 8]
+整个数组就完全有序了。</p>
+<p><strong>代码实现:</strong></p>
+<pre><code class="js language-js">let arr = [8, 7, 6, 5, 4, 3, 2, 1];
+
+function mergeSort(arr) {
+  // 数组长度
+  let length = arr.length;
+
+  // 递归边界
+  if (length &lt;= 1) {
+    return arr;
+  }
+
+  // 中间位置
+  let midPosition = Math.floor(length / 2);
+
+  // 把数组切成两半, 递归处理左右数组
+  // 1.左数组
+  let leftArr = mergeSort(arr.slice(0, midPosition));
+  // 2.右数组
+  let rightArr = mergeSort(arr.slice(midPosition, length));
+
+  arr = mergeArr(leftArr, rightArr);
+
+  return arr;
+}
+
+// 合并两个数据 并进行排序
+function mergeArr(left, right) {
+  console.log(left, right, '-----------------------');
+  // 初始化两个指针
+  let i = 0,
+    j = 0;
+  let res = [];
+  let leftLen = left.length;
+  let rightLen = right.length;
+
+  // 开始合并两个数
+  while (i &lt; leftLen &amp;&amp; j &lt; rightLen) {
+    if (left[i] &lt; right[j]) {
+      res.push(left[i]);
+      i++;
+    } else if (left[i] &gt; right[j]) {
+      res.push(right[j]);
+      j++;
+    }
+  }
+
+  if (i &lt; leftLen) {
+    return res.concat(left.slice(i));
+  } else {
+    return res.concat(right.slice(j));
+  }
+}
+
+console.log(mergeSort(arr));
+</code></pre></div>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+  </body>
+</html>
