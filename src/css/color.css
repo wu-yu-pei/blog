@@ -8,8 +8,3 @@
   --bb-color: #000;
   --fo-color: #fff;
 }
-
-pre {
-  outline: 5px solid #ccc;
-  border-radius: 5px;
-}
