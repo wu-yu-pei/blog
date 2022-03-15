@@ -118,7 +118,32 @@ function helper(arr, left, right) {
 }
 console.log(quickSort(arr));
 </code></pre>
-<p>没有完全理解! 我再研究研究</p></div>
+<p>没有完全理解! 我再研究研究</p>
+<pre><code class="js language-js">// 软一峰版:
+// 这个好理解
+let arr = [8, 7, -8, 15, 4, 0, 2, 1];
+
+function quickSort(arr) {
+  // 递归边界
+  if (arr.length &lt;= 1) return arr;
+  // 中间元素的索引和值
+  let midIndex = Math.floor(arr.length / 2);
+  let mid = arr.splice(midIndex, 1)[0];
+  let left = [];
+  let right = [];
+  // 遍历数组
+  for (let i = 0; i &lt; arr.length; i++) {
+    if (arr[i] &gt; mid) {
+      right.push(arr[i]);
+    } else {
+      left.push(arr[i]);
+    }
+  }
+  // 递归并连接中间元素的值
+  return quickSort(left).concat(mid, quickSort(right));
+}
+console.log(quickSort(arr));
+</code></pre></div>
     <script src="../js/click.js"></script>
     <script src="../js/scroll.js"></script>
   </body>
