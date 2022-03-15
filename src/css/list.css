@@ -45,10 +45,11 @@ a::after {
   display: block;
   bottom: -2px;
   left: -8px;
-  width: 0;
-  height: 1px;
+  height: 2px;
   background-color: #000;
   transition: width 0.2s linear;
+  transform: scaleY(0.5);
+  transform-origin: left;
 }
 a:hover::after {
   width: calc(100% + 8px);
