@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-排序算法之插入排序</title>
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/github.css" />
+    <link rel="stylesheet" href="../css/color.css" />
+    <style>
+      body {
+        background-color: var(--bg-color);
+      }
+      .content {
+        padding: 0 20px;
+        border: 1px solid #fcfc;
+        width: 800px;
+        overflow-x: scroll;
+        font-family: fangsong;
+        height: 100%;
+        margin: 0 auto;
+        background-color: #f3f4f4;
+      }
+      code {
+        font-family: fangsong;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="content"><h4 id="">插入排序</h4>
+<p>思路分析</p>
+<blockquote>
+  <p>思路分析摘自 修言 数据结构与算法 排序篇</p>
+</blockquote>
+<p>插入排序的核心思想是“找到元素在它前面那个序列中的正确位置”。
+具体来说，插入排序所有的操作都基于一个这样的前提：当前元素前面的序列是有序的。基于这个前提，从后往前去寻找当前元素在前面那个序列里的正确位置。</p>
+<p>真实排序过程演示
+下面我们尝试基于插入排序的思路，对如下数组进行排序：</p>
+<p>[5, 3, 2, 4, 1]
+首先，单个数字一定有序，因此数组首位的这个 5 可以看做是一个有序序列。在这样的前提下， 我们就可以选中第二个元素 3 作为当前元素，思考它和前面那个序列 [5] 之间的关系。很明显， 3 比 5 小，注意这里按照插入排序的原则，靠前的较大数字要为靠后的较小数字腾出位置：</p>
+<p>[暂时空出, 5, 2, 4, 1]
+当前元素 3
+再往前看，发现没有更小的元素可以作比较了。那么现在空出的这个位置就是当前元素 3 应该待的地方：</p>
+<p>[3, 5, 2, 4, 1]
+以上我们就完成了一轮插入。这一轮插入结束后，大家会发现，有序数组 [5] 现在变成了有序数组 [3, 5]——这正是插入排序的用意所在，通过正确地定位当前元素在有序序列里的位置、不断扩大有序数组的范围，最终达到完全排序的目的。</p>
+<p>沿着这个思路，继续往下走，当前元素变成了紧跟[3, 5] 这个有序序列的 2。对比 2 和 5 的大小，发现 2 比 5 小。按照插入排序的原则，5 要往后挪，给较小元素空出一个位置：</p>
+<p>[3, 暂时空出, 5, 4, 1]
+当前元素 2
+接着继续向前对比，遇到了 3。对比 3 和 2 的大小，发现 3 比 2 大。按照插入排序的原则，3 要往后挪，给较小元素空出一个位置：</p>
+<p>[暂时空出, 3, 5, 4, 1]
+当前元素 2
+此时 2 前面的有序序列已经被对比完毕了。我们把 2 放到最终空出来的那个属于它的空位里去：</p>
+<p>[2, 3, 5, 4, 1]
+以上我们完成了第二轮插入。这一轮插入结束后，有序数组 [3, 5] 现在变成了有序数组 [2, 3, 5]。</p>
+<p>继续往下走，紧跟有序数组 [2, 3, 5] 的元素是 4。仍然是从后往前，首先对比 4 和 5 的大小，发现 4 比 5 小，那么 5 就要为更小的元素空出一个位置：</p>
+<p>[2, 3, 暂时空出, 5, 1]
+当前元素 4
+向前对比，遇到了 3。因为 4 比 3 大，符合从小到大的排序原则；同时已知当前这个序列是有序的，3 前面的数字一定都比 3 小，再继续向前查找就没有意义了。因此当前空出的这个坑就是 4 应该待的地方：</p>
+<p>[2, 3, 4, 5, 1]
+以此类推，最后一个元素 1 会被拱到 [2, 3, 4, 5] 这个序列的头部去，最终数组得以完全排序：</p>
+<p>[1, 2, 3, 4, 5]
+分析至此，再来帮大家复习一遍插入排序里的几个关键点：</p>
+<p>当前元素前面的那个序列是有序的
+“正确的位置”如何定义——所有在当前元素前面的数都不大于它，所有在当前元素后面的数都不小于它
+在有序序列里定位元素位置的时候，是从后往前定位的。只要发现一个比当前元素大的值，就需要为当前元素腾出一个新的坑位。</p>
+<p><strong>代码实现:</strong></p>
+<pre><code class="js language-js">let arr = [8, 7, -8, 15, 4, 0, 2, 1];
+
+function insertSort(arr) {
+  // 缓存数组长度
+  const len = arr.length;
+  // temp 用来保存当前需要插入的元素
+  let temp;
+  // i用于标识每次被插入的元素的索引
+  for (let i = 1; i &lt; len; i++) {
+    // j用于帮助 temp 寻找自己应该有的定位
+    let j = i;
+    temp = arr[i];
+    // 判断 j 前面一个元素是否比 temp 大
+    while (j &gt; 0 &amp;&amp; arr[j - 1] &gt; temp) {
+      // 如果是，则将 j 前面的一个元素后移一位，为 temp 让出位置
+      arr[j] = arr[j - 1];
+      j--;
+    }
+    // 循环让位，最后得到的 j 就是 temp 的正确索引
+    arr[j] = temp;
+  }
+  return arr;
+}
+
+insertSort(arr);
+</code></pre></div>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+  </body>
+</html>
