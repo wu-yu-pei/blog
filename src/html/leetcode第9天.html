@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-leetcode第9天</title>
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/github.css" />
+    <link rel="stylesheet" href="../css/color.css" />
+    <style>
+      body {
+        background-color: var(--bg-color);
+      }
+      .content {
+        padding: 0 20px;
+        border: 1px solid #fcfc;
+        width: 800px;
+        overflow-x: scroll;
+        font-family: fangsong;
+        height: 100%;
+        margin: 0 auto;
+        background-color: #f3f4f4;
+      }
+      code {
+        font-family: fangsong;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="content"><h4 id="1httpsleetcodecncomproblemsrottingoranges"><a href="https://leetcode-cn.com/problems/rotting-oranges/">1. 腐烂的橘子</a></h4>
+<p>难度中等</p>
+<p>今天的题我只能说难难难, 下次一定</p>
+<p>在给定的 <code>m x n</code> 网格 <code>grid</code> 中，每个单元格可以有以下三个值之一：</p>
+<ul>
+<li>值 <code>0</code> 代表空单元格；</li>
+<li>值 <code>1</code> 代表新鲜橘子；</li>
+<li>值 <code>2</code> 代表腐烂的橘子。</li>
+</ul>
+<p>每分钟，腐烂的橘子 <strong>周围 4 个方向上相邻</strong> 的新鲜橘子都会腐烂。</p>
+<p>返回 <em>直到单元格中没有新鲜橘子为止所必须经过的最小分钟数。如果不可能，返回 <code>-1</code></em> 。</p>
+<p><strong>示例 1：</strong></p>
+<p><strong><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2019/02/16/oranges.png" alt="img" /></strong></p>
+<pre><code>输入：grid = [[2,1,1],[1,1,0],[0,1,1]]
+输出：4
+</code></pre>
+<p><strong>示例 2：</strong></p>
+<pre><code>输入：grid = [[2,1,1],[0,1,1],[1,0,1]]
+输出：-1
+解释：左下角的橘子（第 2 行， 第 0 列）永远不会腐烂，因为腐烂只会发生在 4 个正向上。
+</code></pre>
+<p><strong>示例 3：</strong></p>
+<pre><code>输入：grid = [[0,2]]
+输出：0
+解释：因为 0 分钟时已经没有新鲜橘子了，所以答案就是 0 。
+</code></pre>
+<p><strong>代码:</strong></p>
+<pre><code class="js language-js">/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var orangesRotting = function(grid) {
+    // 不会编辑数量的变化,没算处理
+    // let x = grid[0].length;
+    // let y = grid.length;
+    // let count = 0
+    // for(let i = 0; i &lt; x; i++) {
+    //     for(let j = 0; j &lt; y; j++) {
+    //         if(grid[i][j] === 1) {
+    //           count = dfs(i, j, 0)
+    //         }
+    //     }
+    // }
+
+    // function dfs(left, right, count) {
+    //     if(left &lt; 0 || left &gt;=x || right &lt; 0 || right &gt;= y || grid[left][right] === 2 || grid[left][right] === 0) return /////count;
+
+    //     grid[left][right] = 2
+    //     count++
+    //     let a = dfs(left - 1, right, count)
+    //     let b = dfs(left + 1, right, count)
+    //     let c =dfs(left, right + 1, count)
+    //     let d = dfs(left, right - 1, count)
+    //     return Math.max(...[count, a, b, c ,d])
+    // }
+    // return count === 1 ? '-1' : count
+
+    // leetcodet题解没看太懂 用的广度遍历  
+    const dirs = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+    const m = grid.length, n = grid[0].length
+    let cnts = 0, cost = 0, queue = new Array()
+    for(let i = 0; i &lt; m; i++)
+        for(let j = 0; j &lt; n; j++)
+            if(grid[i][j] &gt; 0){
+                cnts++
+                if(grid[i][j] == 2)
+                    queue.push([i, j])
+            }
+    while(queue.length &gt; 0){
+        const nxt = new Array()
+        cnts -= queue.length
+        for(const p of queue){
+            for(const d of dirs){
+                const nx = p[0] + d[0], ny = p[1] + d[1]
+                if(nx &gt;= 0 &amp;&amp; ny &gt;= 0 &amp;&amp; nx &lt; m &amp;&amp; ny &lt; n &amp;&amp; grid[nx][ny] == 1){
+                    grid[nx][ny] = 2
+                    nxt.push([nx, ny])
+                }
+            }
+        }
+        queue = nxt
+        if(queue.length &gt; 0)
+            cost++
+    }
+    return cnts == 0 ? cost : -1
+};
+</code></pre>
+<h4 id="2httpsleetcodecncomproblems01matrix"><a href="https://leetcode-cn.com/problems/01-matrix/">2矩阵</a></h4>
+<p>难度中等</p>
+<p>这个更难….</p>
+<p>给定一个由 <code>0</code> 和 <code>1</code> 组成的矩阵 <code>mat</code> ，请输出一个大小相同的矩阵，其中每一个格子是 <code>mat</code> 中对应位置元素到最近的 <code>0</code> 的距离。</p>
+<p>两个相邻元素间的距离为 <code>1</code> 。</p>
+<p><strong>示例 1：</strong></p>
+<p><img src="https://pic.leetcode-cn.com/1626667201-NCWmuP-image.png" alt="img" /></p>
+<pre><code>输入：mat = [[0,0,0],[0,1,0],[0,0,0]]
+输出：[[0,0,0],[0,1,0],[0,0,0]]
+</code></pre>
+<p><strong>示例 2：</strong></p>
+<p><img src="https://pic.leetcode-cn.com/1626667205-xFxIeK-image.png" alt="img" /></p>
+<pre><code>输入：mat = [[0,0,0],[0,1,0],[1,1,1]]
+输出：[[0,0,0],[0,1,0],[1,2,1]]
+</code></pre>
+<p><strong>代码:</strong></p>
+<pre><code class="js language-js">/**
+ * @param {number[][]} mat
+ * @return {number[][]}
+ */
+var updateMatrix = function(mat) {
+    // 我只能说 我不会  呜呜呜
+    // leetcode题解:
+  let m = mat.length,
+    n = mat[0].length;
+  // 目标结果
+  let dist = new Array(m)
+    .fill(0)
+    .map(() =&gt; new Array(n).fill(Number.MAX_SAFE_INTEGER));
+  // 如果 (i, j) 的元素为 0，那么距离为 0
+  for (let i = 0; i &lt; m; i++)
+    for (let j = 0; j &lt; n; j++) if (mat[i][j] == 0) dist[i][j] = 0;
+
+  // 只有 水平向右移动 和 竖直向下移动，递归的顺序是从左到右，从上到下
+  for (let i = 0; i &lt; m; i++) {
+    for (let j = 0; j &lt; n; j++) {
+      // 水平向左 是由同行左侧的元素递推算出来的
+      if (i - 1 &gt;= 0) dist[i][j] = Math.min(dist[i][j], dist[i - 1][j] + 1);
+      // 垂直向下，是由同列上行的元素递推算出来的
+      if (j - 1 &gt;= 0) dist[i][j] = Math.min(dist[i][j], dist[i][j - 1] + 1);
+    }
+  }
+  // 只有 水平向左移动 和 竖直向上移动，递归的顺序是从右到左，从下到上
+  for (let i = m - 1; i &gt;= 0; i--) {
+    for (let j = n - 1; j &gt;= 0; j--) {
+      // 水平向右 是由同行右侧的元素递推算出来的
+      if (i + 1 &lt; m) dist[i][j] = Math.min(dist[i][j], dist[i + 1][j] + 1);
+      // 垂直向下，是由同列下行的元素递推算出来的
+      if (j + 1 &lt; n) dist[i][j] = Math.min(dist[i][j], dist[i][j + 1] + 1);
+    }
+  }
+  return dist;
+};
+</code></pre>
+<p>是真的看不懂~~</p></div>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+  </body>
+</html>
