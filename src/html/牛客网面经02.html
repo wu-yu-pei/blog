@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-牛客网面经02</title>
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/github.css" />
+    <link rel="stylesheet" href="../css/color.css" />
+    <style>
+      body {
+        background-color: var(--bg-color);
+      }
+      .content {
+        padding: 0 20px;
+        border: 1px solid #fcfc;
+        width: 800px;
+        overflow-x: scroll;
+        font-family: fangsong;
+        height: 100%;
+        margin: 0 auto;
+        background-color: #f3f4f4;
+      }
+      code {
+        font-family: fangsong;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="content"><ol>
+<li><p>自我介绍</p></li>
+<li><p>怎么学习前端</p></li>
+<li><p>输入url到页面渲染完成</p></li>
+<li><p>输入url http://www.baidu.com</p></li>
+<li><p>域名解析(递归查询,)</p>
+<ol>
+<li>首先查找浏览器缓存,如果有则使用,如果没有,去本机的host文件里查找缓存,如果有则使用,如果没有,经过向dns服务器发出请求</li>
+<li>先向dns的顶级域名服务器发送请求,二级,三级,查到以后返回ip地址</li></ol></li>
+<li><p>浏览器拿到ip地址,浏览器的网络进程开始做发送请求的准备</p>
+<ol>
+<li>首先三次握手<ol>
+<li>第一次握手浏览器发送一个syn = 1, 和一个序号 seq = x,标识要与服务器建立链接</li>
+<li>第二次握手,服务器返回一个ack = x + 1, 和一个 syn =  1, 和一个 seq = y,表示确认收到请求,并希望与客户端简历链接</li>
+<li>第三此握手, 浏览器收到服务器请求建立连接,给服务器返回一个ack = y + 1,表示同意建立连接</li></ol></li>
+<li>握手成功,服务器返回资源</li>
+<li>四次挥手<ol>
+<li>第一次挥手: 浏览器请求断开连接 fin = 1 , seq = x表示要与服务器断开连接</li>
+<li>第二次挥手: 服务器收到浏览器断开连接的请求, 发送一个ack = x + 1b表示收到浏览器的请求,</li>
+<li>第三次挥手: 服务器确认没有资源需要发送,向浏览器发送一个fin = 1,sqq = y(2MLS)</li>
+<li>浏览器收到服务器断开连接的请求,会一个ack = y + 1,表示同意断开连接,此时连接真正的断开<ul>
+<li>问:为什么要三次握手,不是两次?为什么是4次挥手不是3次?为什么第三次挥手要等待2MlS?………….</li></ul></li></ol></li>
+<li>在四次挥手的同时浏览器开始渲染html,css执行js(遇到async defer)….</li>
+<li>浏览器开始解析html --&gt; DOM Tree css --&gt; CSS Tree</li>
+<li>DOM + CSS ---&gt; Reader Tree</li>
+<li>通过Reader绘制图层,渲染……</li>
+<li>上述过程会交给不同的浏览器进程去做(网络进程,渲染进行,js进程….)</li>
+<li>最终页面呈现</li></ol></li>
+<li><p>TCP/IP协议分层,TCP在哪一层</p></li>
+<li><p>物理层--&gt; 数据链路层 --&gt; 网络层(ip) --&gt; 传输层(tcp,udp) --&gt; 应运层(http,https,ftd,pop)</p></li>
+<li><p>三次握手,四次会收为什么挥手多一次</p></li>
+<li><p>保证与客户端断开连接,如果没有最后一次挥手,确保双放都断开连接</p></li>
+<li><p>为什么是三次握手而不是两次,为了不浪费服务器资源 假设第二次请求由于网络延迟而延迟到达,就立马可以建立连接,还有就是为了实现可靠传输,握手期间双方会确定信息(序列号,滑动窗口大小,等..)</p></li>
+<li><p>浏览器缓存,强缓存、协商缓存,为什么cache-control优先级更高</p></li>
+<li><p>强缓存 exprice(max-age…), cacht-control(no-strore, no-cache, private, public..)</p></li>
+<li><p>cache-control是http1.多的产物,对不支持http2的要优先使用ca….</p></li>
+<li><p>若缓存(Etag/if-no-Math, Last-modefil, if-Modifle-since…)</p></li>
+<li><p>no-cache,no-store分别代表什么?</p></li>
+<li><p>no-cache:代表不使用强缓存,使用协商缓存</p></li>
+<li><p>no-store代表不使用缓存</p></li>
+<li><p>html、css、js文件会放在磁盘缓存还是内存缓存</p></li>
+<li><p>都有可能</p></li>
+<li><p>大文件一般放在磁盘,小文件一版放在内存中</p></li>
+<li><p>dist cache memary cache …….</p></li>
+<li><p>DOM树和css om树是互斥的还是同时的</p></li>
+<li><p>应该是同时的</p></li>
+<li><p>JS脚本阻塞DOM构建,js脚本会不会对css om树影响</p>
+<ol>
+<li>不会吧 ,js不会直接操作样式</li></ol></li>
+<li><p>重绘,重排概念</p>
+<ol>
+<li>重排:(回流) 元素的位置,尺寸,大小等几何尺寸发送变化会触发</li>
+<li>重绘:颜色等发生变化会触发</li>
+<li>回流会对性能造成影响,(节流,防抖优化)</li></ol></li>
+<li><p>看题说输出</p>
+<ol>
+<li><img src="../mdimg/this%E9%97%AE%E9%A2%98.png" alt="截图" /></li></ol></li>
+<li><p>箭头函数和普通函数的区别,箭头函数如何表示不定长的参数</p>
+<ol>
+<li>箭头函数没有this,this会执向其上下文的this</li>
+<li>不能当构造函数,没有arguments</li>
+<li>…args</li></ol></li>
+<li><p>有哪些类型的作用域</p>
+<ol>
+<li>块级作用域(函数作用域)</li>
+<li>全局作用域</li></ol></li>
+<li><p>var let const区别</p>
+<ol>
+<li>var 全局 挂在window上</li>
+<li>let 局部 有作用域 暂时性死区</li>
+<li>const 有作用域 暂时想死去 定义后不能修改</li></ol></li>
+<li><p>实现eventBus</p>
+<ol>
+<li>之前实现过,挺简单的</li></ol></li>
+<li><p>一个算法:岛屿数量</p>
+<ol>
+<li>没写过</li></ol></li>
+<li><p>提问阶段:</p></li>
+</ol>
+<p>** 一面结束**</p></div>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+  </body>
+</html>
