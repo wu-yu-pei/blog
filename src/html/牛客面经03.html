@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-牛客面经03</title>
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/github.css" />
+    <link rel="stylesheet" href="../css/color.css" />
+    <style>
+      body {
+        background-color: var(--bg-color);
+      }
+      .content {
+        padding: 0 20px;
+        border: 1px solid #fcfc;
+        width: 800px;
+        overflow-x: scroll;
+        font-family: fangsong;
+        height: 100%;
+        margin: 0 auto;
+        background-color: #f3f4f4;
+      }
+      code {
+        font-family: fangsong;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="content"><p>初面</p>
+<ul>
+<li><p>觉得自己js基础怎么样--&gt; 挺好的</p></li>
+<li><p>Object.create(null) 和{}区别</p></li>
+<li><p>Object.create(null) 是把第一参数作为原型</p>
+<ul>
+<li>所以 let a = Object.create(null) a.<strong>proto</strong> = null</li></ul></li>
+<li><p>{} 相当于new Object</p>
+<ul>
+<li>所哟let a= new Object() a.<strong>proto</strong> = Object.prototype = {construct{}, <strong>proto</strong>}</li></ul></li>
+<li><p>Object.keys()和for … in区别</p></li>
+<li><p>Object.keys 获取该对象上的属性,不会获取其原型上的属性</p></li>
+<li><p>for..in. .. 也是获取改对象上的属性,并且会获取到原型上的属性</p></li>
+<li><p>hasOwnPropety 检查自身是否有某一个属性, 不会检查原型 in会遍历的原型</p></li>
+<li><p>原型上的属性和对象自身的属性去和区别</p></li>
+<li><p>就用上面你说的方法.obj.hasOwnProprty</p></li>
+<li><p>Array.map怎么用</p></li>
+<li><p>Arrray.map是数组的一个高级方法,其接受一个函数 函数有三个参数分别是数组的某一下项, 某一项的索引, 当前数组, 与其类似的方法还有Array.filter, Array.reduce, Array.some, Array.any等</p></li>
+<li><p>this的各种情况说一下</p></li>
+<li><p>隐士绑定</p>
+<ul>
+<li>对象.的形式, this执行对象</li>
+<li>直接调用的行是 this执行全局</li></ul></li>
+<li><p>显示绑定</p>
+<ul>
+<li>call, apply, bind可以改变this的指向</li></ul></li>
+<li><p>严格模式下</p>
+<ul>
+<li>全局的this不是window, 二是undefined</li>
+<li>node环境下,this是一个叫global的对象</li></ul>
+<p>暂时想到这么多,具体看函数的调用场景,分析</p></li>
+<li><p>Map和WeakMap了解码?</p></li>
+<li><p>了解</p></li>
+<li><p>是ES6引入的新的数据结构</p>
+<ul>
+<li>Map是一个表数据结构</li>
+<li>可以用来存放对应关系, 和对象类似,倒是map的key没有要求一定是字符串</li>
+<li>WeakMap</li>
+<li>key可以是一个对象</li>
+<li>当没有引用次WeakMap时,会被自动回收</li></ul></li>
+<li><p>小程序时用原生写的?</p>
+<ul>
+<li>对,是微信小程序原生写的, 没有使用过其他的框架</li>
+<li>听说有uniapp, taro等框架, 暂时还没有学习到</li></ul></li>
+<li><p>域名是自己注册的吗?</p></li>
+<li><p>是的 ,是我再阿里云注册的用了两年多了,还有一个服务器,也使用了两年了</p></li>
+<li><p>DNS的各种记录解释一下?</p></li>
+<li><p>DNS是域名查找系统</p></li>
+<li><p>会根据ip找到对应的域名</p>
+<ul>
+<li>当再浏览器输入一个域名,</li>
+<li>需要借助dns将改域名转换为ip</li>
+<li>首先从根域名开始查询,.com. .cn. net等是根域名</li>
+<li>找到对应的根域名,再找二级域名</li>
+<li>wuyupei…</li>
+<li>另外DSN是分层的,一级,二级等等,都是储存再不用的dns服务器上,</li>
+<li>当找到后会返回,返回过程类似于递归的过程</li></ul></li>
+<li><p>项目开发中遇到的难题</p></li>
+<li><p>我遇到了一个再开发环境正常,打包出问题的一个问题,</p></li>
+<li><p>使用vite引入element-plus样式,再打包过程中有一个cher-st问题</p></li>
+<li><p>我还专门组github的issue里找了一下问题,</p></li>
+<li><p>后来发现不影响打包后的使用,暂时就么有管它了,不知道你有没有遇到过</p></li>
+<li><p>git是怎么使用的</p></li>
+<li><p>基本常用的就是 git add . git commit -m git push</p></li>
+<li><p>再学习git的时候也有用到他的git branch git checkout git rebase git reset git revert等命令</p></li>
+<li><p>也浅浅的看过.git里面的文件, 里面有记录一些东西, 比如说HEAD指针, tag等git commit 也有不同的类型, 一般commit的是blob对象 有使用使用merge的时候也会出现一个merge类型的commit.记得不是很清楚了</p></li>
+<li><p>云服务用过哪些?</p></li>
+<li><p>云服务器吗?还是类似微信的云开发?</p>
+<ul>
+<li>用过云服务器</li>
+<li>云开发还没有玩过</li></ul></li>
+<li><p>数据库用过哪些</p></li>
+<li><p>学过mysql</p></li>
+<li><p>熟悉基本的使用,以及简表的规则</p></li>
+<li><p>索引查询为什么块?</p></li>
+<li><p>不清楚</p></li>
+<li><p>联合索引有了解过吗?</p></li>
+<li><p>是多个字段合再一起做主键吗?</p></li>
+<li><p>不清楚</p></li>
+<li><p>对前端社区生态有了解吗?</p></li>
+<li><p>了解一点</p></li>
+<li><p>觉得自己对HTTP的了解程度如何</p></li>
+<li><p>一般吧</p></li>
+<li><p>CORS, 简单请求, 复杂请求</p></li>
+<li><p>觉得自己对css的了解程度如何</p></li>
+<li><p>两个栈实现一个队列怎么做</p></li>
+<li><p>可以模拟一下,一个栈用来当一个容器,再取东西的时候先把其移到另一个栈里面</p></li>
+<li><p>智力题:</p></li>
+<li><p>1001个数, 1到1000,其中1个数字重复了一次怎么找到这个数</p>
+<ul>
+<li>二分吧</li></ul></li>
+</ul></div>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+  </body>
+</html>
