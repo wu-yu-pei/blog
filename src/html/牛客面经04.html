@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-牛客面经04</title>
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/github.css" />
+    <link rel="stylesheet" href="../css/color.css" />
+    <style>
+      body {
+        background-color: var(--bg-color);
+      }
+      .content {
+        padding: 0 20px;
+        border: 1px solid #fcfc;
+        width: 800px;
+        overflow-x: scroll;
+        font-family: fangsong;
+        height: 100%;
+        margin: 0 auto;
+        background-color: #f3f4f4;
+      }
+      code {
+        font-family: fangsong;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="content"><h4 id="04">牛客面经04</h4>
+<ul>
+<li><p>div水平垂直居中</p></li>
+<li><p>display:line-blcok; line-height: 行高</p></li>
+<li><p>position:absolute; top: 50%; left: 50%; transfrom:translate(-50%, -50%);</p></li>
+<li><p>display:flex; justify-content:cneter; aling-items:cneter</p></li>
+<li><p>display:grid; justify-content:cneter; align-content: cneter</p></li>
+<li><p>display:flex; marge: auto
+..</p></li>
+<li><p>事件循环机制</p></li>
+<li><p>js是单线程的,当遇到耗时的程序时,会一直阻塞</p></li>
+<li><p>js事件大致可以分为:宏任务 微任务</p></li>
+<li><p>代码执行顺序时 先执行主线程上的程序, 遇到微任务--&gt; 添加到微任务事件队列里面 遇到宏任务--&gt;添加到宏任务事件队列里面</p></li>
+<li><p>主线程执行完毕,开始从微任务事件队列里取出并执行, 若产生微任务,添加到当前队列后面,若遇到宏任务,添加到宏任务队列里面</p></li>
+<li><p>微任务全部执行完毕开始执行宏任务</p></li>
+<li><p>再执行微任务</p></li>
+<li><p>再执行宏任务</p></li>
+<li><p>项目中遇到的困难</p></li>
+<li><p>再寒假的时候,我们前后端调试接口的时候,由于技术有限,没有接口文档,我推荐团队使用APifox,进行接口管理</p></li>
+<li><p>再一个vite项目中使用动态路由,打包上线出现错误,最后找到bug并修改</p></li>
+<li><p>http状态码</p></li>
+<li><p>200 成功</p></li>
+<li><p>204 无返回内容</p></li>
+<li><p>206 分片/大文件上传时会出现206</p></li>
+<li><p>301 永久重定向,有缓存</p></li>
+<li><p>302 重定向,暂时的,没有缓存</p></li>
+<li><p>400 构建请求错误</p></li>
+<li><p>401 无权限</p></li>
+<li><p>404 找不到资源</p></li>
+<li><p>405 请求方法不被允许</p></li>
+<li><p>500 服务器内部错误</p></li>
+<li><p>502 上层网关错误</p></li>
+<li><p>503 服务器繁忙,拒绝服务</p></li>
+<li><p>跨域</p></li>
+<li><p>浏览器同源策略</p></li>
+<li><p>同协议 同域名 同端口号 才可以通信</p></li>
+<li><p>如何加快页面的渲染速度</p></li>
+<li><p>资源放cdn上</p></li>
+<li><p>服务器开启缓存</p></li>
+<li><p>使用精灵图,防止因图片过的而导致发起的请求阻塞(最大6个连接)</p></li>
+<li><p>代码压缩</p></li>
+<li><p>懒加载</p></li>
+<li><p>treesrinking等</p></li>
+<li><p>ES6新增的东西</p></li>
+<li><p>let const</p>
+<ul>
+<li>暂时性死区</li></ul></li>
+<li><p>Promise
+异步编程的解决方案</p></li>
+<li><p>async await
+同步的方式编写异步代码</p></li>
+<li><p>Set weakSet Map weakMap
+4中数据结构</p></li>
+<li><p>array.includes(), map, reduce, filter等
+数组新增的方法</p></li>
+<li><p>Proxy
+对象的代码</p></li>
+<li><p>Reflect
+反射</p></li>
+<li><p>箭头函数
+没有this argument 不能当作构造函数</p></li>
+<li><p>解构赋值
+属于浅拷贝</p></li>
+<li><p>块级作用域</p></li>
+<li><p>websoket协议
+双向数据通信, 用过node的socket.io做过demo</p></li>
+<li><p>express,koa区别</p></li>
+<li><p>express和中间间和koa的中间间有相似的地方</p></li>
+<li><p>koa中间件使用的时洋葱模型 从外到里,右会从里到外next</p></li>
+<li><p>都是基于原生的http net 封装而成的</p></li>
+<li><p>vue双向绑定 响应式原型</p></li>
+<li><p>v-modle object.defineProto Proxy</p></li>
+<li><p>劫持get set属性 执行对应的函数</p></li>
+<li><p>Observer Dep Watcher</p></li>
+<li><p>Observe 进行数据的劫持</p></li>
+<li><p>Dep 收集依赖 通知订阅者执行回调</p></li>
+<li><p>发布者订阅者模式</p></li>
+<li><p>webpack用过什么loader, plugin</p></li>
+<li><p>css-loader</p></li>
+<li><p>style-loader</p></li>
+<li><p>less-loader</p></li>
+<li><p>sacc-loader</p></li>
+<li><p>bable-loader</p></li>
+<li><p>url-loader</p></li>
+<li><p>file-loader</p></li>
+<li><p>asset--&gt; (好像是)</p></li>
+<li><p>postcee-loader</p></li>
+<li><p>vue-loader</p></li>
+<li><p>react-loader</p></li>
+<li><p>html-md-loader</p></li>
+<li><p>webpack-html-plugin</p></li>
+<li><p>bable-plugin</p></li>
+<li><p>clear-webpack-plugin</p></li>
+<li><p>anansty-pluing(依赖打包分析)</p></li>
+<li><p>heppy-(多线程打包) 了解</p></li>
+<li><p>优化css的plugin
+…</p></li>
+<li><p>vue2,3区别</p></li>
+<li><p>为什么使用proxy代替原来的defineProto</p>
+<ul>
+<li>defineProto劫持不到数组和一些嵌套属性的变化</li>
+<li>需要使用额外的api $set等</li>
+<li>Proxy可以劫持的属性很多</li></ul></li>
+<li><p>vue数据传递的方案</p></li>
+<li><p>props</p></li>
+<li><p>$parent</p></li>
+<li><p>$children</p></li>
+<li><p>provide inject</p></li>
+<li><p>$emit on</p></li>
+<li><p>store</p>
+<ul>
+<li>vuex</li>
+<li>pinia
+….</li></ul></li>
+<li><p>网络七层模型及各层的应用</p></li>
+<li><p>应用层 http https ws wss ftp pop</p></li>
+<li><p>传输层 tcp udp</p></li>
+<li><p>网络层 ip</p></li>
+<li><p>数据链路层 acmp</p></li>
+<li><p>物理层 电信号传递等</p></li>
+<li><p>前端性能优化</p></li>
+<li><p>打包优化</p></li>
+<li><p>网络优化</p></li>
+<li><p>资源优化</p></li>
+<li><p>代码优化</p></li>
+<li><p>服务器优化</p></li>
+<li><p>服务端渲染ssr</p></li>
+<li><p>项目部署相关</p></li>
+<li><p>我的项目是部署再nginx上面的</p></li>
+<li><p>开启gzip</p></li>
+<li><p>设置代理 跨域</p></li>
+<li><p>github action 自动部署(了解)</p></li>
+<li><p>http httpS</p></li>
+<li><p>https 再http的基础上加了一层tsl协议</p></li>
+<li><p>加密协议 shr md5 ….记不清了</p></li>
+<li><p>https使用的对称加密和非对称加密联合</p>
+<ul>
+<li>因为对称加密的效率高 非对称加密解密耗时</li>
+<li>采用非对称加密加密会话 … 有点说不清我再学学~~</li></ul></li>
+</ul>
+<p>over了</p>
+<p>这个面经我觉得还可以不难,都是基本知识</p></div>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+  </body>
+</html>
