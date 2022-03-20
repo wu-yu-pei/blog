@@ -97,10 +97,16 @@ console.log(obj, _obj);
 
   let _obj = Array.isArray(obj) ? [] : {};
 
-  map.set(obj);
+  if (map.get(obj)) {
+    return map.get(obj);
+  }
+
+  map.set(obj, _obj);
 
   for (let key in obj) {
-    _obj[key] = deepClone(obj[key], map);
+    if (obj.hasOwnProperty(key)) {
+      _obj[key] = deepClone(obj[key], map);
+    }
   }
 
   return _obj;
