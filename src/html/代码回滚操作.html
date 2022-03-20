@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-代码回滚操作</title>
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/github.css" />
+    <link rel="stylesheet" href="../css/color.css" />
+    <style>
+      body {
+        background-color: var(--bg-color);
+      }
+      .content {
+        padding: 0 20px;
+        border: 1px solid #fcfc;
+        width: 800px;
+        overflow-x: scroll;
+        font-family: fangsong;
+        height: 100%;
+        margin: 0 auto;
+        background-color: #f3f4f4;
+      }
+      code {
+        font-family: fangsong;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="content"><ul>
+<li><p>今天本来想给 leetcode 仓库添加一个新功能</p></li>
+<li><p>添加好了,推到远程仓库没有达到预期的效果</p></li>
+<li><p>就想办法回滚代码</p></li>
+<li><p>git reset --hard ab12s</p></li>
+<li><p>git push oright HEAD:gh-pages -f</p></li>
+<li><p>作完这个操作之后远程仓库代码已经被回滚到 ab12s 代码</p></li>
+<li><p>并且远程仓库记录里也没有添加新功能的 commit message</p></li>
+<li><p>但是本地仓库中还有上一次添加功能的提交记录</p></li>
+<li><p>应该怎么办呢?</p>
+<ul>
+<li>重新 clone 远程仓库,因为远程仓库已经被我们回滚了</li>
+<li>还有什么方法,求告知??????</li></ul></li>
+
+<li><p>上面使用了 git reset 也可以使用 git revert</p></li>
+<li><p>区别市 git reset 会删除远程仓库你呢一次错误的提交,别人不会发现</p></li>
+<li><p>git revert 会新曾一个 commit id 覆盖你上一次错误提交</p></li>
+</ul></div>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+  </body>
+</html>
