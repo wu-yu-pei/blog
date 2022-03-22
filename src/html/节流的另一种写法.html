@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-节流的另一种写法</title>
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/github.css" />
+    <link rel="stylesheet" href="../css/color.css" />
+    <style>
+      body {
+        background-color: var(--bg-color);
+      }
+      .content {
+        padding: 0 20px;
+        border: 1px solid #fcfc;
+        width: 800px;
+        overflow-x: scroll;
+        font-family: fangsong;
+        height: 100%;
+        margin: 0 auto;
+        background-color: #f3f4f4;
+      }
+      code {
+        font-family: fangsong;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="content"><h4 id="">节流的第二种写法</h4>
+<pre><code class="html language-html">&lt;input type="text" name="" id="" /&gt;
+</code></pre>
+<ul>
+<li>没有修改this指向版本</li>
+</ul>
+<pre><code class="js language-js">var int = document.querySelector('input');
+
+function foo() {
+  console.log(this);
+  console.log(1);
+}
+
+// 1.this指向window
+function jieliu(fn, delay) {
+  // 开始时间
+  let start = new Date();
+  return function () {
+    // 调用时的时间
+    let end = new Date();
+    // 如果时间只差大于delay 则 调用函数
+    if (end - start &gt;= delay) {
+      fn();
+      start = end;
+    }
+  };
+}
+
+int.oninput = jieliu(foo, 1000);
+</code></pre>
+<ul>
+<li>修改this指向版本</li>
+</ul>
+<pre><code class="js language-js">function jieliu(fn, delay) {
+  // 开始时间
+  let start = new Date();
+  return function () {
+    // 调用时的时间
+    let end = new Date();
+    // 如果时间只差大于delay 则 调用函数
+    if (end - start &gt;= delay) {
+      fn.call(this);
+      start = end;
+    }
+  };
+}
+
+int.oninput = jieliu(foo, 1000);
+</code></pre>
+<p>效果:
+<img src="../mdimg/%E8%8A%82%E6%B5%81.gif" alt="" /></p></div>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+  </body>
+</html>
