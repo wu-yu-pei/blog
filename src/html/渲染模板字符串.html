@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-渲染模板字符串</title>
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/github.css" />
+    <link rel="stylesheet" href="../css/color.css" />
+    <style>
+      body {
+        background-color: var(--bg-color);
+      }
+      .content {
+        padding: 0 20px;
+        border: 1px solid #fcfc;
+        width: 800px;
+        overflow-x: scroll;
+        font-family: fangsong;
+        height: 100%;
+        margin: 0 auto;
+        background-color: #f3f4f4;
+      }
+      code {
+        font-family: fangsong;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="content"><h4 id="">渲染模板字符串</h4>
+<blockquote>
+  <p>实现一个 render 函数 传入 template data 返回编译后的字符串</p>
+  <p>实现思路: 使用正则表达式 匹配要渲染的mastach 使用eval函数 对代码进行执行,然后替换字符串 返回结果</p>
+</blockquote>
+<pre><code class="js language-js">var str = '{{person["name"]}}今年{{person.age}}岁了!他有{{person.friend.length}}个朋友';
+
+var person = {
+  name: 'wuyupei',
+  age: 10,
+  friend: [1, 2, 3],
+}
+
+function render(template, person) {
+  let res = template.replace(/{{([a-zA-Z.\[\]""]*)}}/g, function (a, b, c) {
+    return eval(b);
+  });
+  console.log(res); // wuyupei今年10岁了!他有3个朋友
+}
+
+render(str, person);
+</code></pre></div>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+  </body>
+</html>
