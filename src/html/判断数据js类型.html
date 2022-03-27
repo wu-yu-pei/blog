@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-判断数据js类型</title>
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/github.css" />
+    <link rel="stylesheet" href="../css/color.css" />
+    <style>
+      body {
+        background-color: var(--bg-color);
+      }
+      .content {
+        padding: 0 20px;
+        border: 1px solid #fcfc;
+        width: 800px;
+        overflow-x: scroll;
+        font-family: fangsong;
+        height: 100%;
+        margin: 0 auto;
+        background-color: #f3f4f4;
+      }
+      code {
+        font-family: fangsong;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="content"><h4 id="js">判断 js 数据类型的几种方法</h4>
+<ol>
+<li><p>typeof</p></li>
+<li><p>instance</p></li>
+<li><p>Array.isArray</p></li>
+<li><p>constructor</p></li>
+<li><p>Object.prototype.toString.call()</p></li>
+</ol>
+<pre><code class="js language-js">function getType(value) {
+  // 判断数据是 null 的情况
+  if (value === null) {
+    return value + '';
+  }
+
+  // 判断数据是引用类型的情况
+  if (typeof value === 'object') {
+    let valueClass = Object.prototype.toString.call(value),
+      type = valueClass.split(' ')[1].split('');
+
+    type.pop();
+
+    return type.join('').toLowerCase();
+  } else {
+    // 判断数据是基本数据类型的情况和函数的情况
+    return typeof value;
+  }
+}
+</code></pre>
+<h3 id="">另</h3>
+<p>偷偷的记下来:
+今天搭建了一个自己的安全翻墙服务器,使用最新的翻墙技术搭建,上网不会被追踪,偷窥~</p>
+<p>参考连接地址:</p>
+<ol>
+<li>https://li-wang.xyz/aliyun&amp;torjan.html</li>
+<li>https://iyideng.vip/black-technology/cgfw/trojan-v2ray-client-download-and-using-tutorial.html</li>
+</ol>
+<p>账号:fq.wuyupei.top 密码: 1978****wyp</p></div>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+  </body>
+</html>
