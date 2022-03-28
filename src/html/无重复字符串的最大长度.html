@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-无重复字符串的最大长度</title>
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/github.css" />
+    <link rel="stylesheet" href="../css/color.css" />
+    <style>
+      body {
+        background-color: var(--bg-color);
+      }
+      .content {
+        padding: 0 20px;
+        border: 1px solid #fcfc;
+        width: 800px;
+        overflow-x: scroll;
+        font-family: fangsong;
+        height: 100%;
+        margin: 0 auto;
+        background-color: #f3f4f4;
+      }
+      code {
+        font-family: fangsong;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="content"><h4 id="leetcode">leetcode</h4>
+<p>这个题是我 两个星期前写过的题,现在又不会了,复习一下</p>
+<p>给你一个字符串,请找出其中无重复字符串的最大长度</p>
+<p>li: abcdacad ---&gt;  abcd--4</p>
+<pre><code class="js language-js">var str = 'abcdacad';
+let max = 0;
+let j = 0;
+let set = new Set();
+
+for (let i = 0; i &lt; str.length; i++) {
+  if (!set.has(str[i])) {
+    set.add(str[i]);
+    max = Math.max(max, set.size);
+  } else {
+    while (set.has(str[i])) {
+      set.delete(str[j]);
+      j++;
+    }
+    set.add(str[i]);
+  }
+}
+console.log(max);
+</code></pre>
+<p>感觉算法学不会哎!!!</p></div>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+  </body>
+</html>
