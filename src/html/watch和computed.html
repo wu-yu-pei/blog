@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-watch和computed</title>
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/github.css" />
+    <link rel="stylesheet" href="../css/color.css" />
+    <style>
+      body {
+        background-color: var(--bg-color);
+      }
+      .content {
+        padding: 0 20px;
+        border: 1px solid #fcfc;
+        width: 800px;
+        overflow-x: scroll;
+        font-family: fangsong;
+        height: 100%;
+        margin: 0 auto;
+        background-color: #f3f4f4;
+      }
+      code {
+        font-family: fangsong;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="content"><h4 id="watchcomputed">watch 和 computed</h4>
+<blockquote>
+  <p>今天面试被问 watch 和 computed 的区别,我回答的不是很好,今天先来一篇 watch 和 computed 的简单使用</p>
+</blockquote>
+<pre><code class="vue language-vue">&lt;template&gt;
+  &lt;div&gt;{{ name }}--{{ person.one }} -- {{ person.two }}-- {{ person.count }}&lt;/div&gt;
+  &lt;button @click="click"&gt;+&lt;/button&gt;
+&lt;/template&gt;
+</code></pre>
+<pre><code class="js language-js">import { ref, computed, watch, reactive } from 'vue';
+
+let person = reactive({
+  one: 'liu',
+  two: 'xu',
+  count: 1,
+});
+
+let firstName = ref('Wu');
+let lastName = ref('yupei');
+
+let name = computed(() =&gt; firstName.value + lastName.value);
+
+setTimeout(() =&gt; {
+  firstName.value += 1;
+  person.one = 'li';
+}, 1000);
+
+function click() {
+  person.count++;
+}
+
+// getter
+watch(firstName, (o, n) =&gt; {
+  console.log(o, n);
+});
+</code></pre>
+<p>我今天的回答是:
+computed是具有缓存的,只会调用一次, 会优先使用缓存</p>
+<p>watch是用来监听属性的变化,只要变化一次就会执行回调, 如果配置deep的话,会进行深度监听,内部可能是进行了一个递归监听</p>
+<p>回答的非常片面而且很不准确,没有深入了解到真正的区别,明天在更一篇,详细说明computed和watch的区别, 做到对api的知根知地…..</p></div>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+  </body>
+</html>
