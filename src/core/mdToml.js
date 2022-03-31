@@ -6,14 +6,14 @@ let converter = new showdown.Converter();
 const { findFile } = require('./fildFile');
 /**
  *把md转化成html
- * @returns void
+ * @returns Blearn 是否有更新内容
  */
 function mdToml() {
   let files = findFile();
 
   if (files.length === 0) {
     console.log('无更新内容|如果你是修改内容,请删除源md文件,再运行程序');
-    return 0;
+    return true;
   }
 
   files.forEach((file) => {
