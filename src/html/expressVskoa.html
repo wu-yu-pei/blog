@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-expressVskoa</title>
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/github.css" />
+    <link rel="stylesheet" href="../css/color.css" />
+    <style>
+      body {
+        background-color: var(--bg-color);
+      }
+      .content {
+        padding: 0 20px;
+        border: 1px solid #fcfc;
+        width: 800px;
+        overflow-x: scroll;
+        font-family: fangsong;
+        height: 100%;
+        margin: 0 auto;
+        background-color: #f3f4f4;
+      }
+      code {
+        font-family: fangsong;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="content"><h4 id="expressvskoa">express VS koa</h4>
+<blockquote>
+  <p>由于我简历中写了熟悉 express koa 害怕二面被问到原理 于是就研究了一下 express 和 koa 的中间件原理</p>
+</blockquote>
+<ul>
+<li>express</li>
+</ul>
+<pre><code class="js language-js">const sleep = function (time) {
+  return new Promise((resolve, reject) =&gt; {
+    setTimeout(() =&gt; {
+      resolve();
+    }, time);
+  });
+};
+
+// express: Express 中间件实现是基于 Callback 回调函数同步的，它不会去等待异步（Promise）完成
+const express = require('express');
+const app = express();
+
+app.use(async (req, res, next) =&gt; {
+  console.log(1);
+  await next();
+  console.log(2);
+});
+
+app.use(async (req, res, next) =&gt; {
+  console.log(3);
+  await next();
+  console.log(4);
+});
+
+app.use(async (req, res, next) =&gt; {
+  console.log(5);
+  await sleep(1000); //这里加了异步操作 函数的执行就乱了  如果没有异步处理 那抹就于koa的执行顺序一样了
+  await next();
+  console.log(6);
+});
+
+app.use(async (req, res, next) =&gt; {
+  console.log(7);
+});
+
+app.listen(8001, (err) =&gt; {
+  if (err) console.log(err);
+  console.log('server is runing 8001');
+});
+
+//执行结果 1 3 5 4 2 7 6
+</code></pre>
+<ul>
+<li>koa</li>
+</ul>
+<pre><code class="js language-js">const sleep = function (time) {
+  return new Promise((resolve, reject) =&gt; {
+    setTimeout(() =&gt; {
+      resolve();
+    }, time);
+  });
+};
+
+// koa: 后面使用的是async await 来控制中间件的执行流程的 内部有一个compess函数会把中间件组合起来  会等待异步执行的函数
+const Koa = require('koa');
+const app = new Koa();
+
+app.use(async (ctx, next) =&gt; {
+  console.log(1);
+  await next();
+  console.log(2);
+});
+
+app.use(async (ctx, next) =&gt; {
+  console.log(3);
+  await next();
+  console.log(4);
+});
+
+app.use(async (ctx, next) =&gt; {
+  console.log(5);
+  await sleep(1000);
+  await next();
+  console.log(6);
+});
+
+app.use(async (ctx, next) =&gt; {
+  console.log(7);
+});
+
+app.listen(8001, (err) =&gt; {
+  if (err) console.log(err);
+  console.log('server is runing 8001');
+});
+
+// 执行结果: 1 3 5 7 6 4 2
+</code></pre>
+<p>其中 koa 中对中间件的处理 是一个 compose 的组合函数, 会把所有的中间件组合起来, 内部完全使用 promise 把函数包装起来</p>
+<ul>
+<li>koa-compose 函数(源码)</li>
+</ul>
+<pre><code class="js language-js">function compose(middleware) {
+  // 边缘case处理
+  if (!Array.isArray(middleware)) throw new TypeError('Middleware stack must be an array!');
+  for (const fn of middleware) {
+    if (typeof fn !== 'function') throw new TypeError('Middleware must be composed of functions!');
+  }
+
+  /**
+   * @param {Object} context
+   * @return {Promise}
+   * @api public
+   */
+
+  return function (context, next) {
+    // last called middleware #
+    let index = -1;
+    return dispatch(0);
+    function dispatch(i) {
+      if (i &lt;= index) return Promise.reject(new Error('next() called multiple times'));
+      index = i;
+      let fn = middleware[i];
+      if (i === middleware.length) fn = next;
+      if (!fn) return Promise.resolve();
+      try {
+        return Promise.resolve(fn(context, dispatch.bind(null, i + 1)));
+      } catch (err) {
+        return Promise.reject(err);
+      }
+    }
+  };
+}
+</code></pre>
+<blockquote>
+  <p>实力不够 只能看懂一部分 js还呆深入啊~~</p>
+</blockquote></div>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+  </body>
+</html>
