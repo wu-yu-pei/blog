@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-linux第一天</title>
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/github.css" />
+    <link rel="stylesheet" href="../css/color.css" />
+    <style>
+      body {
+        background-color: var(--bg-color);
+      }
+      .content {
+        padding: 0 20px;
+        border: 1px solid #fcfc;
+        width: 800px;
+        overflow-x: scroll;
+        font-family: fangsong;
+        height: 100%;
+        margin: 0 auto;
+        background-color: #f3f4f4;
+      }
+      code {
+        font-family: fangsong;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="content"><ul>
+<li><p>命令格式
+命令 [-参数] [选项]</p></li>
+<li><p>参数
+-a
+--all</p></li>
+</ul>
+<p>s上面者两个有什么区别呢?
+    -a     a是 all的缩写
+    --all  all是完整参数
+    所以 一般 --后面跟的是一个完整的参数 -后面跟的是参数的缩写</p>
+<!-- 文件操作 -->
+<p>例:
+ls -a
+ls -l
+ls -d (显示当前文件目录的属性,而不看它目录下的内容)
+ls -i (显示文件的id号)
+ks -h (显示文件名在一行上)
+ls -lad</p>
+<p>权限          引用个数   用户   所属组   大小     最后修改时间          文件名
+drwxr-xr-x    2        root   root     4096     Mar 31 19:24         linux第一天</p>
+<p>-rw-r--r--    1        root   root     16       Mar 31 19:23         a.txt</p>
+<p>(权限: - 表示是一个文件,d 表示是一个文件夹,l 表示是一个软连接)(r : 读, w: 写, x: 执行)
+-rwxrwxrwx
+-rw-r--r--
+ u  g  o
+(-表示没有这个权限)</p>
+<p>g跟上参数:
+ls -a ~
+ls -a /</p>
+<p>那么~ / 又有什么区别呢?
+    + / 表示根目录
+    + ~ 表示用户目录</p>
+<p>文件和用户的关系:
+u      g         o</p>
+<p>user   group     outher</p>
+<p>用户    所属组    其他人</p>
+<!-- 目录操作 -->
+<p>mkdir xiaodianying
+mkdir -p Japan/person  (-p参数 递归创建)
+mk dir a b c (创建多个文件夹)</p>
+<p>rmdir 删除空目录
+rmdir xiaodianyying</p>
+<!-- 复制 -->
+<p>cp 复制文件
+cp -r 复制文件夹
+cp -p 保存文件属性(时间等….)
+ap a.txt b.txt b cp可以同时复制多个文件</p>
+<!-- 移动文件 -->
+<p>mv 移动文件</p>
+<p>小技巧 改名 mv a.txt b.txt --&gt; 把a.txt 改名为 b.txt</p>
+<!-- rm -->
+<p>rm 删除文件
+rm -r 删除文件夹
+rm -f 强制删除</p>
+<!-- touch -->
+<p>touch 创建文件</p>
+<p>touch a.txt b.txt
+touch "a b.txt"</p>
+<!-- cat -->
+<p>cat 显示文件内容
+cat -n 显示文件内容和行号</p>
+<!-- tac -->
+<p>tac 倒着显示</p>
+<!-- more -->
+<p>more a.txt (大文件显示 空格翻页 回车一行一行看 f翻页)</p>
+<!-- less -->
+<p>less a.txt (与 more一样 可以向上翻页 pageup ↑)
+/ 搜索 下一个</p>
+<!-- head -->
+<p>head -n 10 a.txt (显示前多少行)</p>
+<!-- tail -->
+<p>tail -n 10 a.txt (显示后多少行)</p></div>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+  </body>
+</html>
