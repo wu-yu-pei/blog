@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-js的一些知识</title>
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/github.css" />
+    <link rel="stylesheet" href="../css/color.css" />
+    <style>
+      body {
+        background-color: var(--bg-color);
+      }
+      .content {
+        padding: 0 20px;
+        border: 1px solid #fcfc;
+        width: 800px;
+        overflow-x: scroll;
+        font-family: fangsong;
+        height: 100%;
+        margin: 0 auto;
+        background-color: #f3f4f4;
+      }
+      code {
+        font-family: fangsong;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="content"><h4 id="js">关于js中的函数</h4>
+<blockquote>
+  <p>最近看了一些高级函数，把自己看的自闭了，于是乎 又去学习js中的函数 复习了之前学过又忘记的知识</p>
+</blockquote>
+<ul>
+<li>下面是练习代码</li>
+</ul>
+<p>```js
+// const path = require('path')</p>
+<p>// console.log(__dirname);</p>
+<p>// const str = '11+45+69'</p>
+<p>// const s = str.split(/\d{1}+\d{1}/)</p>
+<p>// console.log(s);</p>
+<p>// 给一个对象 只保留指定的属性
+// function foo(obj, keys) {
+//   obj = obj || {};
+//   if ("string" == typeof keys) keys = keys.split(/ +/);
+//   return keys.reduce(function (ret, key) {
+//     if (null == obj[key]) return ret;
+//     ret[key] = obj[key];
+//     return ret;
+//   }, {});
+// }</p>
+<p>// let res = foo({name:'wuyupei', age: 20, p: 10}, 'name age')</p>
+<p>// console.log(res);</p>
+<p>// 组合函数: 传入函数 --&gt; 返回一个函数（传入初始参数）  --&gt; 参数会被第一次传入的函数顺序处理  --&gt; 返回结果值
+// function compres(…fns) {
+//   return function (res) {
+//     return fns.reduceRight((pre, fn) =&gt; {
+//       return fn(pre);
+//     }, res);
+//   };
+// }</p>
+<p>// function add(x) {
+//   return x + 1;
+// }</p>
+<p>// function red(x) {
+//   return x - 2;
+// }</p>
+<p>// const f = compres(add, red);</p>
+<p>// let res = f(10);</p>
+<p>// console.log(res);</p>
+<p>// 函数柯里化原理利用闭包记住了外层变量
+// const add = function(x) {
+//   return function(y) {
+//     return x +y
+//   }
+// }</p>
+<p>// const addone = add(1)</p>
+<p>// const addten = add(10)</p>
+<p>// let a = addone(2)
+// let b = addten(2)</p>
+<p>// console.log(a, b)</p>
+<p>// 函数的柯里化： 利用闭包收集参数（我的理解） 当参数收集完成后 在执行原来的函数
+// function curry(fn, …outer) {
+//   return function (…inner) {
+//     let arg = […outer, …inner];
+//     if (arg.length === fn.length) {
+//       return fn(…arg);
+//     } else {
+//       return curry(fn, …arg);
+//     }
+//   };
+// }</p>
+<p>// function loo(a, b, c, d, e) {
+//   return a + b + c + d + e;
+// }</p>
+<p>// const _loo = curry(loo);</p>
+<p>// let a = _loo(1)(2)(3)(4, 5);</p>
+<p>// console.log(a);</p>
+<p>// 数组乱序 : 实际上使用arr.sort并不能真正意义上的乱序
+// const arr = [56,1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+// let <em>arr = arr.sort(() => Math.random() - 0.5) 
+// console.log(</em>arr);</p>
+<p>// 函数唯一标识
+// function add() {
+//   return 10
+// }</p>
+<p>// function red() {
+//   return 20
+// }</p>
+<p>// const store = {
+//   id: 1,
+//   fns: {},
+//   add(fn) {
+//     if(!fn.id) {
+//       fn.id = this.id++
+//       this.fns[fn.id] = fn
+//     }
+//   }
+// }</p>
+<p>// store.add(add)
+// store.add(add)
+// store.add(red)</p>
+<p>// console.log(store.fns)
+···</p>
+<p>问题：</p>
+<blockquote>
+  <p>跨域请求怎么携带cookie ?</p>
+</blockquote>
+<ul>
+<li><p>前端如果使用的发送网络请求的库都已携带cookid的字段</p>
+<ul>
+<li>xhr --&gt; xht.withCredentials = true</li>
+<li>axios --&gt;  自行查找</li>
+<li>fetch --&gt;  自行查找</li></ul></li>
+<li><p>后端 设置Access-Control-Allow-Credentials: true</p></li>
+</ul></div>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+  </body>
+</html>
