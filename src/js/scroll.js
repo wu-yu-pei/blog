@@ -37,6 +37,24 @@
               .content::-webkit-scrollbar-corner {
                   background-color: black;
               }
+
+              pre::-webkit-scrollbar {
+                background-color: #f3f4f4;
+                height:6px;
+                overflow: visible;
+              }
+              pre::-webkit-scrollbar-thumb {
+                  background-color: #2474b5;
+                  border-radius: 0;
+              }
+              pre::-webkit-scrollbar-button {
+                  background-color: #2474b5;
+                  width:0px;
+                  height:0px;
+              }
+              pre::-webkit-scrollbar-corner {
+                  background-color: black;
+              }
           </style>
        `;
   document.body.appendChild(MyScrollBar);
