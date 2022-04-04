@@ -38,6 +38,7 @@ ul::before {
 a {
   text-decoration: none;
   position: relative;
+  color: #88889e;
 }
 a::after {
   content: '';

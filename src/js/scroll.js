@@ -3,7 +3,7 @@
   MyScrollBar.innerHTML = `
          <style>
               ::-webkit-scrollbar {
-                  background-color: #f5f5d5;
+                  background-color: #304156;
                   width: 6px;
                   overflow: visible;
               }
