@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-模拟Elelemt组件库的实现</title>
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/github.css" />
+    <link rel="stylesheet" href="../css/color.css" />
+    <style>
+      body {
+        background-color: var(--bg-color);
+      }
+      .content {
+        padding: 0 20px;
+        border: 1px solid #fcfc;
+        width: 800px;
+        overflow-x: scroll;
+        font-family: fangsong;
+        height: 100%;
+        margin: 0 auto;
+        background-color: #f3f4f4;
+      }
+      code {
+        font-family: fangsong;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="content"><h4 id="element">模拟 Element 组件库的实现</h4>
+<p><strong>思路:</strong>
+组件变成插件
+install 方法</p>
+<p><strong>插件的使用:</strong></p>
+<pre><code class="js language-js">app.use(插件名);
+</code></pre>
+<p><strong>Element 如何使用?</strong></p>
+<pre><code class="js language-js">improt Element from 'element'
+
+app.use(Element)
+
+// use方法 :使用插件  去调用了install方法 并且把app传进去了
+</code></pre>
+<h5 id="">自己实现一下</h5>
+<p><strong>代码:</strong></p>
+<pre><code class="html language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8" /&gt;
+    &lt;meta http-equiv="X-UA-Compatible" content="IE=edge" /&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+    &lt;!-- 引入vue --&gt;
+    &lt;script src="../../node_modules/vue/dist/vue.global.prod.js"&gt;&lt;/script&gt;
+    &lt;style&gt;
+      .vs-button {
+        width: 100px;
+        height: 40px;
+        background-color: #fff;
+        border: 1px solid #000;
+        font-size: 24px;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id="app"&gt;&lt;/div&gt;
+    &lt;script&gt;
+      const { createApp, mount } = Vue;
+
+      // 定义根组件
+      const App = {
+        name: 'App',
+        data() {
+          return {
+            a: 10,
+          };
+        },
+        template: '&lt;vs-button&gt;+&lt;/vs-button&gt;',
+      };
+
+      // 自定义组件
+      const VsButton = {
+        name: 'wy-button',
+        template: `
+          &lt;button class="vs-button"&gt;
+            &lt;slot&gt;&lt;/slot&gt;
+          &lt;/button&gt;
+        `,
+        // 自定义组件为什么要install方法呢 ?  因为这样就可以可以 按需引入了
+        install(app) {
+          app.component('vs-button', VsButton);
+        },
+      };
+
+      // 这个就是定义的自己的组件库
+      const Elements = {
+        VsButton,
+        // install方法里面需要注册所有的组件(这里只有一个)
+        install(app) {
+          app.component('vs-button', VsButton);
+        },
+      };
+
+      const app = createApp(App);
+
+      // app.use的方法, 使用自己的组件库
+      app.use(Elements);
+
+      app.mount('#app');
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h4 id="-1">总结:</h4>
+<p>这样显然不是一个真正的组件库,要想实现像 Element-plus 呢样,
+我们还需要很多工具, 我们应该搭建一个项目单独开发组件库(思路就是上面呢样)
+像这样的组件库一般都是使用 roullp 来进行打包的可以把文件打包成各种类型(esm, cjs, commenjs 等…)</p></div>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+  </body>
+</html>
