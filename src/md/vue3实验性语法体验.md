@@ -48,3 +48,6 @@ onMounted(() => {
   init();
 });
 ```
+
+
+![canvas](../mdimg/canvas.png)
