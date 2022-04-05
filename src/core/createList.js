@@ -9,9 +9,9 @@ function createListHtml() {
   // TODO 待优化（每次都会调用，）
   let info = [];
   // 列表
-  let data = fs.readdirSync('./html');
+  let data = fs.readdirSync('./md');
   data.forEach((item) => {
-    let stat = fs.statSync(`./html/${item}`);
+    let stat = fs.statSync(`./md/${item}`);
     let itemInfo = {
       name: item.split('.')[0],
       ct: getTime(stat.ctimeMs),
