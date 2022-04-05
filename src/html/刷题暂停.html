@@ -76,7 +76,12 @@
         line-height: 3rem;
       }
       .nav {
+        position: sticky;
+        top: 0;
+        margin: 0 auto;
         height: 60px;
+        max-width: 980px;
+        background-color: #fff;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -109,16 +114,16 @@
   </head>
 
   <body>
-    <div class="content">
-      <div class="nav">
-        <div class="home">
-          <a href="https://wu-yu-pei.github.io/leetcode/"><img src="../img/home.svg" alt="" /></a>
-        </div>
-        <div class="auther">Growing</div>
-        <div class="check">
-          <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
-        </div>
+    <div class="nav">
+      <div class="home">
+        <a href="https://wu-yu-pei.github.io/leetcode/"><img src="../img/home.svg" alt="" /></a>
       </div>
+      <div class="auther">Growing</div>
+      <div class="check">
+        <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
+      </div>
+    </div>
+    <div class="content">
       <h1>刷题暂停</h1>
       <h4 id="10">连续刷了10天题了</h4>
 <p>歇歇再来刷!</p>
@@ -130,7 +135,10 @@
           <img src="../img/leftArrow.svg" alt="" />
           leetcode第9天
         </a>
-        <a href="https://wu-yu-pei.github.io/leetcode/src/html/pre.html" class="next">
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/pre.html"
+          class="next"
+        >
           排序算法之冒泡排序
           <img src="../img/rightArrow.svg" alt="" />
         </a>

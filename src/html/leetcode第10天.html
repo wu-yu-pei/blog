@@ -76,7 +76,12 @@
         line-height: 3rem;
       }
       .nav {
+        position: sticky;
+        top: 0;
+        margin: 0 auto;
         height: 60px;
+        max-width: 980px;
+        background-color: #fff;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -109,16 +114,16 @@
   </head>
 
   <body>
-    <div class="content">
-      <div class="nav">
-        <div class="home">
-          <a href="https://wu-yu-pei.github.io/leetcode/"><img src="../img/home.svg" alt="" /></a>
-        </div>
-        <div class="auther">Growing</div>
-        <div class="check">
-          <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
-        </div>
+    <div class="nav">
+      <div class="home">
+        <a href="https://wu-yu-pei.github.io/leetcode/"><img src="../img/home.svg" alt="" /></a>
       </div>
+      <div class="auther">Growing</div>
+      <div class="check">
+        <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
+      </div>
+    </div>
+    <div class="content">
       <h1>leetcode第10天</h1>
       <h4 id="1httpsleetcodecncomproblemsmergetwosortedlists"><a href="https://leetcode-cn.com/problems/merge-two-sorted-lists/">1. 合并两个有序链表</a></h4>
 <p>难度简单</p>
@@ -237,7 +242,10 @@ var reverseList = function(head) {
           <img src="../img/leftArrow.svg" alt="" />
           leetcode动态规划(8)
         </a>
-        <a href="https://wu-yu-pei.github.io/leetcode/src/html/pre.html" class="next">
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/pre.html"
+          class="next"
+        >
           leetcode动态规划(5)
           <img src="../img/rightArrow.svg" alt="" />
         </a>

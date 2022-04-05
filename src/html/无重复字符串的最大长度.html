@@ -76,7 +76,12 @@
         line-height: 3rem;
       }
       .nav {
+        position: sticky;
+        top: 0;
+        margin: 0 auto;
         height: 60px;
+        max-width: 980px;
+        background-color: #fff;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -109,16 +114,16 @@
   </head>
 
   <body>
-    <div class="content">
-      <div class="nav">
-        <div class="home">
-          <a href="https://wu-yu-pei.github.io/leetcode/"><img src="../img/home.svg" alt="" /></a>
-        </div>
-        <div class="auther">Growing</div>
-        <div class="check">
-          <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
-        </div>
+    <div class="nav">
+      <div class="home">
+        <a href="https://wu-yu-pei.github.io/leetcode/"><img src="../img/home.svg" alt="" /></a>
       </div>
+      <div class="auther">Growing</div>
+      <div class="check">
+        <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
+      </div>
+    </div>
+    <div class="content">
       <h1>无重复字符串的最大长度</h1>
       <h4 id="leetcode">leetcode</h4>
 <p>这个题是我 两个星期前写过的题,现在又不会了,复习一下</p>
@@ -152,7 +157,10 @@ console.log(max);
           <img src="../img/leftArrow.svg" alt="" />
           watch和computed
         </a>
-        <a href="https://wu-yu-pei.github.io/leetcode/src/html/pre.html" class="next">
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/pre.html"
+          class="next"
+        >
           判断数据js类型
           <img src="../img/rightArrow.svg" alt="" />
         </a>

@@ -76,7 +76,12 @@
         line-height: 3rem;
       }
       .nav {
+        position: sticky;
+        top: 0;
+        margin: 0 auto;
         height: 60px;
+        max-width: 980px;
+        background-color: #fff;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -109,16 +114,16 @@
   </head>
 
   <body>
-    <div class="content">
-      <div class="nav">
-        <div class="home">
-          <a href="https://wu-yu-pei.github.io/leetcode/"><img src="../img/home.svg" alt="" /></a>
-        </div>
-        <div class="auther">Growing</div>
-        <div class="check">
-          <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
-        </div>
+    <div class="nav">
+      <div class="home">
+        <a href="https://wu-yu-pei.github.io/leetcode/"><img src="../img/home.svg" alt="" /></a>
       </div>
+      <div class="auther">Growing</div>
+      <div class="check">
+        <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
+      </div>
+    </div>
+    <div class="content">
       <h1>leetcode第4天</h1>
       <h4 id="27httpsleetcodecncomproblemsremoveelement"><a href="https://leetcode-cn.com/problems/remove-element/">27. 移除元素</a></h4>
 <p>给你一个数组 <code>nums</code> 和一个值 <code>val</code>，你需要 <strong><a href="https://baike.baidu.com/item/原地算法">原地</a></strong> 移除所有数值等于 <code>val</code> 的元素，并返回移除后数组的新长度。</p>
@@ -352,7 +357,10 @@ var reverseList = function(head) {
           <img src="../img/leftArrow.svg" alt="" />
           leetcode第3天
         </a>
-        <a href="https://wu-yu-pei.github.io/leetcode/src/html/pre.html" class="next">
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/pre.html"
+          class="next"
+        >
           leetcode第5天
           <img src="../img/rightArrow.svg" alt="" />
         </a>
