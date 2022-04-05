@@ -23,7 +23,6 @@
         border: 1px solid #fcfc;
         max-width: 800px;
         overflow-x: scroll;
-        font-family: fangsong;
         height: 100%;
         margin: 0 auto;
         background-color: #fff;
@@ -37,6 +36,45 @@
       ul {
         margin: 0;
         margin-left: -1rem;
+      }
+      .page {
+        display: flex;
+        box-sizing: border-box;
+        height: 3rem;
+        gap: 1rem;
+        margin: 10px 0;
+        background-color: rgb(255, 255, 255);
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .page a:hover {
+        border: 2px solid blue;
+      }
+      .page a {
+        flex-grow: 1;
+        flex-basis: 200px;
+        box-sizing: border-box;
+        display: block;
+        border: 2px solid #c5c5c5;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        text-decoration: none;
+        font-weight: bold;
+        color: #000;
+      }
+      .page .pre {
+        width: 47%;
+        height: 100%;
+        line-height: 3rem;
+      }
+      .page .next {
+        width: 47%;
+        height: 100%;
+        text-align: right;
+        line-height: 3rem;
       }
     </style>
   </head>
@@ -112,6 +150,16 @@
  :由于webapck只能理解javascript,不能识别css,json,vue等类型的文件,需要通过loader,来对这些文件转化成js,总的来说loader就是转换文件的eijplugin时用来做一些loader做不到的事情,webpack在比如说es6+代码转成es5代码,等等,在webpack打包的各个阶
 </code></pre></li>
 </ol>
+      <div class="page">
+        <a href="../html/防抖和节流.html" class="pre">
+          <img src="../img/leftArrow.png" alt="" />
+          防抖和节流
+        </a>
+        <a href="../html/牛客面经02.html" class="next">
+          牛客面经02
+          <img src="../img/rightArrow.png" alt="" />
+        </a>
+      </div>
     </div>
     <script src="../js/click.js"></script>
     <script src="../js/scroll.js"></script>

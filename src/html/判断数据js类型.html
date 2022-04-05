@@ -23,7 +23,6 @@
         border: 1px solid #fcfc;
         max-width: 800px;
         overflow-x: scroll;
-        font-family: fangsong;
         height: 100%;
         margin: 0 auto;
         background-color: #fff;
@@ -37,6 +36,45 @@
       ul {
         margin: 0;
         margin-left: -1rem;
+      }
+      .page {
+        display: flex;
+        box-sizing: border-box;
+        height: 3rem;
+        gap: 1rem;
+        margin: 10px 0;
+        background-color: rgb(255, 255, 255);
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .page a:hover {
+        border: 2px solid blue;
+      }
+      .page a {
+        flex-grow: 1;
+        flex-basis: 200px;
+        box-sizing: border-box;
+        display: block;
+        border: 2px solid #c5c5c5;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        text-decoration: none;
+        font-weight: bold;
+        color: #000;
+      }
+      .page .pre {
+        width: 47%;
+        height: 100%;
+        line-height: 3rem;
+      }
+      .page .next {
+        width: 47%;
+        height: 100%;
+        text-align: right;
+        line-height: 3rem;
       }
     </style>
   </head>
@@ -81,6 +119,16 @@
 <li>https://iyideng.vip/black-technology/cgfw/trojan-v2ray-client-download-and-using-tutorial.html</li>
 </ol>
 <p>账号:fq.wuyupei.top 密码: 1978****wyp</p>
+      <div class="page">
+        <a href="../html/无重复字符串的最大长度.html" class="pre">
+          <img src="../img/leftArrow.png" alt="" />
+          无重复字符串的最大长度
+        </a>
+        <a href="../html/渲染模板字符串.html" class="next">
+          渲染模板字符串
+          <img src="../img/rightArrow.png" alt="" />
+        </a>
+      </div>
     </div>
     <script src="../js/click.js"></script>
     <script src="../js/scroll.js"></script>

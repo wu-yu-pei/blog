@@ -16,12 +16,12 @@ function mdToml() {
     return true;
   }
 
-  files.forEach((file) => {
+  files.forEach(({name: file, pre, next}) => {
     let text = fs.readFileSync(`./md/${file}.md`, { encoding: 'utf-8' }).toString();
 
     let html = converter.makeHtml(text);
 
-    ejs.renderFile('./ejs/article.ejs', { title: file, html }, {}, function (err, str) {
+    ejs.renderFile('./ejs/article.ejs', { title: file, html, pre, next }, {}, function (err, str) {
       if (err) {
         console.log(err);
       }

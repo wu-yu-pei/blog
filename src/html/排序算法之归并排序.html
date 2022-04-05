@@ -23,7 +23,6 @@
         border: 1px solid #fcfc;
         max-width: 800px;
         overflow-x: scroll;
-        font-family: fangsong;
         height: 100%;
         margin: 0 auto;
         background-color: #fff;
@@ -37,6 +36,45 @@
       ul {
         margin: 0;
         margin-left: -1rem;
+      }
+      .page {
+        display: flex;
+        box-sizing: border-box;
+        height: 3rem;
+        gap: 1rem;
+        margin: 10px 0;
+        background-color: rgb(255, 255, 255);
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .page a:hover {
+        border: 2px solid blue;
+      }
+      .page a {
+        flex-grow: 1;
+        flex-basis: 200px;
+        box-sizing: border-box;
+        display: block;
+        border: 2px solid #c5c5c5;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        text-decoration: none;
+        font-weight: bold;
+        color: #000;
+      }
+      .page .pre {
+        width: 47%;
+        height: 100%;
+        line-height: 3rem;
+      }
+      .page .next {
+        width: 47%;
+        height: 100%;
+        text-align: right;
+        line-height: 3rem;
       }
     </style>
   </head>
@@ -126,6 +164,16 @@ function mergeArr(left, right) {
 
 console.log(mergeSort(arr));
 </code></pre>
+      <div class="page">
+        <a href="../html/排序算法之冒泡排序.html" class="pre">
+          <img src="../img/leftArrow.png" alt="" />
+          排序算法之冒泡排序
+        </a>
+        <a href="../html/leetcode第7天.html" class="next">
+          leetcode第7天
+          <img src="../img/rightArrow.png" alt="" />
+        </a>
+      </div>
     </div>
     <script src="../js/click.js"></script>
     <script src="../js/scroll.js"></script>

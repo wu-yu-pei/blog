@@ -15,10 +15,41 @@ function findFile() {
 
   // 从md中找ml中没有的
   mdFiles.forEach((item) => {
-    mlFiles.indexOf(item) === -1 ? cpFiles.push(item) : '';
+    if (mlFiles.indexOf(item) === -1) {
+      let { next, pre } = findRound(item);
+      let fileInfo = {
+        name: item,
+        next,
+        pre
+      }
+      cpFiles.push(fileInfo)
+    }
   });
 
   return cpFiles;
+}
+
+function findRound(fileName) {
+  let info = [];
+  let data = fs.readdirSync('./md');
+  data.forEach((item) => {
+    let stat = fs.statSync(`./md/${item}`);
+    let itemInfo = {
+      name: item.split('.')[0],
+      time: stat.ctime,
+    };
+    info.push(itemInfo);
+  });
+
+  // 排序
+  info.sort((a, b) => b.time - a.time);
+
+  let index = info.findIndex((item) => item.name === fileName);
+
+  return {
+    next: info[index + 1]?.name || null,
+    pre: info[index - 1]?.name || null,
+  };
 }
 
 module.exports = { findFile };
