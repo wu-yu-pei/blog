@@ -28,11 +28,16 @@
       code {
         font-family: fangsong;
       }
+      blockquote {
+        margin-left: 0;
+      }
     </style>
   </head>
 
   <body>
-    <div class="content"><h4 id="1httpsleetcodecncomproblemsthemasseuselcci"><a href="https://leetcode-cn.com/problems/the-masseuse-lcci/">1. 按摩师</a></h4>
+    <div class="content">
+      <h1>leetcode动态规划(8)</h1>
+      <h4 id="1httpsleetcodecncomproblemsthemasseuselcci"><a href="https://leetcode-cn.com/problems/the-masseuse-lcci/">1. 按摩师</a></h4>
 <p>难度简单</p>
 <p>一个有名的按摩师会收到源源不断的预约请求，每个预约都可以选择接或不接。在每次预约服务之间要有休息时间，因此她不能接受相邻的预约。给定一个预约请求序列，替按摩师找到最优的预约集合（总预约时间最长），返回总的分钟数。</p>
 <p><strong>注意：</strong>本题相对原题稍作改动</p>
@@ -94,7 +99,8 @@ var massage = function(nums) {
     }
     return dp[len - 1];
 };
-</code></pre></div>
+</code></pre>
+    </div>
     <script src="../js/click.js"></script>
     <script src="../js/scroll.js"></script>
   </body>

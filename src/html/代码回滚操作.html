@@ -28,11 +28,16 @@
       code {
         font-family: fangsong;
       }
+      blockquote {
+        margin-left: 0;
+      }
     </style>
   </head>
 
   <body>
-    <div class="content"><ul>
+    <div class="content">
+      <h1>代码回滚操作</h1>
+      <ul>
 <li><p>今天本来想给 leetcode 仓库添加一个新功能</p></li>
 <li><p>添加好了,推到远程仓库没有达到预期的效果</p></li>
 <li><p>就想办法回滚代码</p></li>
@@ -49,7 +54,8 @@
 <li><p>上面使用了 git reset 也可以使用 git revert</p></li>
 <li><p>区别市 git reset 会删除远程仓库你呢一次错误的提交,别人不会发现</p></li>
 <li><p>git revert 会新曾一个 commit id 覆盖你上一次错误提交</p></li>
-</ul></div>
+</ul>
+    </div>
     <script src="../js/click.js"></script>
     <script src="../js/scroll.js"></script>
   </body>

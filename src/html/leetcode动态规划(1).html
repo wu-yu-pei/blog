@@ -28,11 +28,16 @@
       code {
         font-family: fangsong;
       }
+      blockquote {
+        margin-left: 0;
+      }
     </style>
   </head>
 
   <body>
-    <div class="content"><ol>
+    <div class="content">
+      <h1>leetcode动态规划(1)</h1>
+      <ol>
 <li>斐波那契数
 斐波那契数 （通常用 F(n) 表示）形成的序列称为 斐波那契数列 。该数列由 0 和 1 开始，后面的每一项数字都是前面两项数字的和。也就是：</li>
 </ol>
@@ -123,7 +128,8 @@ var tribonacci = function (n) {
   for (let i = 3; i &lt;= n; i++) arr[i] = arr[i - 3] + arr[i - 2] + arr[i - 1];
   return arr[n];
 };
-</code></pre></div>
+</code></pre>
+    </div>
     <script src="../js/click.js"></script>
     <script src="../js/scroll.js"></script>
   </body>

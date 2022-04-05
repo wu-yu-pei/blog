@@ -28,11 +28,16 @@
       code {
         font-family: fangsong;
       }
+      blockquote {
+        margin-left: 0;
+      }
     </style>
   </head>
 
   <body>
-    <div class="content"><h3 id="js">js 单列模式</h3>
+    <div class="content">
+      <h1>js单列模式</h1>
+      <h3 id="js">js 单列模式</h3>
 <blockquote>
   <p>保证一个类仅有一个实例，并提供一个访问它的全局访问点，这样的模式就叫做单例模式。</p>
 </blockquote>
@@ -103,7 +108,8 @@
         const m2 = Modle.getModleInstance();
         m2.style.opacity = '0';
       });
-</code></pre></div>
+</code></pre>
+    </div>
     <script src="../js/click.js"></script>
     <script src="../js/scroll.js"></script>
   </body>

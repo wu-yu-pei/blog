@@ -28,11 +28,16 @@
       code {
         font-family: fangsong;
       }
+      blockquote {
+        margin-left: 0;
+      }
     </style>
   </head>
 
   <body>
-    <div class="content"><h4 id="">渲染模板字符串</h4>
+    <div class="content">
+      <h1>渲染模板字符串</h1>
+      <h4 id="">渲染模板字符串</h4>
 <blockquote>
   <p>实现一个 render 函数 传入 template data 返回编译后的字符串</p>
   <p>实现思路: 使用正则表达式 匹配要渲染的mastach 使用eval函数 对代码进行执行,然后替换字符串 返回结果</p>
@@ -53,7 +58,8 @@ function render(template, person) {
 }
 
 render(str, person);
-</code></pre></div>
+</code></pre>
+    </div>
     <script src="../js/click.js"></script>
     <script src="../js/scroll.js"></script>
   </body>

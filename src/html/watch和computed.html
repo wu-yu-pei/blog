@@ -28,11 +28,16 @@
       code {
         font-family: fangsong;
       }
+      blockquote {
+        margin-left: 0;
+      }
     </style>
   </head>
 
   <body>
-    <div class="content"><h4 id="watchcomputed">watch 和 computed</h4>
+    <div class="content">
+      <h1>watch和computed</h1>
+      <h4 id="watchcomputed">watch 和 computed</h4>
 <blockquote>
   <p>今天面试被问 watch 和 computed 的区别,我回答的不是很好,今天先来一篇 watch 和 computed 的简单使用</p>
 </blockquote>
@@ -71,7 +76,8 @@ watch(firstName, (o, n) =&gt; {
 <p>我今天的回答是:
 computed是具有缓存的,只会调用一次, 会优先使用缓存</p>
 <p>watch是用来监听属性的变化,只要变化一次就会执行回调, 如果配置deep的话,会进行深度监听,内部可能是进行了一个递归监听</p>
-<p>回答的非常片面而且很不准确,没有深入了解到真正的区别,明天在更一篇,详细说明computed和watch的区别, 做到对api的知根知地…..</p></div>
+<p>回答的非常片面而且很不准确,没有深入了解到真正的区别,明天在更一篇,详细说明computed和watch的区别, 做到对api的知根知地…..</p>
+    </div>
     <script src="../js/click.js"></script>
     <script src="../js/scroll.js"></script>
   </body>

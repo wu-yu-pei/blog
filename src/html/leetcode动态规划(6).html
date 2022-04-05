@@ -28,11 +28,16 @@
       code {
         font-family: fangsong;
       }
+      blockquote {
+        margin-left: 0;
+      }
     </style>
   </head>
 
   <body>
-    <div class="content"><h4 id="1httpsleetcodecncomproblemsmaximumproductsubarray"><a href="https://leetcode-cn.com/problems/maximum-product-subarray/">1. 乘积最大子数组</a></h4>
+    <div class="content">
+      <h1>leetcode动态规划(6)</h1>
+      <h4 id="1httpsleetcodecncomproblemsmaximumproductsubarray"><a href="https://leetcode-cn.com/problems/maximum-product-subarray/">1. 乘积最大子数组</a></h4>
 <p>难度中等</p>
 <p>给你一个整数数组 <code>nums</code> ，请你找出数组中乘积最大的非空连续子数组（该子数组中至少包含一个数字），并返回该子数组所对应的乘积。</p>
 <p>测试用例的答案是一个 <strong>32-位</strong> 整数。</p>
@@ -109,7 +114,8 @@ var maxProduct = function(nums) {
   return Math.max(...dp.map((item) =&gt; item[1]));
 };    
 </code></pre>
-<p>下次一定(!__!)</p></div>
+<p>下次一定(!__!)</p>
+    </div>
     <script src="../js/click.js"></script>
     <script src="../js/scroll.js"></script>
   </body>
