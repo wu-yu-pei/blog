@@ -16,12 +16,11 @@
     <link rel="stylesheet" href="../css/color.css" />
     <style>
       body {
-        background-color: var(--bg-color);
+        background-color: var(--article-color);
       }
       .content {
         padding: 0 20px;
-        border: 1px solid #fcfc;
-        max-width: 800px;
+        max-width: 980px;
         overflow-x: scroll;
         height: 100%;
         margin: 0 auto;
@@ -42,7 +41,7 @@
         box-sizing: border-box;
         height: 3rem;
         gap: 1rem;
-        margin: 10px 0;
+        margin: 1rem 0;
         background-color: rgb(255, 255, 255);
         justify-content: space-between;
         align-items: center;
@@ -76,11 +75,50 @@
         text-align: right;
         line-height: 3rem;
       }
+      .nav {
+        height: 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .nav div {
+        height: 100%;
+        line-height: 60px;
+      }
+      .nav .auther {
+        letter-spacing: 2px;
+        font-size: 27px;
+      }
+
+      .fotter {
+        border-top: 2px solid #c5c5c5;
+        width: 100%;
+        height: 6rem;
+      }
+      .fotter p:first-child {
+        font-style: italic;
+      }
+      .fotter p {
+        margin: 5px 0;
+        height: 2rem;
+        width: 100%;
+        text-align: center;
+        font-weight: 900;
+      }
     </style>
   </head>
 
   <body>
     <div class="content">
+      <div class="nav">
+        <div class="home">
+          <a href="https://wu-yu-pei.github.io/leetcode/"><img src="../img/home.png" alt="" /></a>
+        </div>
+        <div class="auther">Growing</div>
+        <div class="check">
+          <a href="https://github.com/wu-yu-pei"><img src="../img/github.png" alt="" /></a>
+        </div>
+      </div>
       <h1>深拷贝浅拷贝</h1>
       <h3 id="">深拷贝和浅拷贝</h3>
 <blockquote>
@@ -175,15 +213,22 @@ console.log(obj, _obj);
 </code></pre>
 <p>补充:深拷贝暂时只考虑到这几种数据结构 还有一些数据比如:Date Boolean Error 等待 都可以加进去的.</p>
       <div class="page">
-        <a href="../html/节流的另一种写法.html" class="pre">
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/节流的另一种写法.html"
+          class="pre"
+        >
           <img src="../img/leftArrow.png" alt="" />
           节流的另一种写法
         </a>
-        <a href="../html/代码回滚操作.html" class="next">
+        <a href="https://wu-yu-pei.github.io/leetcode/src/html/代码回滚操作.html" class="next">
           代码回滚操作
           <img src="../img/rightArrow.png" alt="" />
         </a>
       </div>
+    </div>
+    <div class="fotter">
+      <p>All articles written with ❤ by Wu Yupei</p>
+      <p>Github · Gieee · QQ · WeChat</p>
     </div>
     <script src="../js/click.js"></script>
     <script src="../js/scroll.js"></script>
