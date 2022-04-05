@@ -129,8 +129,8 @@
           <img src="../img/leftArrow.png" alt="" />
           <%- pre === null ? 'List' : pre %>
         </a>
-        <a href="https://wu-yu-pei.github.io/leetcode/src/html/<%- next  %>.html" class="next">
-          <%- next %>
+        <a href="https://wu-yu-pei.github.io/leetcode/src/html/<%- next === null ? '../../list' : 'pre'  %>.html" class="next">
+          <%- next === null ? 'List' : next %>
           <img src="../img/rightArrow.png" alt="" />
         </a>
       </div>
