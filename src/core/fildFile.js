@@ -29,6 +29,11 @@ function findFile() {
   return cpFiles;
 }
 
+/**
+ *
+ * @param  fileName
+ * @returns {next, pre}
+ */
 function findRound(fileName) {
   let info = [];
   let data = fs.readdirSync('./md');
