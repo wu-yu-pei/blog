@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-webpack打包优化配置</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/prism.min.js"></script>
+    <link href="https://cdn.bootcdn.net/ajax/libs/prism-themes/1.9.0/prism-one-dark.css" rel="stylesheet">
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/newsprint.css" />
+    <link rel="stylesheet" href="../css/color.css" />
+    <style>
+      body {
+        background-color: var(--bg-color);
+      }
+      .content {
+        padding: 0 20px;
+        border: 1px solid #fcfc;
+        max-width: 800px;
+        overflow-x: scroll;
+        font-family: fangsong;
+        height: 100%;
+        margin: 0 auto;
+        background-color: #fff;
+      }
+      code {
+        font-family: fangsong;
+      }
+      blockquote {
+        margin-left: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="content">
+      <h1>webpack打包优化配置</h1>
+      <h3 id="">缘起</h3>
+<blockquote>
+  <p>牛客网山的一道面试题: 相同引用的 js 代码打包成一个单独的文件要怎么配置?</p>
+</blockquote>
+<p>作为一个在简历上写了会 webpack 打包的我, 不会了~~, 赶快再去复习一下</p>
+<h3 id="-1">开始</h3>
+<p>1.环境:</p>
+<blockquote>
+  <p>webpack: ^5.71.0 webpack-cli: ^4.9.2</p>
+</blockquote>
+<p>2.问题:</p>
+<blockquote>
+  <p>打包优化问题</p>
+</blockquote>
+<p>3.解决:</p>
+<blockquote>
+  <p>再 webpack 中配置打包相关配置项</p>
+</blockquote>
+<p>4.代码:
+在 webpack.config.js 中配置</p>
+<pre><code class="js language-js">  optimization: {
+    splitChunks: {
+      // async 异步代码分割
+      // initial 同步代码分割
+      // all 都分割 (常用)
+      chunks: 'all',
+      // 要拆分的包 的最小尺寸
+      minSize: 20000,
+      // 最大尺寸
+      maxSize: 20000,
+      // 最少导入次数  ----&gt; 引入超过两次久进行分包(受上面包大小的影响)
+      minChunks: 2,
+  }
+</code></pre>
+<p>5.完成</p>
+<p>这样就解决了牛客网上的问题</p>
+<p>6.复习 webpack 打包优化相关知识</p>
+<ul>
+<li><p>配置 externals</p></li>
+<li><p>cdn 加载资源</p></li>
+<li><p>代码分割</p></li>
+<li><p>chunk boundle module 区别</p></li>
+<li><p>按需加载</p></li>
+<li><p>魔法注释</p>
+<p>7.相关代码</p></li>
+<li><p>配置</p></li>
+</ul>
+<pre><code class="js language-js">const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const path = require('path');
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+    chunkFilename: '[name].chunk.js',
+  },
+  externals: {
+    lodash: '_',
+    jquery: '$',
+    dayjs: 'dayjs',
+  },
+  optimization: {
+    splitChunks: {
+      // async 异步代码分割
+      // initial 同步代码分割
+      // all 都分割 (常用)
+      chunks: 'all',
+      // 要拆分的包 的最小尺寸
+      minSize: 20000,
+      //
+      maxSize: 20000,
+      // 最少导入次数
+      minChunks: 1,
+
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          filename: '[id]_verdors.js',
+          // 配置优先级
+          priority: -10,
+        },
+        default: {
+          minChunks: 2,
+          filename: 'commen_[id].js',
+          priority: -20,
+        },
+      },
+    },
+  },
+
+  plugins: [
+    new CleanWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      template: './index.html',
+    }),
+  ],
+};
+</code></pre>
+<ul>
+<li>魔法注释</li>
+</ul>
+<pre><code class="js language-js">// 不使用magic comment
+button.addEventListener('click', () =&gt; {
+  import('./Element').then((res) =&gt; {
+    console.log(res);
+  });
+});
+
+// 使用magic comment
+button.addEventListener('click', () =&gt; {
+  console.log(111);
+  import(
+    /* webpackChunkName: 'Element' */
+    /* webpackPrefetch: true */
+    /* webpackPreload: true */
+    './Element'
+  ).then((res) =&gt; {
+    console.log(res);
+  });
+});
+</code></pre>
+<p>不使用 magic comment 和 使用 magic comment 打包出的效果是不一样的</p>
+<ul>
+<li>cdn 配置相关</li>
+</ul>
+<pre><code class="js language-js">externals: {
+    lodash: '_',
+    jquery:'$',
+    dayjs: 'dayjs',
+  },
+</code></pre>
+<p>index.html中配置cdn</p>
+<pre><code class="html language-html">&lt;script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"&gt;&lt;/script&gt;
+&lt;script src="https://code.jquery.com/jquery-3.6.0.min.js"&gt;&lt;/script&gt;
+&lt;script src="https://cdn.bootcdn.net/ajax/libs/dayjs/1.11.0/dayjs.min.js"&gt;&lt;/script&gt;
+</code></pre>
+    </div>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+  </body>
+</html>
