@@ -6,7 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Growing-webpack打包优化配置</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/prism.min.js"></script>
-    <link href="https://cdn.bootcdn.net/ajax/libs/prism-themes/1.9.0/prism-one-dark.css" rel="stylesheet">
+    <link
+      href="https://cdn.bootcdn.net/ajax/libs/prism-themes/1.9.0/prism-one-dark.css"
+      rel="stylesheet"
+    />
     <link rel="icon" href="../../favicon.ico" />
     <link rel="stylesheet" href="../css/base.css" />
     <link rel="stylesheet" href="../css/newsprint.css" />
@@ -30,6 +33,10 @@
       }
       blockquote {
         margin-left: 0;
+      }
+      ul {
+        margin: 0;
+        margin-left: -1rem;
       }
     </style>
   </head>
@@ -75,14 +82,16 @@
 <p>这样就解决了牛客网上的问题</p>
 <p>6.复习 webpack 打包优化相关知识</p>
 <ul>
-<li><p>配置 externals</p></li>
-<li><p>cdn 加载资源</p></li>
-<li><p>代码分割</p></li>
-<li><p>chunk boundle module 区别</p></li>
-<li><p>按需加载</p></li>
-<li><p>魔法注释</p>
-<p>7.相关代码</p></li>
-<li><p>配置</p></li>
+<li>配置 externals</li>
+<li>cdn 加载资源</li>
+<li>代码分割</li>
+<li>chunk boundle module 区别</li>
+<li>按需加载</li>
+<li>魔法注释</li>
+</ul>
+<p>7.相关代码</p>
+<ul>
+<li>配置</li>
 </ul>
 <pre><code class="js language-js">const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
