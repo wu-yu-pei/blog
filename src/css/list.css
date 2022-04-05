@@ -19,7 +19,7 @@ body {
   height: 48px;
   background-color: red;
   border-radius: 50%;
-  background: url(../img/hei.png) no-repeat;
+  background: url(../img/bai.png) no-repeat;
   transform: scale(0.5);
 }
 p {
