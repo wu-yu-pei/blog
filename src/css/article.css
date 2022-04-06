@@ -19,9 +19,64 @@ body {
   height: 100%;
   line-height: 60px;
 }
-.nav .auther {
+/* .nav .auther {
   letter-spacing: 2px;
   font-size: 27px;
+} */
+
+/* .nav .auther {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.nav .auther span {
+  display: block;
+  cursor: pointer;
+  user-select:none;
+  transition: all linear 0.3s;
+}
+
+.nav .auther:hover span:nth-child(2n+1) {
+  transform: scale(1.5);
+  text-shadow: 0px 0px 1px #000;
+  color: #fff;
+}
+
+.nav .auther:hover span:nth-child(2n) {
+  transform: rotateZ(30deg);
+} */
+
+.nav .auther {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.nav .auther span {
+  display: block;
+  cursor: pointer;
+  transition: all linear 0.5s;
+}
+
+.nav .auther span:nth-child(2n + 1) {
+  transform-origin: right center;
+}
+
+.nav .auther span:nth-child(2n) {
+  transform-origin: left bottom;
+}
+
+.nav .auther:hover span:nth-child(2n + 1) {
+  transform: scale(1.5);
+  text-shadow: 0px 0px 1px #000;
+  color: #fff;
+}
+
+.nav .auther:hover span:nth-child(2n) {
+  transform: scale(1) rotateZ(4deg);
 }
 
 .content {
@@ -42,6 +97,15 @@ ul {
   margin: 0;
   margin-left: -1rem;
 }
+.end {
+  letter-spacing: 10px;
+  height: 3rem;
+  line-height: 3rem;
+  text-align: center;
+  color: gray;
+  font-weight: 900;
+}
+
 .page {
   display: flex;
   box-sizing: border-box;
