@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-vue3-ts项目分包</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/prism.min.js"></script>
+    <link
+      href="https://cdn.bootcdn.net/ajax/libs/prism-themes/1.9.0/prism-one-dark.css"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/newsprint.css" />
+    <link rel="stylesheet" href="../css/color.css" />
+    <link rel="stylesheet" href="../css/article.css" />
+  </head>
+
+  <body>
+    <div class="nav">
+      <div class="home">
+        <a href="https://wu-yu-pei.github.io/leetcode/"><img src="../img/home.svg" alt="" /></a>
+      </div>
+      <div class="auther">
+        <span>G</span>
+        <span>r</span>
+        <span>o</span>
+        <span>w</span>
+        <span>i</span>
+        <span>n</span>
+        <span>g</span>
+      </div>
+      <div class="github">
+        <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
+      </div>
+    </div>
+    <div class="content">
+      <h1>vue3-ts项目分包</h1>
+      <h4 id="vue3ts">vue3-ts 分包</h4>
+<blockquote>
+  <p>上一篇复习了 webpack 的分包,这一篇刚好拿之前的项目实战一下</p>
+</blockquote>
+<h4 id="">下面是分包过程中的效果</h4>
+<ul>
+<li>效果一(有的包太大):</li>
+</ul>
+<p><img src="../mdimg/chunkone.png" alt="" /></p>
+<ul>
+<li>效果二(有的包太小):</li>
+</ul>
+<p><img src="../mdimg/chunk2.png" alt="" /></p>
+<ul>
+<li>效果三(我觉得刚刚好):</li>
+</ul>
+<p><img src="../mdimg/chunk3.png" alt="" /></p>
+<hr />
+<h4 id="vueconfigjs">vue.config.js 配置</h4>
+<ul>
+<li>cdn 加载资源</li>
+<li>webpack-boundle-analyzer 打包依赖分析</li>
+<li>output hash contenthash basehash</li>
+<li>splitChunks 分包</li>
+<li>minSize maxSize</li>
+<li>cacheGroups(还不是很理解,带深入学习)</li>
+</ul>
+<pre><code class="js language-js">// const path = require('path')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+module.exports = {
+  // publicPath: './',
+  configureWebpack: {
+    mode: 'production',
+    devtool: 'none',
+    externals: {
+      vue: 'Vue',
+      echarts: 'echarts',
+      wangEditor: 'wangEditor',
+      highlight: 'highlight',
+    },
+    output: {
+      filename: '_[name].[contenthash:4]bound.js',
+      chunkFilename: '_[name].[contenthash:4]chunk.js',
+    },
+    optimization: {
+      splitChunks: {
+        chunks: 'all',
+        // 超过200kb分包
+        minSize: 200000,
+        maxSize: 200000,
+        cacheGroups: {
+          elementUI: {
+            name: 'chunk-element-ui',
+            test: /[\\/]node_modules[\\/]_?element-plus(.*)/,
+            chunks: 'all', //all 、async、initial
+          },
+        },
+      },
+    },
+    resolve: {
+      alias: {
+        views: '@/views',
+      },
+    },
+    plugins: [new BundleAnalyzerPlugin()],
+  },
+  devServer: {
+    proxy: {
+      '^/api': {
+        target: 'http://152.136.185.210:5000',
+        pathRewrite: {
+          '^/api': '',
+        },
+        changeOrigin: true,
+      },
+    },
+  },
+};
+</code></pre>
+<h4 id="-1">总结</h4>
+<p>通过昨天复习的webpack, 今天进行了一波实战,但是,在配置的过程中有一些配置选项还是很模糊,比如说:cacheGroups配置,hash contenthash chunkhash 区别等,看一遍,配置一遍又忘了,还是配置的不够熟练. 这次打包优化,只是一次简单配置,更深刻的webpack内容还是没有掌握,还是需要
+继续学习, 只要学, 就能学到东西, 不学, 就会一直觉得自己什么都会……</p>
+      <div class="end">
+        ----本文结束----
+      </div>
+      <div class="page">
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/../../list.html"
+          class="pre"
+        >
+          <img src="../img/leftArrow.svg" alt="" />
+          List
+        </a>
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/webpack打包优化配置.html"
+          class="next"
+        >
+          webpack打包优化配置
+          <img src="../img/rightArrow.svg" alt="" />
+        </a>
+      </div>
+    </div>
+    <div class="fotter">
+      <p>All articles written with ❤ by Wu Yupei</p>
+      <p>Github · Gieee · QQ · WeChat</p>
+    </div>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+  </body>
+</html>
