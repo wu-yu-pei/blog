@@ -9,7 +9,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "cp": "node ./index.js"
+    "cp": "rm html/*.html & node ./index.js"
   },
   "keywords": [],
   "author": "",
