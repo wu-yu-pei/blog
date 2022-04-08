@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-sequelize第二啪</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/prism.min.js"></script>
+    <link
+      href="https://cdn.bootcdn.net/ajax/libs/prism-themes/1.9.0/prism-one-dark.css"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/newsprint.css" />
+    <link rel="stylesheet" href="../css/color.css" />
+    <link rel="stylesheet" href="../css/article.css" />
+  </head>
+
+  <body>
+    <div class="nav">
+      <div class="home">
+        <a href="https://wu-yu-pei.github.io/leetcode/"><img src="../img/home.svg" alt="" /></a>
+      </div>
+      <div class="auther">
+        <span>G</span>
+        <span>r</span>
+        <span>o</span>
+        <span>w</span>
+        <span>i</span>
+        <span>n</span>
+        <span>g</span>
+      </div>
+      <div class="github">
+        <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
+      </div>
+    </div>
+    <div class="content">
+      <h1>sequelize第二啪</h1>
+      <blockquote>
+  <p>sequelize 为什么是它呢, 以为 typeORM 太难了~ , 下次再学</p>
+</blockquote>
+<p>介绍:
+Sequelize 是一个基于 promise 的 Node.js ORM 工具, 目前支持 Postgres, MySQL, MariaDB, SQLite 以及 Microsoft SQL Server, Amazon Redshift 和 Snowflake’s Data Cloud. 它具有强大的事务支持, 关联关系, 预读和延迟加载,读取复制等功能.</p>
+<h4 id="">再实战</h4>
+<p>之前的两张表</p>
+<ul>
+<li>users</li>
+</ul>
+<pre><code class="shell language-shell">+-----+---------+----------------------------------+-----------+-----------+
+| id  | uname   | password                         | createdAt | updatedAt |
++-----+---------+----------------------------------+-----------+-----------+
+| 849 | wuyupei | 1ea28e5cbd305a69a5a24c51b673a665 | 00:00:01  | 00:00:01  |
+| 850 | zs      | 1ea28e5cbd305a69a5a24c51b673a665 | 00:00:01  | 00:00:01  |
++-----+---------+----------------------------------+-----------+-----------+
+</code></pre>
+<ul>
+<li>messages</li>
+</ul>
+<pre><code class="shell language-shell">+----+---------+-----------+-----------+
+| id | message | createdAt | updatedAt |
++----+---------+-----------+-----------+
+|  1 | 我      | 00:00:01  | 00:00:01  |
+|  2 | 想      | 00:00:01  | 00:00:01  |
+|  3 | 好      | 00:00:01  | 00:00:01  |
+|  4 | 想      | 00:00:01  | 00:00:01  |
+|  7 | 躺      | 00:00:01  | 00:00:01  |
+|  9 | 平      | 00:00:01  | 00:00:01  |
+| 10 | 啊      | 00:00:01  | 00:00:01  |
+| 11 | !       | 00:00:01  | 00:00:01  |
++----+---------+-----------+-----------+
+</code></pre>
+<p>补:myqsl 简单命令</p>
+<pre><code class="shell language-shell">show databases;    // 显示所有数据库
+use databasename;  // 使用某一数据库
+show tables;       // 显示某个数据库中的所有表
+</code></pre>
+<ul>
+<li>增</li>
+</ul>
+<pre><code class="js language-js">async register(uname, password) {
+    let { dataValues } = await User.create({ uname, password: encryptPwd(password) });
+    return dataValues;
+}
+</code></pre>
+<ul>
+<li>删</li>
+</ul>
+<pre><code class="js language-js">async deleteMesage(id) {
+  let res = Message.destroy({
+    where: {
+      id,
+    },
+  });
+
+  return res;
+}
+</code></pre>
+<ul>
+<li>改</li>
+</ul>
+<pre><code class="js language-js">async updateMessage(id, message) {
+  let result = await Message.update(
+    { message },
+    {
+      where: {
+        id,
+      },
+    }
+  );
+  return result;
+}
+</code></pre>
+<ul>
+<li>查</li>
+</ul>
+<pre><code class="js language-js">async getAllMessage() {
+  let result = await Message.findAll();
+  return result;
+}
+
+async getMessageById(id) {
+  let result = await Message.findOne({
+    where: {
+      id,
+    },
+  });
+  return result;
+}
+</code></pre>
+<p>使用完毕,这些知识sequelize最基本的使用,还有一些高级的内容可以继续升入研究</p>
+<p>这个项目也就此昨玩了,使用git follw的过程中还是有一些疑问, 后面我会对自己写的代码进行一次重构,以为我想把自己的代码写的更漂亮些,理解起来更容易,这个项目目前比较好的一点是目录文件夹按模块化的思想搭建的很好,但是还有进步空间,明天重构,走起!!!!</p>
+      <div class="end">
+        ----本文结束----
+      </div>
+      <div class="page">
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/../../list.html"
+          class="pre"
+        >
+          <img src="../img/leftArrow.svg" alt="" />
+          List
+        </a>
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/sequelize第一啪.html"
+          class="next"
+        >
+          sequelize第一啪
+          <img src="../img/rightArrow.svg" alt="" />
+        </a>
+      </div>
+    </div>
+    <div class="fotter">
+      <p>All articles written with ❤ by Wu Yupei</p>
+      <p>Github · Gieee · QQ · WeChat</p>
+    </div>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+  </body>
+</html>
