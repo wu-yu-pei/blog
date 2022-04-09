@@ -114,3 +114,51 @@ module.exports = setRouter
 ```
 
 最后代码仓库:https://gitee.com/wu-yu-pei/node-server
+
+扩展：
+充分利用cpu多核性能进行node服务
+
+index.js --> indexPlus.js
+```js
+const Koa = require('koa');
+const os = require('os');
+const cluster = require('cluster');
+const setRouter = require('./router/index');
+const bodyParser = require('koa-bodyparser');
+const errorHandle = require('./global/errorHandle');
+const { PORT } = require('./config/const.js');
+
+require('./init/mysql.init');
+
+const clusterWorkerSize = os.cpus().length;
+
+!(function () {
+  const app = new Koa();
+
+  // middlire
+  app.use(bodyParser());
+
+  // init router
+  setRouter(app);
+
+  // errorhandle
+  app.on('error', errorHandle);
+
+  // bootstrap ....
+  if (clusterWorkerSize > 1) {
+    if (cluster.isMaster) {
+      for (let i = 0; i < clusterWorkerSize; i++) {
+        cluster.fork();
+      }
+      cluster.on('exit', function (worker) {
+        console.log('Worker', worker.id, ' has exitted.');
+      });
+    } else {
+      app.listen(PORT, () => console.log('.....服务器启动成功.....'));
+    }
+  } else {
+    app.listen(PORT, () => console.log('.....服务器启动成功.....'));
+  }
+})();
+
+```
