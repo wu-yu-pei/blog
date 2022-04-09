@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-sequelize第三啪</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/prism.min.js"></script>
+    <link
+      href="https://cdn.bootcdn.net/ajax/libs/prism-themes/1.9.0/prism-one-dark.css"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/newsprint.css" />
+    <link rel="stylesheet" href="../css/color.css" />
+    <link rel="stylesheet" href="../css/article.css" />
+  </head>
+
+  <body>
+    <div class="nav">
+      <div class="home">
+        <a href="https://wu-yu-pei.github.io/leetcode/"><img src="../img/home.svg" alt="" /></a>
+      </div>
+      <div class="auther">
+        <span>G</span>
+        <span>r</span>
+        <span>o</span>
+        <span>w</span>
+        <span>i</span>
+        <span>n</span>
+        <span>g</span>
+      </div>
+      <div class="github">
+        <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
+      </div>
+    </div>
+    <div class="content">
+      <h1>sequelize第三啪</h1>
+      <blockquote>
+  <p>sequelize 为什么是它呢, 以为 typeORM 太难了~ , 下次再学</p>
+</blockquote>
+<p>介绍:
+Sequelize 是一个基于 promise 的 Node.js ORM 工具, 目前支持 Postgres, MySQL, MariaDB, SQLite 以及 Microsoft SQL Server, Amazon Redshift 和 Snowflake’s Data Cloud. 它具有强大的事务支持, 关联关系, 预读和延迟加载,读取复制等功能.</p>
+<blockquote>
+  <p>前天和昨天的任务已经完成了, 今天上午进行了一波重构</p>
+  <p>重构一
+    到处使用<code>ctx.body = {}</code>
+    重构代码:</p>
+</blockquote>
+<pre><code class="js language-js">// 封装一个全局函数 以便使用
+module.exports = function (status, message, data = null) {
+  return {
+    status,
+    message,
+    data,
+  };
+};
+
+// 使用:
+async getAllMessage(ctx, next) {
+  let data = await curdService.getAllMessage();
+  ctx.body = body(200, 'ok', data);
+  await next();
+}
+</code></pre>
+<blockquote>
+  <p>重构二
+    错误处理
+    重构代码:</p>
+</blockquote>
+<pre><code class="js language-js">// 全局函数（这里可以定义所有的错误，一遍开发，有利于文档的维护）
+module.exports = function (code, ctx) {
+  let message;
+  console.log(code);
+  switch (code) {
+    case 2100:
+      message = '参数错误或没有token';
+      break;
+    case 2110:
+      message = '用户已存在';
+      break;
+    case 5100:
+      message = '服务器内容错误';
+      break;
+    default:
+      message = '未知错误';
+      break;
+  }
+
+  ctx.body = {
+    status: code,
+    message,
+    data: null,
+  };
+};
+
+// index.js(注册)
+// errorhandle
+app.on('error', errorHandle);
+
+// 使用：
+ctx.app.emit('error', 2100, ctx);
+</code></pre>
+<blockquote>
+  <p>重构三
+  index.js代码过多，分层不够详细
+  重构代码：</p>
+</blockquote>
+<p>index.js</p>
+<pre><code class="js language-js">const Koa = require('koa');
+const setRouter = require('./router/index');
+const bodyParser = require('koa-bodyparser');
+const errorHandle = require('./global/errorHandle');
+const { PORT } = require('./config/const.js');
+
+require('./init/mysql.init');
+
+!function () {
+  const app = new Koa();
+
+  // middlire
+  app.use(bodyParser());
+
+  // init router
+  setRouter(app);
+
+  // errorhandle
+  app.on('error', errorHandle);
+
+  // bootstrap ....
+  app.listen(PORT, () =&gt; console.log('.....服务器启动成功.....'));
+}()
+</code></pre>
+<p>router/index.js</p>
+<pre><code class="js language-js">// 自动读入router 并注册
+const fs = require('fs')
+
+const setRouter = app =&gt; {
+    fs.readdirSync(__dirname).forEach(file =&gt; {
+        if(file === "index.js") return
+        const router = require(`./${file}`)
+        app.use(router.routes())
+        app.use(router.allowedMethods())
+    })
+}
+
+module.exports = setRouter
+</code></pre>
+<p>最后代码仓库:https://gitee.com/wu-yu-pei/node-server</p>
+      <div class="end">
+        ----本文结束----
+      </div>
+      <div class="page">
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/../../list.html"
+          class="pre"
+        >
+          <img src="../img/leftArrow.svg" alt="" />
+          List
+        </a>
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/sequelize第二啪.html"
+          class="next"
+        >
+          sequelize第二啪
+          <img src="../img/rightArrow.svg" alt="" />
+        </a>
+      </div>
+    </div>
+    <div class="fotter">
+      <p>All articles written with ❤ by Wu Yupei</p>
+      <p>Github · Gieee · QQ · WeChat</p>
+    </div>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+  </body>
+</html>
