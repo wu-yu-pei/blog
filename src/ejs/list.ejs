@@ -33,6 +33,11 @@
         <span>i</span>
         <span>n</span>
         <span>g</span>
+        <span>/</span>
+        <span>L</span>
+        <span>i</span>
+        <span>s</span>
+        <span>t</span>
       </div>
       <div class="github">
         <a href="https://github.com/wu-yu-pei"><img src="./src/img/github.svg" alt="" /></a>
@@ -44,7 +49,7 @@
         <li class="">
           <div class="left">
             <a href="./src/html/<%= item.name %>.html"><%= index+1 +'.'+ item.name %></a>
-            <img src="./src/img/a.jpg" alt="" />
+            <img lazy-src="./src/img/a.jpg" alt="" />
           </div>
           <div class="right">
             <span class="author"> <%= item.ct %></span>
@@ -64,12 +69,15 @@
       var lis = document.querySelectorAll('li');
 
       for (let i = 0; i < lis.length; i++) {
+        let img = lis[i].querySelector('img');
         let obsever = new IntersectionObserver(
           ([{ isIntersecting }]) => {
             if (isIntersecting) {
               // 进入可视区停止观察
               obsever.unobserve(lis[i]);
-              lis[i].classList="animate__animated animate__slideInUp"
+              lis[i].classList = 'animate__animated animate__slideInUp';
+              let src = img.getAttribute('lazy-src');
+              img.setAttribute('src', src);
             }
           },
           {
