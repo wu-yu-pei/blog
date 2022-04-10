@@ -6,23 +6,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Groing-List</title>
     <link rel="icon" href="./favicon.ico" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+      integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <link rel="stylesheet" href="./src/css/color.css" />
     <link rel="stylesheet" href="./src/css/list.css" />
   </head>
 
   <body>
-    <div class="check">
+    <!-- <div class="check">
       <audio src="./src/audio/audio.wav" class="autio"></audio>
+    </div> -->
+    <div class="nav">
+      <div class="home">
+        <a href="https://wu-yu-pei.github.io/leetcode/"><img src="./src/img/home.svg" alt="" /></a>
+      </div>
+      <div class="auther">
+        <span>G</span>
+        <span>r</span>
+        <span>o</span>
+        <span>w</span>
+        <span>i</span>
+        <span>n</span>
+        <span>g</span>
+      </div>
+      <div class="github">
+        <a href="https://github.com/wu-yu-pei"><img src="./src/img/github.svg" alt="" /></a>
+      </div>
     </div>
-    <ul>
-      <% data.forEach(function(item){ %>
-      <li>
-        <a href="./src/html/<%= item.name %>.html"> <%= item.ct %> -------- <%= item.name %> </a>
-      </li>
-      <% }); %>
-    </ul>
+    <div class="content">
+      <ul>
+        <% data.forEach(function(item, index){ %>
+        <li class="">
+          <div class="left">
+            <a href="./src/html/<%= item.name %>.html"><%= index+1 +'.'+ item.name %></a>
+            <img src="./src/img/a.jpg" alt="" />
+          </div>
+          <div class="right">
+            <span class="author"> <%= item.ct %></span>
+            <span class="time">Growing</span>
+          </div>
+        </li>
+        <% }); %>
+      </ul>
+    </div>
+    <div class="fotter">
+      <p>All articles written with ❤ by Wu Yupei</p>
+      <p>Github · Gieee · QQ · WeChat</p>
+    </div>
     <script src="./src/js/click.js"></script>
     <script src="./src/js/scroll.js"></script>
-    <script src="./src/js/list.js"></script>
+    <script>
+      var lis = document.querySelectorAll('li');
+
+      for (let i = 0; i < lis.length; i++) {
+        let obsever = new IntersectionObserver(
+          ([{ isIntersecting }]) => {
+            if (isIntersecting) {
+              // 进入可视区停止观察
+              obsever.unobserve(lis[i]);
+              lis[i].classList="animate__animated animate__slideInUp"
+            }
+          },
+          {
+            // 交叉多少开始加载
+            threshold: 0,
+          }
+        );
+        obsever.observe(lis[i]);
+      }
+    </script>
   </body>
 </html>
