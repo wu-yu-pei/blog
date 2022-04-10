@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-今日优化</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/prism.min.js"></script>
+    <link
+      href="https://cdn.bootcdn.net/ajax/libs/prism-themes/1.9.0/prism-one-dark.css"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/newsprint.css" />
+    <link rel="stylesheet" href="../css/color.css" />
+    <link rel="stylesheet" href="../css/article.css" />
+  </head>
+
+  <body>
+    <div class="nav">
+      <div class="home">
+        <a href="https://wu-yu-pei.github.io/leetcode/"><img src="../img/home.svg" alt="" /></a>
+      </div>
+      <div class="auther">
+        <span>G</span>
+        <span>r</span>
+        <span>o</span>
+        <span>w</span>
+        <span>i</span>
+        <span>n</span>
+        <span>g</span>
+        <span>/</span>
+        <span>A</span>
+        <span>r</span>
+        <span>t</span>
+        <span>i</span>
+        <span>c</span>
+        <span>l</span>
+        <span>e</span>
+      </div>
+      <div class="github">
+        <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
+      </div>
+    </div>
+    <div class="content">
+      <h1>今日优化</h1>
+      <h2 id="">本站的优化</h2>
+<blockquote>
+  <p>今天优化了列表展示页, profile 页面增加密码访问,图片访问慢</p>
+</blockquote>
+<h4 id="-1">优化一 列表展示</h4>
+<blockquote>
+  <p>其实就是写一些样式, 响应式布局等, 相比之前的好看一些</p>
+</blockquote>
+<p><strong>相关部分代码</strong></p>
+<pre><code class="css language-css">// title渐变效果
+.nav {
+  position: sticky;
+  top: 0;
+  margin: 0 auto;
+  padding: 0 20px;
+  height: 60px;
+  max-width: 980px;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 99999;
+  font-family: 'PT Serif', 'Times New Roman', Times, serif;
+}
+.nav div {
+  height: 100%;
+  line-height: 60px;
+}
+
+.nav div img {
+  max-width: 100%;
+  vertical-align: middle;
+  image-orientation: from-image;
+}
+
+.nav .auther {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.nav .auther span {
+  display: block;
+  cursor: pointer;
+  transition: all linear 0.5s;
+  user-select: none;
+}
+
+.nav .auther span:nth-child(2n + 1) {
+  transform-origin: right center;
+}
+
+.nav .auther span:nth-child(2n) {
+  transform-origin: left bottom;
+}
+
+.nav .auther:hover span:nth-child(2n + 1) {
+  transform: scale(1.5);
+  text-shadow: 0px 0px 1px #000;
+  color: #fff;
+}
+
+.nav .auther:hover span:nth-child(2n) {
+  transform: scale(1) rotateZ(4deg);
+}
+
+// flex布局 gird布局相关
+.content ul li {
+  display: grid;
+  grid-template-columns: 200px auto;
+  grid-template-rows: 130px;
+  flex: 1;
+  flex-basis: 280px;
+  height: 130px;
+  list-style: none;
+  background-color: #fff;
+  padding: 15px;
+  margin: 10px 0;
+  box-shadow: 0px 0px 5px #1bc6d6;
+  cursor: pointer;
+  transition: all linear 0.2s;
+}
+</code></pre>
+<h4 id="profile">优化二 profile 密码访问</h4>
+<blockquote>
+  <p>增加密码访问功能,可能还不是很完善,后续还会继续优化</p>
+</blockquote>
+<p><strong>相关代码</strong>
+<code>暂不展示哦! 后面还会优化,因为还不是很安全!_!</code></p>
+<h4 id="-2">优化三 图片访问问题</h4>
+<p><strong>相关代码</strong></p>
+<ul>
+<li>// 懒加载相关</li>
+</ul>
+<pre><code class="html language-html">&lt;img lazy-src="./src/imgs/51.jpg" alt="" /&gt;
+</code></pre>
+<pre><code class="js language-js">var lis = document.querySelectorAll('li');
+
+for (let i = 0; i &lt; lis.length; i++) {
+  let img = lis[i].querySelector('img');
+  let obsever = new IntersectionObserver(
+    ([{ isIntersecting }]) =&gt; {
+      if (isIntersecting) {
+        // 进入可视区停止观察
+        obsever.unobserve(lis[i]);
+        lis[i].classList = 'animate__animated animate__slideInUp';
+        let src = img.getAttribute('lazy-src');
+        img.setAttribute('src', src);
+      }
+    },
+    {
+      // 交叉多少开始加载
+      threshold: 0,
+    }
+  );
+  obsever.observe(lis[i]);
+}
+</code></pre>
+<ul>
+<li>图片压缩</li>
+</ul>
+<blockquote>
+  <p>本来的高清图片大概都是 200kb-400kb 直接,加载非常慢,因此写一段 nodejs 代码,对图片进行压缩</p>
+</blockquote>
+<pre><code class="js language-js">const images = require('images');
+const fs = require('fs');
+
+let res = fs.readdirSync('./images');
+
+res.forEach((file) =&gt; {
+  images(`./images/${file}`) //Load image from file
+    //加载图像文件
+    .size(400) //Geometric scaling the image to 400 pixels width
+    //等比缩放图像到400像素宽
+    //在(10,10)处绘制Logo
+    .save(`./gzipimg/${file}`, {
+      //Save the image to a file, with the quality of 50
+      quality: 50, //保存图片到文件,图片质量为50
+    });
+});
+</code></pre>
+<h4 id="-3">最后有没有好奇我的图片哪里来的</h4>
+<blockquote>
+  <p>嘿嘿 当然不是一张一张去网上下载的, 作为程序员,当让是让机器去做这件事了呗, 我把代码贴出来,感兴趣的可以玩玩哈</p>
+</blockquote>
+<p><strong>相关代码</strong></p>
+<pre><code class="js language-js">import axios from 'axios';
+import cheerio from 'cheerio';
+import download from 'download';
+import fs from 'fs';
+
+// 所有的图片链接
+let result = [];
+
+async function getPageHtml(page) {
+  let res = await axios.get(
+    'https://wallpapershome.com/download-most-popular-wallpapers/?page=' + page
+  );
+  const $ = cheerio.load(res.data);
+  $('#pics-list p a img:nth-child(1)').map(function (i, el) {
+    result.push(
+      'https://wallpapershome.com/images/pages/pic_h/' + $(this).attr('src').split('/')[4]
+    );
+  });
+}
+
+// 我要爬10页
+for (let i = 1; i &lt; 11; i++) {
+  await getPageHtml(i);
+}
+
+// 下载图片
+function getImage(array) {
+  array.forEach(async (a, index) =&gt; {
+    fs.writeFileSync(`images/${index}.jpg`, await download(a));
+    console.log(`第${index}已完成`);
+  });
+}
+
+// 拿来把你!
+getImage(result);
+</code></pre>
+<p>写完了,拜拜!</p>
+      <div class="end">
+        ----本文结束----
+      </div>
+      <div class="page">
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/../../list.html"
+          class="pre"
+        >
+          <img src="../img/leftArrow.svg" alt="" />
+          List
+        </a>
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/sequelize第三啪.html"
+          class="next"
+        >
+          sequelize第三啪
+          <img src="../img/rightArrow.svg" alt="" />
+        </a>
+      </div>
+    </div>
+    <div class="fotter">
+      <p>All articles written with ❤ by Wu Yupei</p>
+      <p>Github · Gieee · QQ · WeChat</p>
+    </div>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+  </body>
+</html>
