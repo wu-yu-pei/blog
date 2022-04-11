@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-vueHooks练习一</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/prism.min.js"></script>
+    <link
+      href="https://cdn.bootcdn.net/ajax/libs/prism-themes/1.9.0/prism-one-dark.css"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/newsprint.css" />
+    <link rel="stylesheet" href="../css/color.css" />
+    <link rel="stylesheet" href="../css/article.css" />
+  </head>
+
+  <body>
+    <div class="nav">
+      <div class="home">
+        <a href="https://wu-yu-pei.github.io/leetcode/"><img src="../img/home.svg" alt="" /></a>
+      </div>
+      <div class="auther">
+        <span>G</span>
+        <span>r</span>
+        <span>o</span>
+        <span>w</span>
+        <span>i</span>
+        <span>n</span>
+        <span>g</span>
+        <span>/</span>
+        <span>A</span>
+        <span>r</span>
+        <span>t</span>
+        <span>i</span>
+        <span>c</span>
+        <span>l</span>
+        <span>e</span>
+      </div>
+      <div class="github">
+        <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
+      </div>
+    </div>
+    <div class="content">
+      <h1>vueHooks练习一</h1>
+      <h4 id="vuehooks">vue 中的 hooks</h4>
+<blockquote>
+  <p>随着 vue2 --&gt; vue3 optionApi --&gt; componstionApi hook 再 vue 中也逐渐变得灵活好用,vue2 经常使用 mixin 的方法抽离相同逻辑,存在很多问题,比如说跟 data 中的属性冲突等问题, 但是 hook 可以完美解决这一点,而且使用 hook,可以根据 hook 的名字迅速了解到 hook 的功能这几天刚好想研究一下 vue 中的 hook, 练习一下封装 hook 的能力.</p>
+</blockquote>
+<h4 id="usewindowresize">useWindowResize</h4>
+<pre><code class="ts language-ts">import { ref, onMounted, onUnmounted } from 'vue';
+import { Ref } from 'vue';
+
+interface Window {
+  width: Ref&lt;number&gt;;
+  height: Ref&lt;number&gt;;
+}
+
+export default function (): Window {
+  const width = ref(window.innerWidth);
+  const height = ref(window.innerHeight);
+
+  const resize = () =&gt; {
+    width.value = window.innerWidth;
+    height.value = window.innerHeight;
+  };
+
+  onMounted(() =&gt; {
+    window.addEventListener('resize', resize);
+  });
+
+  onUnmounted(() =&gt; {
+    window.removeEventListener('resize', resize);
+  });
+
+  return {
+    width: width,
+    height: height,
+  };
+}
+</code></pre>
+<p>使用</p>
+<pre><code class="vue language-vue">&lt;template&gt;
+  &lt;div&gt;useWindowResizeHooks--&gt;width:{{ width }}, height:{{ height }}&lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script setup lang="ts"&gt;
+import useWindowResize from '../hooks/useWindowResize';
+
+let { width, height } = useWindowResize();
+</code></pre>
+<h4 id="usestorage">useStorage</h4>
+<pre><code class="ts language-ts">import { ref, onMounted, onUnmounted } from 'vue';
+import { Ref } from 'vue';
+
+interface Usestorage {
+  value: Ref&lt;string&gt;;
+  setItem: (value: string) =&gt; void;
+}
+
+const getStoreItem = (key: string, store: Storage): null | string =&gt; {
+  let value = store.getItem(key);
+  if (!value) {
+    return null;
+  }
+  try {
+    // JSPN.parse可能出错,try catch一下
+    return JSON.parse(value);
+  } catch (error) {
+    return value;
+  }
+};
+
+export default function (key: string, type: string = 'local'): Usestorage {
+  let storage = null;
+  switch (type) {
+    case 'session':
+      storage = sessionStorage;
+      break;
+    case 'local':
+      storage = localStorage;
+      break;
+    default:
+      return null;
+  }
+
+  const value = ref(getStoreItem(key, storage));
+
+  // 原处这样写:
+  // const setItem = (storage) =&gt; {
+  //   return (newValue) =&gt; {
+  //     value.value = newValue;
+  //     storage.setItem(key, JSON.stringify(newValue));
+  //   };
+  // };
+
+  // return [value, setItem(storage)];
+
+  // 我觉得这样写也没问题:
+  const setItem = (newValue) =&gt; {
+    value.value = newValue;
+    storage.setItem(key, JSON.stringify(newValue));
+  };
+
+  return { value, setItem };
+}
+</code></pre>
+<p>使用</p>
+<pre><code class="vue language-vue">&lt;template&gt;
+  &lt;div&gt;useStorage:{{ value }}{{ value1 }}&lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script setup lang="ts"&gt;
+import useStrage from '../hooks/useStorage';
+
+let { value, setItem } = useStrage('name', 'local');
+let { value: value1, setItem: setItem1 } = useStrage('name', 'session');
+
+setTimeout(() =&gt; {
+  setItem('wuyupei');
+  setItem1('wuyupei');
+}, 1000);
+&lt;/script&gt;
+</code></pre>
+<h4 id="usenetworkstatus">useNetworkStatus</h4>
+<pre><code class="ts language-ts">import { onMounted, onUnmounted, ref, Ref } from 'vue';
+
+// 原处这样写:
+// export default function (callback: (status: string) =&gt; void): void {
+//   const updateOnlineStatus = () =&gt; {
+//     const status = navigator.onLine ? 'online' : 'offline';
+//     callback(status);
+//   };
+
+//   onMounted(() =&gt; {
+//     window.addEventListener('online', updateOnlineStatus);
+//     window.addEventListener('offline', updateOnlineStatus);
+//   });
+
+//   onUnmounted(() =&gt; {
+//     window.removeEventListener('online', updateOnlineStatus);
+//     window.removeEventListener('offline', updateOnlineStatus);
+//   });
+// }
+
+// 我觉得也可以这样写:
+export default function (): Ref&lt;string&gt; {
+  const status = ref('online');
+
+  const updateStatus = () =&gt; {
+    status.value = navigator.onLine ? 'online' : 'offline';
+  };
+
+  onMounted(() =&gt; {
+    window.addEventListener('online', updateStatus);
+    window.addEventListener('offline', updateStatus);
+  });
+
+  onUnmounted(() =&gt; {
+    window.removeEventListener('online', updateStatus);
+    window.removeEventListener('offline', updateStatus);
+  });
+
+  return status;
+}
+</code></pre>
+<p>使用</p>
+<pre><code class="vue language-vue">&lt;template&gt;
+  &lt;div&gt;useNetworkStatus: {{ status }}&lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script setup lang="ts"&gt;
+import useNetworkStatus from '../hooks/useNetworkStatus';
+
+// useNetworkStatus((status) =&gt; {
+//   console.log(status);
+// });
+
+let status = useNetworkStatus();
+&lt;/script&gt;
+</code></pre>
+<p><strong>总结</strong>
+利用 vue 的响应式以及函数的灵活性,可以写出非常通用的 hook,代码看起来也更加灵活,美观</p>
+      <div class="end">
+        ----本文结束----
+      </div>
+      <div class="page">
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/../../list.html"
+          class="pre"
+        >
+          <img src="../img/leftArrow.svg" alt="" />
+          List
+        </a>
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/今日优化.html"
+          class="next"
+        >
+          今日优化
+          <img src="../img/rightArrow.svg" alt="" />
+        </a>
+      </div>
+    </div>
+    <div class="fotter">
+      <p>All articles written with ❤ by Wu Yupei</p>
+      <p>Github · Gieee · QQ · WeChat</p>
+    </div>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+  </body>
+</html>
