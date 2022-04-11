@@ -193,5 +193,84 @@ let status = useNetworkStatus();
 </script>
 ```
 
+#### useScrollToBottom
+
+```ts
+import { onMounted, onUnmounted } from 'vue';
+
+export const useScrollToBottom = (callback = () => {}) => {
+  const handleScrolling = () => {
+    if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
+      callback();
+    }
+  };
+
+  onMounted(() => {
+    window.addEventListener('scroll', handleScrolling);
+  });
+
+  onUnmounted(() => {
+    window.removeEventListener('scroll', handleScrolling);
+  });
+};
+```
+
+#### useOnClickOutside
+
+```ts
+import { onMounted, onUnmounted, Ref } from 'vue';
+
+const useOnClickOutSide = (ref: Ref<HTMLElement>, callback = () => {}) => {
+  function handleClickOutside(event) {
+    if (ref.value && !ref.value.contains(event.target)) {
+      callback();
+    }
+  }
+
+  onMounted(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+  });
+
+  onUnmounted(() => {
+    document.removeEventListener('mousedown', handleClickOutside);
+  });
+};
+
+export default useOnClickOutSide;
+```
+
+#### usePageVisibility
+
+```ts
+import { onMounted, onUnmounted } from 'vue';
+
+export const usePageVisibility = (callback) => {
+  let hidden, visibilityChange;
+  if (typeof document.hidden !== 'undefined') {
+    hidden = 'hidden';
+    visibilityChange = 'visibilitychange';
+  } else if (typeof (document as any).msHidden !== 'undefined') {
+    hidden = 'msHidden';
+    visibilityChange = 'msvisibilitychange';
+  } else if (typeof (document as any).webkitHidden! !== 'undefined') {
+    hidden = 'webkitHidden';
+    visibilityChange = 'webkitvisibilitychange';
+  }
+
+  const handleVisibilityChange = () => {
+    callback(document[hidden]);
+  };
+
+  onMounted(() => {
+    document.addEventListener(visibilityChange, handleVisibilityChange, false);
+  });
+
+  onUnmounted(() => {
+    document.removeEventListener(visibilityChange, handleVisibilityChange);
+  });
+};
+```
+
 **总结**
+
 利用 vue 的响应式以及函数的灵活性,可以写出非常通用的 hook,代码看起来也更加灵活,美观

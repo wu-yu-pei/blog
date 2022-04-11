@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Growing-vueHooks练习一</title>
+    <title>Growing-vueHooks</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/prism.min.js"></script>
     <link
       href="https://cdn.bootcdn.net/ajax/libs/prism-themes/1.9.0/prism-one-dark.css"
@@ -52,7 +52,7 @@
       </div>
     </div>
     <div class="content">
-      <h1>vueHooks练习一</h1>
+      <h1>vueHooks</h1>
       <h4 id="vuehooks">vue 中的 hooks</h4>
 <blockquote>
   <p>随着 vue2 --&gt; vue3 optionApi --&gt; componstionApi hook 再 vue 中也逐渐变得灵活好用,vue2 经常使用 mixin 的方法抽离相同逻辑,存在很多问题,比如说跟 data 中的属性冲突等问题, 但是 hook 可以完美解决这一点,而且使用 hook,可以根据 hook 的名字迅速了解到 hook 的功能这几天刚好想研究一下 vue 中的 hook, 练习一下封装 hook 的能力.</p>
@@ -229,8 +229,77 @@ import useNetworkStatus from '../hooks/useNetworkStatus';
 let status = useNetworkStatus();
 &lt;/script&gt;
 </code></pre>
-<p><strong>总结</strong>
-利用 vue 的响应式以及函数的灵活性,可以写出非常通用的 hook,代码看起来也更加灵活,美观</p>
+<h4 id="usescrolltobottom">useScrollToBottom</h4>
+<pre><code class="ts language-ts">import { onMounted, onUnmounted } from 'vue';
+
+export const useScrollToBottom = (callback = () =&gt; {}) =&gt; {
+  const handleScrolling = () =&gt; {
+    if (window.innerHeight + window.scrollY &gt;= document.body.scrollHeight) {
+      callback();
+    }
+  };
+
+  onMounted(() =&gt; {
+    window.addEventListener('scroll', handleScrolling);
+  });
+
+  onUnmounted(() =&gt; {
+    window.removeEventListener('scroll', handleScrolling);
+  });
+};
+</code></pre>
+<h4 id="useonclickoutside">useOnClickOutside</h4>
+<pre><code class="ts language-ts">import { onMounted, onUnmounted, Ref } from 'vue';
+
+const useOnClickOutSide = (ref: Ref&lt;HTMLElement&gt;, callback = () =&gt; {}) =&gt; {
+  function handleClickOutside(event) {
+    if (ref.value &amp;&amp; !ref.value.contains(event.target)) {
+      callback();
+    }
+  }
+
+  onMounted(() =&gt; {
+    document.addEventListener('mousedown', handleClickOutside);
+  });
+
+  onUnmounted(() =&gt; {
+    document.removeEventListener('mousedown', handleClickOutside);
+  });
+};
+
+export default useOnClickOutSide;
+</code></pre>
+<h4 id="usepagevisibility">usePageVisibility</h4>
+<pre><code class="ts language-ts">import { onMounted, onUnmounted } from 'vue';
+
+export const usePageVisibility = (callback) =&gt; {
+  let hidden, visibilityChange;
+  if (typeof document.hidden !== 'undefined') {
+    hidden = 'hidden';
+    visibilityChange = 'visibilitychange';
+  } else if (typeof (document as any).msHidden !== 'undefined') {
+    hidden = 'msHidden';
+    visibilityChange = 'msvisibilitychange';
+  } else if (typeof (document as any).webkitHidden! !== 'undefined') {
+    hidden = 'webkitHidden';
+    visibilityChange = 'webkitvisibilitychange';
+  }
+
+  const handleVisibilityChange = () =&gt; {
+    callback(document[hidden]);
+  };
+
+  onMounted(() =&gt; {
+    document.addEventListener(visibilityChange, handleVisibilityChange, false);
+  });
+
+  onUnmounted(() =&gt; {
+    document.removeEventListener(visibilityChange, handleVisibilityChange);
+  });
+};
+</code></pre>
+<p><strong>总结</strong></p>
+<p>利用 vue 的响应式以及函数的灵活性,可以写出非常通用的 hook,代码看起来也更加灵活,美观</p>
       <div class="end">----本文结束----</div>
       <div class="page">
         <a
