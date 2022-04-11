@@ -1,7 +1,1 @@
-let hasToken = JSON.parse(sessionStorage.getItem('Token')) || prompt('请输入密码');
-if (hasToken != '1978') {
-  alert('密码错误');
-  history.go(-1);
-} else {
-  sessionStorage.setItem('Token', '1978');
-}
+eval(function(p,a,c,k,e,r){e=function(c){return c.toString(a)};if(!''.replace(/^/,String)){while(c--)r[e(c)]=k[c]||e(c);k=[function(e){return r[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('6 0=7.8(2.9(\'4\'))||a(\'请输入密码\');b(0!=\'3.5\'){c(\'d\');e.f(-1)}g{2.h(\'4\',\'3.5\')}',18,18,'hasToken||sessionStorage||Token|14|let|JSON|parse|getItem|prompt|if|alert|error|history|go|else|setItem'.split('|'),0,{}))
