@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-ReactJSX的本质</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/prism.min.js"></script>
+    <link
+      href="https://cdn.bootcdn.net/ajax/libs/prism-themes/1.9.0/prism-one-dark.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+      integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/notify.css" />
+    <link rel="stylesheet" href="../css/newsprint.css" />
+    <link rel="stylesheet" href="../css/color.css" />
+    <link rel="stylesheet" href="../css/article.css" />
+  </head>
+
+  <body>
+    <div class="nav">
+      <div class="home">
+        <a href="../../list.html"><img src="../img/list.svg" alt="" /></a>
+      </div>
+      <div class="auther">
+        <span>G</span>
+        <span>r</span>
+        <span>o</span>
+        <span>w</span>
+        <span>i</span>
+        <span>n</span>
+        <span>g</span>
+        <span>/</span>
+        <span>A</span>
+        <span>r</span>
+        <span>t</span>
+        <span>i</span>
+        <span>c</span>
+        <span>l</span>
+        <span>e</span>
+      </div>
+      <div class="github">
+        <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
+      </div>
+    </div>
+    <div class="content">
+      <h1>ReactJSX的本质</h1>
+      <h4 id="react">react 再学习第一天</h4>
+<h5 id="jsx">jsx 基本练习</h5>
+<ul>
+<li>渲染电影列表</li>
+</ul>
+<pre><code class="js language-js">class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      movice: ['aaa', 'bbb', 'ccc'],
+    };
+  }
+
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;h2&gt;电影列表&lt;/h2&gt;
+        &lt;ul&gt;
+          &lt;li&gt;{this.state.movice[0]}&lt;/li&gt;
+          &lt;li&gt;{this.state.movice[1]}&lt;/li&gt;
+          &lt;li&gt;{this.state.movice[2]}&lt;/li&gt;
+        &lt;/ul&gt;
+
+        &lt;h2&gt;电影列表&lt;/h2&gt;
+        &lt;ul&gt;
+          {this.state.movice.map((item, index) =&gt; {
+            return &lt;li&gt;{item}&lt;/li&gt;;
+          })}
+        &lt;/ul&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+ReactDOM.render(&lt;App /&gt;, document.getElementById('app'));
+</code></pre>
+<ul>
+<li>计数器案例</li>
+</ul>
+<pre><code class="js language-js">class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      counter: 0,
+    };
+    this.add = this.add.bind(this);
+    this.red = this.red.bind(this);
+  }
+
+  add() {
+    this.setState({
+      counter: this.state.counter + 1,
+    });
+    console.log('add');
+  }
+
+  red() {
+    this.setState({
+      counter: this.state.counter - 1,
+    });
+    console.log('red');
+  }
+
+  render() {
+    return (
+      &lt;div&gt;
+        counter:{this.state.counter} &lt;br /&gt;
+        {/* this问题  */}
+        &lt;button onClick={this.add}&gt;+&lt;/button&gt;
+        &lt;button onClick={this.red}&gt;-&lt;/button&gt;
+        &lt;button onClick={this.add.bind(this)}&gt;+&lt;/button&gt;
+        &lt;button onClick={this.red.bind(this)}&gt;-&lt;/button&gt;
+        &lt;button onClick={() =&gt; this.add()}&gt;+&lt;/button&gt;
+        &lt;button onClick={() =&gt; this.red()}&gt;-&lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+ReactDOM.render(&lt;App /&gt;, document.getElementById('app'));
+</code></pre>
+<ul>
+<li>jsx 中的注释</li>
+</ul>
+<pre><code class="js language-js">render() {
+  return (
+    &lt;div&gt;
+      {/* 你好啊 阿斯蒂芬你好*/}
+      &lt;h2&gt;哈哈&lt;/h2&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+<ul>
+<li>jsx 中渲染数据</li>
+</ul>
+<pre><code class="js language-js">render() {
+  return (
+    &lt;div&gt;
+      {/*可以显示*/}
+      &lt;h2&gt;{this.state.name}&lt;/h2&gt;
+      &lt;h2&gt;{this.state.age}&lt;/h2&gt;
+      &lt;h2&gt;{this.state.names}&lt;/h2&gt;
+      {/*不显示*/}
+      &lt;h2&gt;{this.state.foo}&lt;/h2&gt;
+      &lt;h2&gt;{this.state.bar}&lt;/h2&gt;
+      &lt;h2&gt;{this.state.flag}&lt;/h2&gt;
+      {/*显示*/}
+      &lt;h2&gt;{this.state.foo + ''}&lt;/h2&gt;
+      &lt;h2&gt;{this.state.bar + ''}&lt;/h2&gt;
+      &lt;h2&gt;{this.state.flag + ''}&lt;/h2&gt;
+      {/*不显示对象 直接报错*/}
+      {/*&lt;h2&gt;{this.state.body}&lt;/h2&gt;*/}
+      &lt;h2&gt;{this.state.flag ? '登录成功' : ''}&lt;/h2&gt;
+      &lt;h2&gt;{this.state.firstName + this.state.lasename}&lt;/h2&gt;
+      &lt;h2&gt;{100 + 200}&lt;/h2&gt;
+      &lt;h2&gt;{this.getFullName()}&lt;/h2&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+<ul>
+<li>jsx 绑定属性</li>
+</ul>
+<pre><code class="js language-js">class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      src: 'http://wu-yu-pei.github.io/leetcode',
+      imgsrc: 'https://wu-yu-pei.github.io/leetcode/src/imgs/55.jpg',
+      flag: true,
+    };
+  }
+
+  render() {
+    return (
+      &lt;div&gt;
+        {/*绑定普通属性*/}
+        &lt;a href={this.state.src} id="a"&gt;
+          a
+        &lt;/a&gt;
+        &lt;img src={this.state.imgsrc} alt="" /&gt;
+        {/* 绑定class*/}
+        &lt;p className="foo"&gt;class&lt;/p&gt;
+        &lt;p className={'foo ' + (this.state.flag ? 'active' : '')}&gt;class&lt;/p&gt;
+        {/*绑定style*/}
+        &lt;p style={{ color: '#ccc', fontSize: '30px' }}&gt;style&lt;/p&gt;
+        &lt;label htmlFor="a"&gt;aaa&lt;/label&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+ReactDOM.render(&lt;App /&gt;, document.getElementById('app'));
+</code></pre>
+<ul>
+<li>jsx 绑定事件传递参数</li>
+</ul>
+<pre><code class="js language-js">class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      movice: ['a', 'b', 'c'],
+    };
+  }
+
+  // handleClick(a, e) {
+  //   console.log(a, e);
+  //   console.log(2020);
+  // }
+
+  // handleClick = (e) =&gt; {
+  //   console.log(2020, e);
+  // };
+
+  handleItemClick(e, item, index) {
+    console.log(e, item, index);
+  }
+
+  render() {
+    // return &lt;h1 onClick={(e) =&gt; this.handleClick(10, e)}&gt;Hello word!&lt;/h1&gt;;
+    // return &lt;h1 onClick={this.handleClick}&gt;Hello word!&lt;/h1&gt;;
+
+    return (
+      &lt;ul&gt;
+        {this.state.movice.map((item, index) =&gt; {
+          return &lt;li onClick={(e) =&gt; this.handleItemClick(e, item, index)}&gt;{item}&lt;/li&gt;;
+        })}
+      &lt;/ul&gt;
+    );
+  }
+}
+
+ReactDOM.render(&lt;App /&gt;, document.getElementById('app'));
+</code></pre>
+<ul>
+<li>jsx 条件渲染</li>
+</ul>
+<pre><code class="js language-js">class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      isLogin: true,
+    };
+  }
+
+  // render() {
+  //   let one = null;
+  //   let two = null;
+  //   if (this.state.isLogin) {
+  //     one = '欢迎回来';
+  //     two = '退出';
+  //   } else {
+  //     one = '请先登录';
+  //     two = '登录';
+  //   }
+  //   return (
+  //     &lt;h1&gt;
+  //       {one} {two}
+  //     &lt;/h1&gt;
+  //   );
+  // }
+
+  handleLogin() {
+    this.setState({
+      isLogin: !this.state.isLogin,
+    });
+  }
+
+  render() {
+    let { isLogin } = this.state;
+    return (
+      &lt;div&gt;
+        &lt;p&gt;{isLogin ? '欢迎回来' : '请先登录'}&lt;/p&gt;
+        &lt;p onClick={() =&gt; this.handleLogin()}&gt;{isLogin ? '退出 ' : '登录'}&lt;/p&gt;
+        &lt;h2&gt;{isLogin ? '你好啊! coder' : null}&lt;/h2&gt;
+        {/* 逻辑与表达式的结果是: let res = true &amp;&amp; "你好啊"; console.log(res) // '你好啊'  let res = true &amp;&amp; '1010'; console.log(res) // '1010'*/}
+        &lt;h2&gt;{isLogin &amp;&amp; '你好啊'}&lt;/h2&gt;
+        {isLogin &amp;&amp; &lt;h2&gt;你好啊&lt;/h2&gt;}
+      &lt;/div&gt;
+    );
+  }
+}
+
+ReactDOM.render(&lt;App /&gt;, document.getElementById('app'));
+</code></pre>
+<ul>
+<li>jsx 模拟 vue--&gt; v-show</li>
+</ul>
+<pre><code class="js language-js">class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      isLogin: true,
+    };
+  }
+
+  handleBtnClick = () =&gt; {
+    this.setState({
+      isLogin: !this.state.isLogin,
+    });
+  };
+
+  render() {
+    const { isLogin } = this.state;
+    const isShow = isLogin ? 'block' : 'none';
+    return (
+      &lt;div&gt;
+        &lt;button onClick={this.handleBtnClick}&gt;{isLogin ? '退出' : '登录'}&lt;/button&gt;
+        &lt;p style={{ display: isShow }}&gt;你好啊&lt;/p&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+ReactDOM.render(&lt;App /&gt;, document.getElementById('app'));
+</code></pre>
+<ul>
+<li>jsx 列表渲染</li>
+</ul>
+<pre><code class="js language-js">class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      list: [100, 20, 55, 0, 33, 78, 10, 999, 100],
+    };
+  }
+
+  render() {
+    const { list } = this.state;
+    return (
+      &lt;div&gt;
+        &lt;ul&gt;
+          &lt;h1&gt;普通渲染&lt;/h1&gt;
+          {list.map((item) =&gt; (
+            &lt;li&gt;{item}&lt;/li&gt;
+          ))}
+        &lt;/ul&gt;
+        &lt;ul&gt;
+          &lt;h1&gt;过滤渲染&lt;/h1&gt;
+          {list
+            .filter((item) =&gt; item &gt; 55)
+            .map((item) =&gt; (
+              &lt;li&gt;{item}&lt;/li&gt;
+            ))}
+        &lt;/ul&gt;
+
+        &lt;ul&gt;
+          &lt;h1&gt;截取渲染&lt;/h1&gt;
+          {list.splice(0, 3).map((item) =&gt; (
+            &lt;li&gt;{item}&lt;/li&gt;
+          ))}
+          {list.map((item) =&gt; (
+            &lt;li&gt;{item}&lt;/li&gt;
+          ))}
+        &lt;/ul&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+ReactDOM.render(&lt;App /&gt;, document.getElementById('app'));
+</code></pre>
+<ul>
+<li>jsx 综合案例</li>
+</ul>
+<pre><code class="css language-css">table {
+  width: 400px;
+  border: 1px solid #000;
+  border-collapse: collapse;
+  text-align: center;
+}
+tr,
+td,
+th {
+  border: 1px solid #000;
+}
+
+.count {
+  margin: 0 5px;
+}
+</code></pre>
+<pre><code class="js language-js">class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      books: [
+        {
+          name: '吴玉配',
+          price: 1000,
+          count: 1,
+        },
+        {
+          name: '刘旭',
+          price: 320,
+          count: 1,
+        },
+        {
+          name: '李思源',
+          price: 31,
+          count: 1,
+        },
+        {
+          name: '曾羽翔',
+          price: 55,
+          count: 1,
+        },
+        {
+          name: '荷泽克',
+          price: 990,
+          count: 1,
+        },
+      ],
+    };
+  }
+
+  renderTable() {
+    const { books } = this.state;
+    return (
+      &lt;div&gt;
+        &lt;table&gt;
+          &lt;thead&gt;
+            &lt;tr&gt;
+              &lt;th&gt;id&lt;/th&gt;
+              &lt;th&gt;name&lt;/th&gt;
+              &lt;th&gt;price&lt;/th&gt;
+              &lt;th&gt;count&lt;/th&gt;
+              &lt;th&gt;操作&lt;/th&gt;
+            &lt;/tr&gt;
+          &lt;/thead&gt;
+          &lt;tbody&gt;
+            {books.map((item, index) =&gt; {
+              return (
+                &lt;tr&gt;
+                  &lt;td&gt;{index}&lt;/td&gt;
+                  &lt;td&gt;{item.name}&lt;/td&gt;
+                  &lt;td&gt;{this.formatPrice(item.price)}&lt;/td&gt;
+                  &lt;td&gt;
+                    &lt;button
+                      disabled={item.count &lt;= 1 ? true : false}
+                      onClick={() =&gt; this.handleBtnClick(index, -1)}
+                    &gt;
+                      -
+                    &lt;/button&gt;
+                    &lt;span className="count"&gt;{item.count}&lt;/span&gt;
+                    &lt;button onClick={() =&gt; this.handleBtnClick(index, 1)}&gt;+&lt;/button&gt;
+                  &lt;/td&gt;
+                  &lt;td&gt;
+                    &lt;button onClick={() =&gt; this.handleRemove(index)}&gt;移除&lt;/button&gt;
+                  &lt;/td&gt;
+                &lt;/tr&gt;
+              );
+            })}
+          &lt;/tbody&gt;
+        &lt;/table&gt;
+        &lt;h2&gt;TotalPrice{this.getTotalPrice()}&lt;/h2&gt;
+      &lt;/div&gt;
+    );
+  }
+
+  renderEmpty() {
+    return &lt;div&gt;购物车为空!&lt;/div&gt;;
+  }
+  render() {
+    return this.state.books.length === 0 ? this.renderEmpty() : this.renderTable();
+  }
+
+  formatPrice(price) {
+    return '＄' + price.toFixed(2);
+  }
+
+  getTotalPrice() {
+    let result = this.state.books.reduce((pre, item) =&gt; pre + item.price * item.count, 0);
+    return this.formatPrice(result);
+  }
+
+  handleBtnClick(index, i) {
+    let newBooks = [...this.state.books];
+    newBooks[index].count += i;
+    this.setState({
+      books: newBooks,
+    });
+  }
+
+  handleRemove(index) {
+    this.setState({
+      books: this.state.books.filter((item, indey) =&gt; index != indey),
+    });
+  }
+}
+
+ReactDOM.render(&lt;App /&gt;, document.getElementById('app'));
+</code></pre>
+<ul>
+<li><p>案例效果图</p>
+<p><img src="../mdimg/react1.png" alt="" />
+<img src="../mdimg/react2.png" alt="" />
+<img src="../mdimg/react3.png" alt="" /></p></li>
+</ul>
+<p><strong>总结</strong></p>
+<blockquote>
+  <p>jsx 的本质: render 函数中 return 的结果() 就是 jsx 表达式 这个表达式会被 babel 处理成 React.createElement()下面式一段示例. babel 处理地址 https://babeljs.io/</p>
+</blockquote>
+<pre><code class="js language-js">&lt;div&gt;
+  &lt;div className="header"&gt;Header&lt;/div&gt;
+  &lt;div className="content"&gt;
+    &lt;ul&gt;
+      &lt;li&gt;1&lt;/li&gt;
+      &lt;li&gt;2&lt;/li&gt;
+      &lt;li&gt;3&lt;/li&gt;
+      &lt;li&gt;4&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+  &lt;div className="fotter"&gt;Fotter&lt;/div&gt;
+&lt;/div&gt;;
+
+// 处理后
+('use strict');
+
+/*#__PURE__*/
+React.createElement(
+  'div',
+  null,
+  /*#__PURE__*/ React.createElement(
+    'div',
+    {
+      className: 'header',
+    },
+    'Header'
+  ),
+  /*#__PURE__*/ React.createElement(
+    'div',
+    {
+      className: 'content',
+    },
+    /*#__PURE__*/ React.createElement(
+      'ul',
+      null,
+      /*#__PURE__*/ React.createElement('li', null, '1'),
+      /*#__PURE__*/ React.createElement('li', null, '2'),
+      /*#__PURE__*/ React.createElement('li', null, '3'),
+      /*#__PURE__*/ React.createElement('li', null, '4')
+    )
+  ),
+  /*#__PURE__*/ React.createElement(
+    'div',
+    {
+      className: 'fotter',
+    },
+    'Fotter'
+  )
+);
+</code></pre>
+<p>又经过阅读源码 得知
+jsx --&gt; babel --&gt; React.createElement --&gt; ReactElement(VDOM) --&gt; ReactDOM.render() --&gt; 真实 DOM</p>
+<p>完!</p>
+      <div class="end">----本文结束----</div>
+      <div class="page">
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/../../list.html"
+          class="pre"
+        >
+          <img src="../img/leftArrow.svg" alt="" />
+          List
+        </a>
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/vueHooks.html"
+          class="next"
+        >
+          vueHooks
+          <img src="../img/rightArrow.svg" alt="" />
+        </a>
+      </div>
+    </div>
+    <div class="fotter">
+      <p>All articles written with ❤ by Wu Yupei</p>
+      <p>Github · Gieee · QQ · WeChat</p>
+    </div>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+    <script src="../js/notify.js"></script>
+  </body>
+</html>
