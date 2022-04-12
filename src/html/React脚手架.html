@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-React脚手架</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/prism.min.js"></script>
+    <link
+      href="https://cdn.bootcdn.net/ajax/libs/prism-themes/1.9.0/prism-one-dark.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+      integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/notify.css" />
+    <link rel="stylesheet" href="../css/newsprint.css" />
+    <link rel="stylesheet" href="../css/color.css" />
+    <link rel="stylesheet" href="../css/article.css" />
+  </head>
+
+  <body>
+    <div class="nav">
+      <div class="home">
+        <a href="../../list.html"><img src="../img/list.svg" alt="" /></a>
+      </div>
+      <div class="auther">
+        <span>G</span>
+        <span>r</span>
+        <span>o</span>
+        <span>w</span>
+        <span>i</span>
+        <span>n</span>
+        <span>g</span>
+        <span>/</span>
+        <span>A</span>
+        <span>r</span>
+        <span>t</span>
+        <span>i</span>
+        <span>c</span>
+        <span>l</span>
+        <span>e</span>
+      </div>
+      <div class="github">
+        <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
+      </div>
+    </div>
+    <div class="content">
+      <h1>React脚手架</h1>
+      <h4 id="react">React 脚手架</h4>
+<ol>
+<li>React 官方脚手架</li>
+</ol>
+<blockquote>
+  <p>npx create-react-app my-app</p>
+</blockquote>
+<ol start="2">
+<li>使用新的打包工具 vite 搭建开发环境</li>
+</ol>
+<blockquote>
+  <p>npm init vite@latest --&gt; 选择 react</p>
+</blockquote>
+<ol start="3">
+<li>组件</li>
+</ol>
+<ul>
+<li>函数式组件</li>
+</ul>
+<pre><code class="jsx language-jsx">import React from 'react';
+
+export default function Cpn() {
+  return &lt;div&gt;Cpn&lt;/div&gt;;
+}
+</code></pre>
+<ul>
+<li>类式组件</li>
+</ul>
+<pre><code class="jsx language-jsx">import React, { Component } from 'react';
+
+export default class Cpn extends Component {
+  render() {
+    return &lt;div&gt;Cpn&lt;/div&gt;;
+  }
+}
+</code></pre>
+<ol start="4">
+<li>react 生命周期</li>
+</ol>
+<ul>
+<li>常用的生命周期</li>
+</ul>
+<pre><code class="js language-js">render();
+
+constructor(props);
+
+componentDidMount();
+
+componentDidUpdate(prevProps, prevState, snapshot);
+
+componentWillUnmount();
+</code></pre>
+<ul>
+<li>不常用的生命周期(一般不会用)</li>
+</ul>
+<pre><code class="js language-js">shouldComponentUpdate(nextProps, nextState)
+
+static getDerivedStateFromProps(props, state)
+
+getSnapshotBeforeUpdate(prevProps, prevState)
+</code></pre>
+<ul>
+<li>生命周期图</li>
+</ul>
+<p><img src="../mdimg/reactLeftLess.png" alt="" />
+<img src="../mdimg/reactLeftpng.png" alt="" /></p>
+<ul>
+<li>react 生命周期文档 : https://react.docschina.org/docs/react-component.html</li>
+</ul>
+      <div class="end">----本文结束----</div>
+      <div class="page">
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/../../list.html"
+          class="pre"
+        >
+          <img src="../img/leftArrow.svg" alt="" />
+          List
+        </a>
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/ReactJSX的本质.html"
+          class="next"
+        >
+          ReactJSX的本质
+          <img src="../img/rightArrow.svg" alt="" />
+        </a>
+      </div>
+    </div>
+    <div class="fotter">
+      <p>All articles written with ❤ by Wu Yupei</p>
+      <p>Github · Gieee · QQ · WeChat</p>
+    </div>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+    <script src="../js/notify.js"></script>
+  </body>
+</html>
