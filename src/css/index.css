@@ -77,18 +77,18 @@ body {
   gap: 2rem;
   height: 50px;
   justify-content: center;
+  align-items: center;
   width: 100%;
 }
 .content .bottom .info a {
   box-sizing: border-box;
   display: block;
   width: 60px;
-  height: 30px;
-  line-height: 30px;
+  height: 25px;
+  line-height: 25px;
   font-size: 16px;
   text-align: center;
   border: 1px solid #fff;
-  border-radius: 2rem;
 }
 .content .bottom .my {
   display: flex;
