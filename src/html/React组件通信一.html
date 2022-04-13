@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-React组件通信一</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/prism.min.js"></script>
+    <link
+      href="https://cdn.bootcdn.net/ajax/libs/prism-themes/1.9.0/prism-one-dark.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+      integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/notify.css" />
+    <link rel="stylesheet" href="../css/newsprint.css" />
+    <link rel="stylesheet" href="../css/color.css" />
+    <link rel="stylesheet" href="../css/article.css" />
+  </head>
+
+  <body>
+    <div class="nav">
+      <div class="home">
+        <a href="../../list.html"><img src="../img/list.svg" alt="" /></a>
+      </div>
+      <div class="auther">
+        <span>G</span>
+        <span>r</span>
+        <span>o</span>
+        <span>w</span>
+        <span>i</span>
+        <span>n</span>
+        <span>g</span>
+        <span>/</span>
+        <span>A</span>
+        <span>r</span>
+        <span>t</span>
+        <span>i</span>
+        <span>c</span>
+        <span>l</span>
+        <span>e</span>
+      </div>
+      <div class="github">
+        <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
+      </div>
+    </div>
+    <div class="content">
+      <h1>React组件通信一</h1>
+      <h4 id="react">React 组件通信</h4>
+<blockquote>
+  <p>根据我之前学习 Vvue 的经验,组件通信这一点知识很重要</p>
+</blockquote>
+<h5 id="props">父传子 props</h5>
+<p>1.子组件是类式组件</p>
+<pre><code class="jsx language-jsx">// 子组件 Class式组件
+class Child extends Component {
+  // constructor(props) {
+  //   super();
+  //   this.props = props;
+  // }
+
+  // constructor(props) {
+  //   super(props);
+  // }  // 也可以直接省略
+
+  static propTypes = {
+    name: PropType.string.isRequired,
+    age: PropType.number,
+    height: PropType.number,
+  };
+
+  static defaultProps = {
+    name: 'aaa',
+    age: 999,
+    height: 10000,
+  };
+
+  render() {
+    const { name, age, height } = this.props;
+    return &lt;div&gt;{name + '' + age + '' + height}&lt;/div&gt;;
+  }
+}
+
+// 父组件
+export default class App extends Component {
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;Child name="wuyupei" age={20} height={1.88} /&gt;
+        &lt;Child name="liuxu" age={10} height={1.67} /&gt;
+        &lt;Child /&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+</code></pre>
+<p>2.子组件是函数式组件</p>
+<pre><code class="jsx language-jsx">// 函数式组件 props
+function Child(props) {
+  const { name, age, height } = props;
+  return &lt;div&gt;{name + '' + age + '' + height}&lt;/div&gt;;
+}
+</code></pre>
+<p>3.子组件限定参数的类型</p>
+<pre><code class="jsx language-jsx">Child.propTypes = {
+  name: PropType.string.isRequired,
+  age: PropType.number,
+  height: PropType.number,
+};
+
+Child.defaultProps = {
+  name: 'aaa',
+  age: 999,
+  height: 10000,
+};
+</code></pre>
+<h5 id="props-1">子传父 props(传递函数)案例练习</h5>
+<pre><code class="css language-css">* {
+  margin: 0;
+  padding: 0;
+}
+.tab-control {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 36px;
+  line-height: 36px;
+}
+
+.tab-control li {
+  /* flex: 1; */
+  width: 40px;
+  list-style: none;
+  text-align: center;
+}
+.active {
+  border-bottom: 2px solid red;
+}
+</code></pre>
+<pre><code class="jsx language-jsx">import React, { Component } from 'react';
+class TabControl extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeId: 0,
+    };
+  }
+
+  render() {
+    const { tabBar } = this.props;
+    const { activeId } = this.state;
+    return (
+      &lt;ul className="tab-control"&gt;
+        {tabBar.map((item) =&gt; {
+          return (
+            &lt;li
+              className={activeId == item.id ? 'active' : ''}
+              onClick={() =&gt; this.handleItemClick(item.id)}
+            &gt;
+              {item.name}
+            &lt;/li&gt;
+          );
+        })}
+      &lt;/ul&gt;
+    );
+  }
+
+  handleItemClick(id) {
+    this.setState({
+      activeId: id,
+    });
+    this.props.itemClick(id);
+  }
+}
+
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      tabBar: [
+        {
+          id: 0,
+          name: '主页',
+        },
+        {
+          id: 1,
+          name: '商品',
+        },
+        {
+          id: 2,
+          name: '详情',
+        },
+      ],
+      text: '主页',
+    };
+  }
+  render() {
+    const { tabBar, text } = this.state;
+    return (
+      &lt;div&gt;
+        &lt;TabControl tabBar={tabBar} itemClick={(id) =&gt; this.tabBarItemClick(id)}&gt;&lt;/TabControl&gt;
+        &lt;h2 style={{ margin: '0 0 0 10px' }}&gt;{text}&lt;/h2&gt;
+      &lt;/div&gt;
+    );
+  }
+
+  tabBarItemClick(id) {
+    this.setState({
+      text: this.state.tabBar[id].name,
+    });
+  }
+}
+</code></pre>
+<p><strong>总结</strong> 传函数就完了, 注意 this 问题. 由此可以看出 react 的灵活</p>
+<h5 id="">嵌套组件的通信</h5>
+<p>1.层层传递</p>
+<pre><code class="jsx language-jsx">import React, { Component } from 'react';
+
+class Body extends Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    const { username, userage } = this.props;
+    return (
+      &lt;div&gt;
+        &lt;p&gt;body&lt;/p&gt;
+        &lt;span&gt;username:{username}&lt;/span&gt;
+        &lt;br /&gt;
+        &lt;span&gt;userage:{userage}&lt;/span&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+class Contene extends Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;h2&gt;Content&lt;/h2&gt;
+        &lt;Body username={this.props.username} userage={this.props.userage}&gt;&lt;/Body&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: 'wuyupei',
+      userage: 20,
+    };
+  }
+  render() {
+    const { username, userage } = this.state;
+    return (
+      &lt;div&gt;
+        &lt;Contene username={username} userage={userage}&gt;&lt;/Contene&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+</code></pre>
+<p>2.使用展开符传递(比第一张方便了一点点点)</p>
+<pre><code class="jsx language-jsx">import React, { Component } from 'react';
+
+class Body extends Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    const { username, userage } = this.props;
+    return (
+      &lt;div&gt;
+        &lt;p&gt;body&lt;/p&gt;
+        &lt;span&gt;username:{username}&lt;/span&gt;
+        &lt;br /&gt;
+        &lt;span&gt;userage:{userage}&lt;/span&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+class Contene extends Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;h2&gt;Content&lt;/h2&gt;
+        &lt;Body {...this.props}&gt;&lt;/Body&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: 'wuyupei',
+      userage: 20,
+    };
+  }
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;Contene {...this.state}&gt;&lt;/Contene&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+</code></pre>
+<p>3.使用 React.createContext</p>
+<p>3.1 子组件是类式组件</p>
+<pre><code class="jsx language-jsx">import React, { Component } from 'react';
+
+const userContext = React.createContext({
+  username: 'XXX',
+  userage: 123,
+});
+
+class Body extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  // static contextType = userContext;
+
+  render() {
+    const { username, userage } = this.context;
+    return (
+      &lt;div&gt;
+        &lt;p&gt;body&lt;/p&gt;
+        &lt;span&gt;username:{username}&lt;/span&gt;
+        &lt;br /&gt;
+        &lt;span&gt;userage:{userage}&lt;/span&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+Body.contextType = userContext;
+
+class Contene extends Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;h2&gt;Content&lt;/h2&gt;
+        &lt;Body&gt;&lt;/Body&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: 'wuyupei',
+      userage: 20,
+    };
+  }
+  render() {
+    return (
+      &lt;userContext.Provider value={this.state}&gt;
+        &lt;div&gt;
+          &lt;Contene&gt;&lt;/Contene&gt;
+        &lt;/div&gt;
+      &lt;/userContext.Provider&gt;
+    );
+  }
+}
+</code></pre>
+<p><strong>总结</strong> 1.使用<userContext.provide> </userContext.provide> 包裹 2.在子组件中设置 <code>static contextType = xxxContext;</code>或<code>组件名.contextType = xxxContext;</code></p>
+<p>3.2 子组件是函数式组件</p>
+<blockquote>
+  <p>要使用 xxxContext.Consumer(消费者组件包裹) 并且里面是一个函数(参数就是 痛惜的数据)  支持套娃</p>
+</blockquote>
+<pre><code class="jsx language-jsx">function Body() {
+  return (
+    &lt;userContext.Consumer&gt;
+      {(value) =&gt; {
+        return (
+          &lt;div&gt;
+            &lt;p&gt;body&lt;/p&gt;
+            &lt;span&gt;username:{value.username}&lt;/span&gt;
+            &lt;br /&gt;
+            &lt;span&gt;userage:{value.userage}&lt;/span&gt;
+          &lt;/div&gt;
+        );
+      }}
+    &lt;/userContext.Consumer&gt;
+  );
+}
+</code></pre>
+<p>完!</p>
+      <div class="end">----本文结束----</div>
+      <div class="page">
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/../../list.html"
+          class="pre"
+        >
+          <img src="../img/leftArrow.svg" alt="" />
+          List
+        </a>
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/React脚手架.html"
+          class="next"
+        >
+          React脚手架
+          <img src="../img/rightArrow.svg" alt="" />
+        </a>
+      </div>
+    </div>
+    <div class="fotter">
+      <p>All articles written with ❤ by Wu Yupei</p>
+      <p>Github · Gieee · QQ · WeChat</p>
+    </div>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+    <script src="../js/notify.js"></script>
+  </body>
+</html>
