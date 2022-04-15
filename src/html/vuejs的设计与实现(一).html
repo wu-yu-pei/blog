@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-vuejs的设计与实现(一)</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/prism.min.js"></script>
+    <link
+      href="https://cdn.bootcdn.net/ajax/libs/prism-themes/1.9.0/prism-one-dark.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+      integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/notify.css" />
+    <link rel="stylesheet" href="../css/newsprint.css" />
+    <link rel="stylesheet" href="../css/article.css" />
+  </head>
+
+  <body>
+    <div class="nav">
+      <div class="home">
+        <a href="../../list.html"><img src="../img/list.svg" alt="" /></a>
+      </div>
+      <div class="auther">
+        <span>G</span>
+        <span>r</span>
+        <span>o</span>
+        <span>w</span>
+        <span>i</span>
+        <span>n</span>
+        <span>g</span>
+        <span>/</span>
+        <span>A</span>
+        <span>r</span>
+        <span>t</span>
+        <span>i</span>
+        <span>c</span>
+        <span>l</span>
+        <span>e</span>
+      </div>
+      <div class="github">
+        <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
+      </div>
+    </div>
+    <div class="content">
+      <h1>vuejs的设计与实现(一)</h1>
+      <h4 id="">学习笔记</h4>
+<blockquote>
+  <p>我直接贴代码了 代码有注释</p>
+</blockquote>
+<p>1.vdom 本质就是一个 javascript 对象</p>
+<pre><code class="js language-js">// 1.1对象
+const title = {
+  tag: 'div',
+  props: {
+    onClick: () =&gt; alert('div click'),
+  },
+  children: 'click me',
+};
+// 1.2使用vue导出的h函数 h函数只是为了更简便的书写vdom h函数最终返回了一个 类似于1.1中的对象
+h(
+  'div',
+  {
+    onClick: () =&gt; alert('div click'),
+  },
+  'click me'
+);
+</code></pre>
+<ol start="2">
+<li>渲染器: vdom -&gt; 真实的 dom</li>
+</ol>
+<blockquote>
+  <p>实现一个渲染器 把 vdom 渲染成真实的 dom</p>
+</blockquote>
+<pre><code class="js language-js">function renderer(vnode, container) {
+  const el = document.createElement(vnode.tag);
+
+  for (const key in vnode.props) {
+    if (/^on/.test(key)) {
+      el.addEventListener(key.substr(2).toLowerCase(), vnode.props[key]);
+    }
+  }
+
+  if (typeof vnode.children === 'string') {
+    el.appendChild(document.createTextNode(vnode.children));
+  } else {
+    vnode.children.forEach((child) =&gt; renderer(child, el));
+  }
+
+  container.appendChild(el);
+}
+
+renderer(title, document.querySelector('#app'));
+</code></pre>
+<ol start="3">
+<li>编译器</li>
+</ol>
+<pre><code class="js language-js">// 3.  模板的工作原理
+/** .vue文件
+ * &lt;template&gt;
+ *  &lt;div&gt;
+ *      click me
+ *  &lt;/div&gt;
+ * &lt;/template&gt;
+ */
+
+// 其实.vue文件中的template里的内容会被编译器编译到script里面
+//成为一个render函数 返回一个描述真实DOM的对象(vnode)
+// 最终由renderer函数完成渲染
+</code></pre>
+<ol start="4">
+<li>响应式系统的基本实现</li>
+</ol>
+<p>4.1 副作用函数是指会产出副作用的函数</p>
+<pre><code class="js language-js">function effect() {
+  document.body.innerHTML = '哈哈哈';
+}
+// 上面这个effect函数的执行会直接或间接的影响其他函数的执行
+</code></pre>
+<p>这也是一个副作用函数:</p>
+<pre><code class="js language-js">let level = 1;
+function effect() {
+  level = 2; // 修改全局变量, 产生副作用
+}
+</code></pre>
+<p>4.2 响应式系统的基本实现</p>
+<pre><code class="js language-js">let activeEffect;
+
+// 注册副作用函数
+function effect(fn) {
+  activeEffect = fn;
+  fn();
+}
+
+// 储存副作用函数的桶
+const bucket = new WeakMap();
+
+const obj = new Proxy(date, {
+  get(target, key) {
+    if (!activeEffect) return target[key];
+
+    // 将副作用函数acticeEffect添加到储存副作用函数的桶中
+    track(target, key);
+
+    return target[key];
+  },
+
+  set(target, key, value) {
+    target[key] = value;
+
+    //把副作用函数从桶中取出执行
+    trigger(target, key);
+  },
+});
+
+// 在 get拦截函数内调用track函数追踪变化
+function track(target, key) {
+  let depsMap = bucket.get(target);
+  if (!depsMap) {
+    bucket.set(target, (depsMap = new Map()));
+  }
+
+  let deps = depsMap.get(key);
+  if (!deps) {
+    depsMap.set(key, (deps = new Set()));
+  }
+
+  deps.add(activeEffect);
+}
+
+// 在set拦截函数内调用trigger函数触发变化
+function trigger(target, key) {
+  const depsMap = bucket.get(target);
+
+  if (!depsMap) return;
+
+  const effects = depsMap.get(key);
+  // 执行所有副作用函数
+  effects &amp;&amp; effects.forEach((fn) =&gt; fn());
+}
+
+// test:
+function changeText() {
+  console.log(obj.name);
+}
+
+setTimeout(() =&gt; {
+  obj.name = 'aaa';
+}, 1000);
+effect(changeText);
+</code></pre>
+<p>完!</p>
+      <div class="end">----本文结束----</div>
+      <div class="page">
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/../../list.html"
+          class="pre"
+        >
+          <img src="../img/leftArrow.svg" alt="" />
+          List
+        </a>
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/计算机网络常见面试题.html"
+          class="next"
+        >
+          计算机网络常见面试题
+          <img src="../img/rightArrow.svg" alt="" />
+        </a>
+      </div>
+    </div>
+    <div class="fotter">
+      <p>All articles written with ❤ by Wu Yupei</p>
+      <p>Github · Gieee · QQ · WeChat</p>
+    </div>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+    <script src="../js/notify.js"></script>
+  </body>
+</html>
