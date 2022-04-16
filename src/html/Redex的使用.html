@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-Redex的使用</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/prism.min.js"></script>
+    <link
+      href="https://cdn.bootcdn.net/ajax/libs/prism-themes/1.9.0/prism-one-dark.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+      integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/notify.css" />
+    <link rel="stylesheet" href="../css/newsprint.css" />
+    <link rel="stylesheet" href="../css/article.css" />
+  </head>
+
+  <body>
+    <div class="nav">
+      <div class="home">
+        <a href="../../list.html"><img src="../img/list.svg" alt="" /></a>
+      </div>
+      <div class="auther">
+        <span>G</span>
+        <span>r</span>
+        <span>o</span>
+        <span>w</span>
+        <span>i</span>
+        <span>n</span>
+        <span>g</span>
+        <span>/</span>
+        <span>A</span>
+        <span>r</span>
+        <span>t</span>
+        <span>i</span>
+        <span>c</span>
+        <span>l</span>
+        <span>e</span>
+      </div>
+      <div class="github">
+        <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
+      </div>
+    </div>
+    <div class="content">
+      <h1>Redex的使用</h1>
+      <h3 id="redux">Redux</h3>
+<blockquote>
+  <p>这是第三次学 Redux, 第一次学习:只是有一个印象,基本会用. 第二次学习:在 node 环境下学习的, 也还可以, 这是第三次学习,结合 react 高阶组件 循序渐进 我已经基本掌握了.这里记录一下学习笔记.</p>
+</blockquote>
+<h5 id="redux-1">Redux 基本使用</h5>
+<p>1.文件目录规划</p>
+<pre><code class="shell language-shell">│  App.jsx
+│
+├─page
+│      about.jsx
+│      home.jsx
+├─store
+│      createActions.js
+│      index.js
+│      reducer.js
+</code></pre>
+<ul>
+<li>重点在 store 文件夹</li>
+</ul>
+<p>index.js:</p>
+<blockquote>
+  <p>使用 createStore 创建一个 store 传入 reducer</p>
+</blockquote>
+<pre><code class="js language-js">import { createStore } from 'redux';
+
+import reducer from './reducer';
+
+const store = createStore(reducer);
+
+export default store;
+</code></pre>
+<p>reducer.js</p>
+<blockquote>
+  <p>初始化 store 处理 action</p>
+</blockquote>
+<pre><code class="js language-js">const store = {
+  count: 0,
+};
+
+export default function (initStore = store, actions) {
+  switch (actions.type) {
+    case 'ADD':
+      return { ...initStore, count: initStore.count + 1 };
+      break;
+    case 'RED':
+      return { ...initStore, count: initStore.count - 1 };
+      break;
+    default:
+      break;
+  }
+}
+</code></pre>
+<p>createAction.js</p>
+<blockquote>
+  <p>创建 actions {type: 'ADD', payload: {}}</p>
+</blockquote>
+<pre><code class="js language-js">export const addActions = () =&gt; ({ type: 'ADD', payload: 1 });
+
+export const redActions = () =&gt; ({ type: 'RED', payload: -1 });
+</code></pre>
+<p>接着就是在组件中使用了</p>
+<ul>
+<li>About 组件</li>
+</ul>
+<pre><code class="js language-js">import React, { PureComponent } from 'react';
+import store from '../store/index';
+
+import { addActions } from '../store/createActions';
+import { redActions } from '../store/createActions';
+
+export default class Home extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: store.getState()?.count || 0,
+    };
+  }
+  componentDidMount() {
+    // 订阅store的变化
+    this.unSubscribe = store.subscribe(() =&gt; {
+      this.setState({
+        count: store.getState().count,
+      });
+    });
+  }
+  componentWillUnmount() {
+    this.unSubscribe();
+  }
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;hr /&gt;
+        &lt;h1&gt;About&lt;/h1&gt;
+        &lt;h2&gt;{this.state.count}&lt;/h2&gt;
+        &lt;button onClick={(e) =&gt; this.add()}&gt;+1&lt;/button&gt;
+        &lt;button onClick={(e) =&gt; this.red()}&gt;-1&lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+  add() {
+    store.dispatch(addActions());
+  }
+  red() {
+    store.dispatch(redActions());
+  }
+}
+</code></pre>
+<ul>
+<li>Home 组件</li>
+</ul>
+<pre><code class="js language-js">import React, { PureComponent } from 'react';
+import store from '../store/index';
+
+import { addActions } from '../store/createActions';
+import { redActions } from '../store/createActions';
+
+export default class Home extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: store.getState()?.count || 0,
+    };
+  }
+  componentDidMount() {
+    // 订阅store的变化
+    this.unSubscribe = store.subscribe(() =&gt; {
+      this.setState({
+        count: store.getState().count,
+      });
+    });
+  }
+  componentWillUnmount() {
+    this.unSubscribe();
+  }
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;h1&gt;Home&lt;/h1&gt;
+        &lt;h2&gt;{this.state.count}&lt;/h2&gt;
+        &lt;button onClick={(e) =&gt; this.add()}&gt;+1&lt;/button&gt;
+        &lt;button onClick={(e) =&gt; this.red()}&gt;-1&lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+  add() {
+    store.dispatch(addActions());
+  }
+  red() {
+    store.dispatch(redActions());
+  }
+}
+</code></pre>
+<p>通过使用情况可以看出这样使用 redux 并不是很优雅,接着对此进行封装,使用起来更加舒服, 下面是改进和的文件目录结构</p>
+<pre><code class="shell language-shell">│  App.jsx
+│
+├─page
+│      about.jsx
+│      about2.jsx
+│      home.jsx
+│      home2.jsx
+│
+├─store
+│      createActions.js
+│      index.js
+│      reducer.js
+│
+└─utils
+        connect.jsx
+        context.jsx
+</code></pre>
+<ul>
+<li>connect.jsx</li>
+</ul>
+<blockquote>
+  <p>就是一个函数 用来连接 store 和组件, 但是有一点绕</p>
+</blockquote>
+<pre><code class="js language-js">import React, { PureComponent } from 'react';
+import store from '../store/index';
+import StoreContext from './context';
+
+export default function connect(mapStateToProps, mapActionToProps) {
+  return function (Warper) {
+    class EncHot extends PureComponent {
+      constructor(props, context) {
+        super(props);
+        this.state = {
+          store: context.getState(),
+        };
+      }
+
+      componentDidMount() {
+        this.unSubscribe = this.context.subscribe(() =&gt; {
+          this.setState({
+            store: { ...this.context.getState() },
+          });
+        });
+      }
+
+      componentWillUnmount() {
+        this.unSubscribe();
+      }
+
+      render() {
+        return (
+          &lt;Warper
+            {...this.props}
+            {...mapStateToProps(this.context.getState())}
+            {...mapActionToProps(this.context.dispatch)}
+          /&gt;
+        );
+      }
+    }
+
+    EncHot.contextType = StoreContext;
+
+    return EncHot;
+  };
+}
+</code></pre>
+<p>这个文件重点在 <code>EncHot.contextType = StoreContext;</code>和props穿透以及订阅store</p>
+<ul>
+<li>context.jsx</li>
+</ul>
+<blockquote>
+  <p>react 给我们提供的共享状态的方法</p>
+</blockquote>
+<pre><code class="js language-js">import { createContext } from 'react';
+
+const StoreContext = createContext();
+
+export default StoreContext;
+</code></pre>
+<ul>
+<li>App.jsx</li>
+</ul>
+<blockquote>
+  <p>这个文件相交之前也有变化</p>
+</blockquote>
+<pre><code class="js language-js">import React, { PureComponent } from 'react';
+
+import Home from './page/home2';
+import About from './page/about2';
+
+import Store from './store/index.js';
+import StoreContext from './utils/context';
+
+export default class App extends PureComponent {
+  render() {
+    return (
+      &lt;StoreContext.Provider value={Store}&gt;
+        &lt;Home&gt;&lt;/Home&gt;
+        &lt;About&gt;&lt;/About&gt;
+      &lt;/StoreContext.Provider&gt;
+    );
+  }
+}
+</code></pre>
+<ul>
+<li>home2.jsx</li>
+</ul>
+<blockquote>
+  <p>使用 connect 函数 连接与 store 的关系, 将 store 的数据映射到 props 里面使用</p>
+</blockquote>
+<pre><code class="jsx language-jsx">import React, { PureComponent } from 'react';
+
+import { addActions } from '../store/createActions';
+import { redActions } from '../store/createActions';
+
+import connect from '../utils/connect';
+
+class Home extends PureComponent {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    console.log('home render', this.props.count);
+    return (
+      &lt;div&gt;
+        &lt;h1&gt;Home&lt;/h1&gt;
+        &lt;h2&gt;{this.props.count}&lt;/h2&gt;
+        &lt;button onClick={(e) =&gt; this.props.add()}&gt;+1&lt;/button&gt;
+        &lt;button onClick={(e) =&gt; this.props.red()}&gt;-1&lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+const mapStateToProps = (state) =&gt; {
+  return {
+    count: state?.count || 0,
+  };
+};
+const mapActonToProps = (dispatch) =&gt; {
+  return {
+    add: () =&gt; {
+      dispatch(addActions());
+    },
+    red: () =&gt; {
+      dispatch(redActions());
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapActonToProps)(Home);
+</code></pre>
+<ul>
+<li>about2.jsx</li>
+</ul>
+<pre><code class="jsx language-jsx">import React, { PureComponent } from 'react';
+
+import { addActions } from '../store/createActions';
+import { redActions } from '../store/createActions';
+
+import connect from '../utils/connect';
+
+class About extends PureComponent {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    console.log('about render', this.props.count);
+    return (
+      &lt;div&gt;
+        &lt;h1&gt;About&lt;/h1&gt;
+        &lt;h2&gt;{this.props.count}&lt;/h2&gt;
+        &lt;button onClick={(e) =&gt; this.props.add()}&gt;+1&lt;/button&gt;
+        &lt;button onClick={(e) =&gt; this.props.red()}&gt;-1&lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+const mapStateToProps = (state) =&gt; {
+  return {
+    count: state?.count || 0,
+  };
+};
+
+const mapActonToProps = (dispatch) =&gt; {
+  return {
+    add: () =&gt; {
+      dispatch(addActions());
+    },
+    red: () =&gt; {
+      dispatch(redActions());
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapActonToProps)(About);
+</code></pre>
+<p>这两个文件重点就是<code>mapStateToProps</code>, <code>mapActonToProps</code>, <code>export default connect(mapStateToProps, mapActonToProps)(About);</code></p>
+<p><strong>总结:</strong> redux应该还有内容, 比如说中间件, 可以在这里发送网络请求,暂时还没写,晚上我在学学.在react中有react-redux可以帮助我们快速共享状态,不用自己封装connect, context函数等就可以快速使用. 这篇文章也是简单的实现了一下react-redux帮我们做的事情,以后再使用react-redux的时候,明白其中的道理,知其然,更知其所以然.</p>
+      <div class="end">----本文结束----</div>
+      <div class="page">
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/../../list.html"
+          class="pre"
+        >
+          <img src="../img/leftArrow.svg" alt="" />
+          List
+        </a>
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/vuejs的设计与实现(一).html"
+          class="next"
+        >
+          vuejs的设计与实现(一)
+          <img src="../img/rightArrow.svg" alt="" />
+        </a>
+      </div>
+    </div>
+    <div class="fotter">
+      <p>All articles written with ❤ by Wu Yupei</p>
+      <p>Github · Gieee · QQ · WeChat</p>
+    </div>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+    <script src="../js/notify.js"></script>
+  </body>
+</html>
