@@ -151,6 +151,78 @@ a {
   color: #1bc6d6;
 }
 
+.end {
+  letter-spacing: 10px;
+  height: 3rem;
+  line-height: 3rem;
+  text-align: center;
+  color: gray;
+  font-weight: 900;
+  user-select: none;
+}
+
+.page {
+  display: flex;
+  box-sizing: border-box;
+  height: 3rem;
+  gap: 1rem;
+  margin: 1rem 0;
+  background-color: rgb(255, 255, 255);
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.page a:hover {
+  border: 2px solid blue;
+}
+.page a {
+  flex-grow: 1;
+  flex-basis: 200px;
+  box-sizing: border-box;
+  display: block;
+  border: 2px solid #c5c5c5;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-decoration: none;
+  font-weight: bold;
+  color: #000;
+}
+.page img {
+  max-width: 100%;
+  vertical-align: middle;
+  image-orientation: from-image;
+}
+
+.page .pre {
+  width: 47%;
+  height: 100%;
+  line-height: 3rem;
+}
+.page .next {
+  width: 47%;
+  height: 100%;
+  text-align: right;
+  line-height: 3rem;
+}
+
+.fotter {
+  border-top: 2px solid #c5c5c5;
+  width: 100%;
+  height: 6rem;
+}
+.fotter p:first-child {
+  font-style: italic;
+}
+.fotter p {
+  margin: 5px 0;
+  height: 2rem;
+  width: 100%;
+  text-align: center;
+  font-weight: 900;
+}
+
 .fotter {
   border-top: 2px solid #c5c5c5;
   width: 100%;

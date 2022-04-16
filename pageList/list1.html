@@ -45,30 +45,43 @@
     </div>
     <div class="content">
       <ul>
-        <% data.forEach(function(item, index){ %>
+        
         <li class="">
           <div class="left">
-            <a href="../src/html/<%= item.name %>.html"
-              ><%= index + 1 +'.'+ item.name %></a
+            <a href="../src/html/js单列模式.html"
+              >1.js单列模式</a
             >
-            <img lazy-src="../src/imgs/<%= data.length - index %>.jpg" alt="" />
+            <img lazy-src="../src/imgs/2.jpg" alt="" />
           </div>
           <div class="right">
-            <span class="author"> <%= item.ct %></span>
+            <span class="author"> 2022-03-20</span>
             <span class="time">Growing</span>
           </div>
         </li>
-        <% }); %>
+        
+        <li class="">
+          <div class="left">
+            <a href="../src/html/js原型链.html"
+              >2.js原型链</a
+            >
+            <img lazy-src="../src/imgs/1.jpg" alt="" />
+          </div>
+          <div class="right">
+            <span class="author"> 2022-03-20</span>
+            <span class="time">Growing</span>
+          </div>
+        </li>
+        
       </ul>
       <div class="end">----END----</div>
       <div class="page">
-        <a href="<%- page === totalPage ? './index' : ('./list' + (page + 1))  %>.html" class="pre">
+        <a href="./list2.html" class="pre">
           <img src="../src/img/leftArrow.svg" alt="" />
-          <%- page === totalPage ? '没有上一页' : '上一页' %>
+          上一页
         </a>
 
-        <a href="./list<%- page === 1 ? '1' : page - 1  %>.html" class="next">
-          <%- page-1 === 0 ? '没有下一页' : '下一页' %>
+        <a href="./list1.html" class="next">
+          没有下一页
           <img src="../src/img/rightArrow.svg" alt="" />
         </a>
       </div>
