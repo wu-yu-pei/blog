@@ -184,6 +184,11 @@ a {
   height: 100%;
 }
 
+.total-page .page-item.active {
+  color: #fff;
+  background: #73dce5;
+}
+
 .total-page .page-item:hover {
   box-shadow: 0 0 10px #1bc6d6;
 }

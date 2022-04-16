@@ -61,7 +61,7 @@
       <div class="end">----Pagination----</div>
       <div class="total-page">
         <% for(let i = totalPage; i > 0; i--) {%>
-        <div class="page-item"><a href="./list<%= i %>.html"><%= i %></a></div>
+        <div class="page-item <%= i==page ? 'active' : '' %>"><a href="./list<%= i %>.html"><%= i %></a></div>
         <%}%>
       </div>
     </div>
