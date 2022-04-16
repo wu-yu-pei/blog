@@ -48,9 +48,7 @@
         <% data.forEach(function(item, index){ %>
         <li class="">
           <div class="left">
-            <a href="../src/html/<%= item.name %>.html"
-              ><%= index + 1 +'.'+ item.name %></a
-            >
+            <a href="../src/html/<%= item.name %>.html"><%= index + 1 +'.'+ item.name %></a>
             <img lazy-src="../src/imgs/<%= data.length - index %>.jpg" alt="" />
           </div>
           <div class="right">
@@ -60,17 +58,11 @@
         </li>
         <% }); %>
       </ul>
-      <div class="end">----END----</div>
-      <div class="page">
-        <a href="<%- page === totalPage ? './index' : ('./list' + (page + 1))  %>.html" class="pre">
-          <img src="../src/img/leftArrow.svg" alt="" />
-          <%- page === totalPage ? '没有上一页' : '上一页' %>
-        </a>
-
-        <a href="./list<%- page === 1 ? '1' : page - 1  %>.html" class="next">
-          <%- page-1 === 0 ? '没有下一页' : '下一页' %>
-          <img src="../src/img/rightArrow.svg" alt="" />
-        </a>
+      <div class="end">----Pagination----</div>
+      <div class="total-page">
+        <% for(let i = totalPage; i > 0; i--) {%>
+        <div class="page-item"><a href="./list<%= i %>.html"><%= i %></a></div>
+        <%}%>
       </div>
     </div>
     <div class="fotter">
