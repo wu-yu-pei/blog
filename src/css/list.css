@@ -165,6 +165,8 @@ a {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5em;
+  transform-style: preserve-3d;
+  perspective: 800px;
 }
 
 .total-page .page-item {
@@ -187,6 +189,7 @@ a {
 .total-page .page-item.active {
   color: #fff;
   background: #73dce5;
+  transform: translate3d(0px, -0.5rem, 0px);
 }
 
 .total-page .page-item:hover {
