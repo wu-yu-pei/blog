@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-vite-react-hook</title>
+    <link href="../css/theme//prism-one-dark.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/animate.min.css" />
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/notify.css" />
+    <link rel="stylesheet" href="../css/newsprint.css" />
+    <link rel="stylesheet" href="../css/article.css" />
+  </head>
+
+  <body>
+    <div class="nav">
+      <div class="home">
+        <a href="../../pageList/index.html"><img src="../img/list.svg" alt="" /></a>
+      </div>
+      <div class="auther">
+        <span>G</span>
+        <span>r</span>
+        <span>o</span>
+        <span>w</span>
+        <span>i</span>
+        <span>n</span>
+        <span>g</span>
+        <span>/</span>
+        <span>A</span>
+        <span>r</span>
+        <span>t</span>
+        <span>i</span>
+        <span>c</span>
+        <span>l</span>
+        <span>e</span>
+      </div>
+      <div class="github">
+        <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
+      </div>
+    </div>
+    <div class="content">
+      <h1>vite-react-hook</h1>
+      <h4 id="vitereact">vite 搭建 react 开发环境</h4>
+<h5 id="">版本</h5>
+<ul>
+<li>react: ^18.0.0,</li>
+<li>react-dom: ^18.0.0,</li>
+<li>react-router-config: ^5.1.1,</li>
+<li>react-router-dom: ^6.3.0,</li>
+<li>styled-components: ^5.3.5</li>
+<li>@types/react: ^18.0.0,</li>
+<li>@types/react-dom: ^18.0.0,</li>
+<li>@vitejs/plugin-react: ^1.3.0,</li>
+<li>vite: ^2.9.2</li>
+</ul>
+<h5 id="-1">技术栈</h5>
+<ul>
+<li>vite</li>
+<li>react</li>
+<li>hooks</li>
+<li>redux</li>
+<li>react-router</li>
+<li>style-components</li>
+<li>antd</li>
+</ul>
+<h5 id="-2">项目文件结构</h5>
+<pre><code class="shell language-shell">│  App.jsx
+│  index.jsx
+│  tree.txt
+│
+├─assets
+│  ├─css
+│  │      reset.css
+│  │
+│  ├─font
+│  └─img
+│          download.png
+│
+├─common
+├─components
+│  ├─app-fotter
+│  │      index.jsx
+│  │
+│  └─app-header
+│          index.jsx
+│          style.js
+│
+├─pages
+│  ├─discover
+│  │      index.jsx
+│  │
+│  ├─friend
+│  │      index.jsx
+│  │
+│  └─mine
+│          index.jsx
+│
+├─router
+│      index.jsx
+│
+├─services
+├─store
+└─utils
+</code></pre>
+<h5 id="-3">目录说明</h5>
+<ul>
+<li>assets 静态资源</li>
+<li>common 公共文件夹</li>
+<li>components 组件</li>
+<li>page 页面</li>
+<li>router 路由</li>
+<li>services 网络请求</li>
+<li>store 数据管理</li>
+<li>utils 工具函数</li>
+</ul>
+<h5 id="vite">vite 目前配置</h5>
+<pre><code class="js language-js">import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  resolve: {
+    // 配置别名
+    alias: {
+      '~': path.resolve(__dirname, './'),
+      '@': path.resolve(__dirname, 'src'),
+      components: path.resolve(__dirname, 'src/components'),
+    },
+  },
+});
+</code></pre>
+<h5 id="routersindexjsx">routers/index.jsx</h5>
+<blockquote>
+  <p>使用 hook 的方法创建路由 useRoutes</p>
+</blockquote>
+<pre><code class="js language-js">import { useRoutes } from 'react-router-dom';
+
+import Discover from '@/pages/discover';
+import Friend from '@/pages/friend';
+import Mine from '@/pages/mine';
+
+const GetRoutes = () =&gt; {
+  const routes = useRoutes([
+    {
+      path: '/',
+      element: &lt;Discover&gt;&lt;/Discover&gt;,
+    },
+    {
+      path: '/friend',
+      element: &lt;Friend&gt;&lt;/Friend&gt;,
+    },
+    {
+      path: '/mine',
+      element: &lt;Mine&gt;&lt;/Mine&gt;,
+    },
+  ]);
+
+  return routes;
+};
+// 导出的是一个组件,应这样使用 &lt;GetRoutes/&gt;
+export default GetRoutes;
+
+// 再路由需要展示的位置使用:
+const App = memo(() =&gt; {
+  return (
+    &lt;HashRouter&gt;
+      &lt;AppHeader&gt;&lt;/AppHeader&gt;
+      &lt;GetRoutes /&gt;
+      &lt;AppFotter&gt;&lt;/AppFotter&gt;
+    &lt;/HashRouter&gt;
+  );
+});
+</code></pre>
+<h5 id="-4">样式</h5>
+<ul>
+<li><p>reset.css
+<a href="https://github.com/necolas/normalize.css">normalize.css</a></p></li>
+<li><p>css in js</p></li>
+</ul>
+<blockquote>
+  <p>使用 styled-components写样式</p>
+</blockquote>
+<pre><code class="js language-js">// index.jsx
+import React, { memo } from 'react';
+
+import { NavLink } from 'react-router-dom';
+
+import { HeaderWrapper } from './style';
+
+const APPFotter = memo(() =&gt; {
+  return (
+    &lt;HeaderWrapper&gt;
+      &lt;div className="content wrap-v1"&gt;
+        &lt;NavLink to="/"&gt;发现音乐&lt;/NavLink&gt;
+        &lt;NavLink to="/friend"&gt;发现朋友&lt;/NavLink&gt;
+        &lt;NavLink to="/mine"&gt;发现自己&lt;/NavLink&gt;
+      &lt;/div&gt;
+      &lt;div className="divider"&gt;&lt;/div&gt;
+    &lt;/HeaderWrapper&gt;
+  );
+});
+
+export default APPFotter;
+
+// style.js
+import styled from 'styled-components';
+
+export const HeaderWrapper = styled.div`
+  height: 75px;
+  background-color: #242424;
+  color: #fff;
+
+  .content {
+    height: 70px;
+  }
+
+  .divider {
+    height: 5px;
+    background-color: #c20c0c;
+  }
+`;
+</code></pre>
+<h5 id="-5">页面基本样式</h5>
+<p>mine:</p>
+<p><img src="../mdimg/stepone.png" alt="mine" />
+friend:</p>
+<p><img src="../mdimg/steptwo.png" alt="firend" /></p>
+<p>继续加油干!</p>
+      <div class="end">----本文结束----</div>
+      <div class="page">
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/../../list.html"
+          class="pre"
+        >
+          <img src="../img/leftArrow.svg" alt="" />
+          List
+        </a>
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/Redex的使用.html"
+          class="next"
+        >
+          Redex的使用
+          <img src="../img/rightArrow.svg" alt="" />
+        </a>
+      </div>
+    </div>
+    <div class="fotter">
+      <p>All articles written with ❤ by Wu Yupei</p>
+      <p>Github · Gieee · QQ · WeChat</p>
+    </div>
+    <script src="../css/theme/prism.min.js"></script>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+    <script src="../js/notify.js"></script>
+  </body>
+</html>
