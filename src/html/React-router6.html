@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-React-router6</title>
+    <link href="../css/theme//prism-one-dark.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/animate.min.css" />
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/notify.css" />
+    <link rel="stylesheet" href="../css/newsprint.css" />
+    <link rel="stylesheet" href="../css/article.css" />
+  </head>
+
+  <body>
+    <div class="nav">
+      <div class="home">
+        <a href="../../pageList/index.html"><img src="../img/list.svg" alt="" /></a>
+      </div>
+      <div class="auther">
+        <span>G</span>
+        <span>r</span>
+        <span>o</span>
+        <span>w</span>
+        <span>i</span>
+        <span>n</span>
+        <span>g</span>
+        <span>/</span>
+        <span>A</span>
+        <span>r</span>
+        <span>t</span>
+        <span>i</span>
+        <span>c</span>
+        <span>l</span>
+        <span>e</span>
+      </div>
+      <div class="github">
+        <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
+      </div>
+    </div>
+    <div class="content">
+      <h1>React-router6</h1>
+      <h4 id="reactrouterv6">React-router v6</h4>
+<blockquote>
+  <p>最近学习的 React 视频视频有点老了,自己结合项目摸索模式新的 React-router v6 hooks</p>
+</blockquote>
+<h5 id="reactrouter">React-router 官网</h5>
+<ol>
+<li>官网配置的都是手写路由</li>
+<li>官网没有给出像 vue 呢样的配置式路由</li>
+<li>官网的路由懒加载也是手写的, 在一些情况写可能希望动态路由是配置的而且是懒加载的</li>
+</ol>
+<h5 id="">尝试</h5>
+<ol>
+<li>使用配置式路由,对项目的路由进行配置(路由嵌套)</li>
+</ol>
+<blockquote>
+  <p>下面式我配置的路由
+  router/index.jsx</p>
+</blockquote>
+<pre><code class="js language-js">import { Navigate } from 'react-router-dom';
+import Discover from '@/pages/discover';
+import Artist from '@/pages/discover/child-page/artist';
+import Ablum from '@/pages/discover/child-page/album';
+import Djradio from '@/pages/discover/child-page/djradio';
+import Ranking from '@/pages/discover/child-page/ranking';
+import Recommend from '@/pages/discover/child-page/recommend';
+import Songs from '@/pages/discover/child-page/songs';
+
+import Friend from '@/pages/friend';
+import Mine from '@/pages/mine';
+
+const routes = [
+  {
+    path: '/',
+    // 重定向
+    element: &lt;Navigate to="/discover"&gt;&lt;/Navigate&gt;,
+  },
+  {
+    path: '/discover',
+    element: &lt;Discover&gt;&lt;/Discover&gt;,
+    children: [
+      {
+        path: '/discover',
+        // 重定向
+        element: &lt;Navigate to="/discover/recommend"&gt;&lt;/Navigate&gt;,
+      },
+      {
+        path: '/discover/recommend',
+        element: &lt;Recommend&gt;&lt;/Recommend&gt;,
+      },
+      {
+        path: '/discover/ranking',
+        element: &lt;Ranking&gt;&lt;/Ranking&gt;,
+      },
+      {
+        path: '/discover/songs',
+        element: &lt;Songs&gt;&lt;/Songs&gt;,
+      },
+      {
+        path: '/discover/djradio',
+        element: &lt;Djradio&gt;&lt;/Djradio&gt;,
+      },
+      {
+        path: '/discover/artist',
+        element: &lt;Artist&gt;&lt;/Artist&gt;,
+      },
+      {
+        path: '/discover/album',
+        element: &lt;Ablum&gt;&lt;/Ablum&gt;,
+      },
+    ],
+  },
+  {
+    path: '/friend',
+    element: &lt;Friend&gt;&lt;/Friend&gt;,
+  },
+  {
+    path: '/mine',
+    element: &lt;Mine&gt;&lt;/Mine&gt;,
+  },
+];
+
+export default routes;
+</code></pre>
+<p>使用的时候需要借助 hooks 进行书写</p>
+<pre><code class="js language-js">import React, { memo } from 'react';
+
+import { useRoutes } from 'react-router-dom';
+import routes from './router/index';
+
+import AppHeader from 'components/app-header';
+import AppFotter from 'components/app-fotter';
+
+const App = memo(() =&gt; {
+  return (
+    &lt;&gt;
+      &lt;AppHeader&gt;&lt;/AppHeader&gt;
+      {useRoutes(routes)}
+      &lt;AppFotter&gt;&lt;/AppFotter&gt;
+    &lt;/&gt;
+  );
+});
+</code></pre>
+<ol start="2">
+<li>尝试懒加载</li>
+</ol>
+<blockquote>
+  <p>最后懒加载我尝试了一下</p>
+</blockquote>
+<pre><code class="js language-js">import { lazy } from 'react';
+
+const Home = lazy(() =&gt; import('../page/home'));
+const About = lazy(() =&gt; import('../page/about'));
+const Profile = lazy(() =&gt; import('../page/profile'));
+const AboutA = lazy(() =&gt; import('../page/about-a'));
+const AboutB = lazy(() =&gt; import('../page/about-b'));
+
+const routes = [
+  { path: '/', component: Home },
+  {
+    path: '/about',
+    component: About,
+    children: [
+      { path: '/about', component: AboutA },
+      { path: '/about/b', component: AboutB },
+    ],
+  },
+  { path: '/profile', component: Profile },
+];
+
+export default routes;
+</code></pre>
+<p>使用</p>
+<pre><code class="js language-js">&lt;Routes&gt;
+  {routes.map((item, i) =&gt; {
+    &lt;Routes&gt;
+      {item.children.map((citem, cindex) =&gt; {
+        return (
+          &lt;Route
+            key={cindex}
+            path={citem.path}
+            element={
+              &lt;Suspense fallback={&lt;div&gt;路由懒加载...&lt;/div&gt;}&gt;
+                &lt;citem.component /&gt;
+              &lt;/Suspense&gt;
+            }
+          /&gt;
+        );
+      })}
+    &lt;/Routes&gt;;
+  })}
+&lt;/Routes&gt;
+</code></pre>
+<p>但是我看没有懒加载的效果,因为浏览器里同时加载了所有组件 但是官网也是这么写的
+另外,如果有嵌套组件,只写一层是不行的, 需要递归掉用, 动态生成路由配置.</p>
+      <div class="end">----本文结束----</div>
+      <div class="page">
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/../../list.html"
+          class="pre"
+        >
+          <img src="../img/leftArrow.svg" alt="" />
+          List
+        </a>
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/vite-react-hook.html"
+          class="next"
+        >
+          vite-react-hook
+          <img src="../img/rightArrow.svg" alt="" />
+        </a>
+      </div>
+    </div>
+    <div class="fotter">
+      <p>All articles written with ❤ by Wu Yupei</p>
+      <p>Github · Gieee · QQ · WeChat</p>
+    </div>
+    <script src="../css/theme/prism.min.js"></script>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+    <script src="../js/notify.js"></script>
+  </body>
+</html>
