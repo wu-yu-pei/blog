@@ -43,7 +43,7 @@
         <li class="">
           <div class="left">
             <a href="../src/html/<%= item.name %>.html"><%= index + 1 +'.'+ item.name %></a>
-            <img lazy-src="../src/imgs/<%= data.length - index %>.jpg" alt="" />
+            <img lazy-src="../src/imgs/<%= (data.length * page) - index %>.jpg" alt="" />
           </div>
           <div class="right">
             <span class="author"> <%= item.ct %></span>
