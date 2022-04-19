@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-React项目集成redux</title>
+    <link href="../css/theme//prism-one-dark.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/animate.min.css" />
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/notify.css" />
+    <link rel="stylesheet" href="../css/newsprint.css" />
+    <link rel="stylesheet" href="../css/article.css" />
+  </head>
+
+  <body>
+    <div class="nav">
+      <div class="home">
+        <a href="../../pageList/index.html"><img src="../img/list.svg" alt="" /></a>
+      </div>
+      <div class="auther">
+        <span>G</span>
+        <span>r</span>
+        <span>o</span>
+        <span>w</span>
+        <span>i</span>
+        <span>n</span>
+        <span>g</span>
+        <span>/</span>
+        <span>A</span>
+        <span>r</span>
+        <span>t</span>
+        <span>i</span>
+        <span>c</span>
+        <span>l</span>
+        <span>e</span>
+      </div>
+      <div class="github">
+        <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
+      </div>
+    </div>
+    <div class="content">
+      <h1>React项目集成redux</h1>
+      <h4 id="redux">集成 redux</h4>
+<h4 id="soter">soter 顶层文件目录结果</h4>
+<pre><code class="shell language-shell">C:.
+    index.js
+    reducer.js
+</code></pre>
+<ul>
+<li>index.js</li>
+</ul>
+<blockquote>
+  <p>应用中间间 redux-thunk 配置浏览器开发工具 redux-dev-tool 合并 reducer</p>
+</blockquote>
+<pre><code class="js language-js">import { createStore, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
+
+// all reducer
+import cReducer from './reducer';
+
+// config browers ReduxDev
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(cReducer, composeEnhancers(applyMiddleware(thunk)));
+
+export default store;
+</code></pre>
+<p>reducer.js</p>
+<blockquote>
+  <p>使用 combineReducers 合并 reducer 导出给 index.js 使用</p>
+</blockquote>
+<pre><code class="js language-js">import { combineReducers } from 'redux';
+import { reducer as recommendReducer } from '../pages/discover/child-page/recommend/store/index';
+
+const cReducer = combineReducers({
+  recommend: recommendReducer,
+});
+
+export default cReducer;
+</code></pre>
+<h5 id="store">拆分 store</h5>
+<blockquote>
+  <p>文件夹结构 每个文件都有自己的 store index 导出 reducer 最终在 store/reducer 处进行合并</p>
+</blockquote>
+<pre><code class="shell language-shell">C:.
+│  index.jsx
+│  style.js
+│
+└─child-page
+    ├─album
+    │      index.jsx
+    │      style.js
+    │
+    ├─artist
+    │      index.jsx
+    │      style.js
+    │
+    ├─djradio
+    │      index.jsx
+    │      style.js
+    │
+    ├─ranking
+    │      index.jsx
+    │      style.js
+    │
+    ├─recommend
+    │  │  index.jsx
+    │  │  style.js
+    │  │
+    │  ├─child-cop
+    │  │  └─top-banner
+    │  │          index.jsx
+    │  │          style.js
+    │  │
+    │  └─store
+    │          action-creater.js
+    │          const.js
+    │          index.js
+    │          reducer.js
+    │
+    └─songs
+            index.jsx
+            style.js
+</code></pre>
+<h5 id="reducer">使用 reducer</h5>
+<ol>
+<li>使用 connect 函数 进行映射 mapStateToProps mapDispatchToProps 传入 组件</li>
+</ol>
+<pre><code class="js language-js">const Recommend = (props) =&gt; {
+  const { banner, getTopBanner } = props;
+
+  useEffect(() =&gt; {
+    getTopBanner();
+  }, [getTopBanner]);
+
+  return &lt;div&gt;推荐{banner.length}&lt;/div&gt;;
+};
+
+const mapStateToProps = (state) =&gt; {
+  return {
+    banner: state.recommend.topBanner,
+  };
+};
+
+const mapDispatchToProps = (dispatch) =&gt; {
+  return {
+    getTopBanner: () =&gt; {
+      dispatch(getTopBannerAction());
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(memo(Recommend));
+</code></pre>
+<ol start="2">
+<li>使用 react hook 的方法</li>
+</ol>
+<blockquote>
+  <p>下面列子中主要使用了 useSelector, useDispatch, shallowEqual 三个 hook 来帮助使用 redux useDispatch 获取 dispatch 对象 useSelector 获取 redux 中的 state shallowEqual 进行性能优化</p>
+</blockquote>
+<p>下面是一个简单的轮播图例子 使用 redux 和 hook 的方式获取数据, 进行页面开发.</p>
+<pre><code class="js language-js">import React, { memo, useEffect, createRef, useState, useCallback } from 'react';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+
+import { getTopBannerAction } from '../../store/action-creater';
+
+import { BannerWarpper } from './style';
+import { Carousel } from 'antd';
+
+const TopBanner = memo(() =&gt; {
+  console.log('render');
+  // local state
+  const carouselRef = createRef();
+  const [currentBanner, setCurrentBanner] = useState(0);
+
+  // reudx
+  const { banner } = useSelector(
+    (state) =&gt; ({
+      banner: state.recommend.get('topBanner'),
+    }),
+    shallowEqual
+  );
+
+  const dispatch = useDispatch();
+
+  useEffect(() =&gt; {
+    dispatch(getTopBannerAction());
+  }, [dispatch]);
+
+  // 页面逻辑
+  const changeBanner = useCallback(function changeBanner(from, to) {
+    setCurrentBanner(to);
+  });
+
+  const bgImg = banner[currentBanner] &amp;&amp; banner[currentBanner].imageUrl + '?imageView&amp;blur=40x20';
+  console.log(bgImg);
+  return (
+    &lt;BannerWarpper bgImg={bgImg}&gt;
+      &lt;div className="wrap-v1"&gt;
+        &lt;div className="left"&gt;
+          &lt;span onClick={(e) =&gt; carouselRef.current.prev()}&gt;&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div className="center wrap-v2"&gt;
+          &lt;div className="center-left"&gt;
+            &lt;Carousel effect="fade" ref={carouselRef} beforeChange={changeBanner}&gt;
+              {banner.map((item, index) =&gt; {
+                return (
+                  &lt;div key={index}&gt;
+                    &lt;img src={item.imageUrl} alt={item.typeTitle} /&gt;
+                  &lt;/div&gt;
+                );
+              })}
+            &lt;/Carousel&gt;
+          &lt;/div&gt;
+          &lt;div className="center-right"&gt;
+            &lt;a href="https://music.163.com/download" className="download"&gt;&lt;/a&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div className="right"&gt;
+          &lt;span onClick={(e) =&gt; carouselRef.current.next()}&gt;&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/BannerWarpper&gt;
+  );
+});
+
+export default TopBanner;
+</code></pre>
+<h5 id="">总结</h5>
+<p>react-redux 的使用稍稍有些复杂, 写react代码的使用很容易写出性能不是很好的代码, 使用hook要明白其内部原理, 才能写出高性能的react代码, 比如使用mome包裹组件 使用Immutabel 复制对象.</p>
+<p>!完</p>
+      <div class="end">----本文结束----</div>
+      <div class="page">
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/../../list.html"
+          class="pre"
+        >
+          <img src="../img/leftArrow.svg" alt="" />
+          List
+        </a>
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/React-router6.html"
+          class="next"
+        >
+          React-router6
+          <img src="../img/rightArrow.svg" alt="" />
+        </a>
+      </div>
+    </div>
+    <div class="fotter">
+      <p>All articles written with ❤ by Wu Yupei</p>
+      <p>Github · Gieee · QQ · WeChat</p>
+    </div>
+    <script src="../css/theme/prism.min.js"></script>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+    <script src="../js/notify.js"></script>
+  </body>
+</html>
