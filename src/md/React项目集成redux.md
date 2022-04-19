@@ -87,6 +87,7 @@ C:.
             index.jsx
             style.js
 ```
+注意: 使用了react-thunk来进行异步操起, 以为redux本来只支持同步. 当数据过多的时候{...data}这种方式来完成数据的拷贝是非常浪费性能的，因此使用了 immutable 来帮助完成数据的拷贝, 以此来提示性能.
 
 ##### 使用 reducer
 
@@ -124,6 +125,14 @@ export default connect(mapStateToProps, mapDispatchToProps)(memo(Recommend));
 
 > 下面列子中主要使用了 useSelector, useDispatch, shallowEqual 三个 hook 来帮助使用 redux useDispatch 获取 dispatch 对象 useSelector 获取 redux 中的 state shallowEqual 进行性能优化
 
+ 1.useDispatch 获取 dispatch
+  1.dispathc 派发action
+    1. 同步action(对象)
+    2. 异步action(函数)
+ 2.useSelector 获取 store中的数据
+
+ 3.结合useEffect使用
+ 
 下面是一个简单的轮播图例子 使用 redux 和 hook 的方式获取数据, 进行页面开发.
 
 ```js
