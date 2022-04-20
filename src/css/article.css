@@ -2,6 +2,13 @@ body {
   background-color: #fff;
 }
 
+.top {
+  position: sticky;
+  top: 0;
+  border-bottom: 1px solid #d0d7de;
+  z-index: 99999;
+}
+
 .nav {
   position: sticky;
   top: 0;
@@ -154,7 +161,7 @@ ul {
 }
 
 .fotter {
-  border-top: 2px solid #c5c5c5;
+  border-top: 1px solid #d0d7de;
   width: 100%;
   height: 6rem;
 }
