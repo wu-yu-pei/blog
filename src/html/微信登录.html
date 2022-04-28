@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-微信登录</title>
+    <link href="../css/theme//prism-one-dark.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/animate.min.css" />
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/notify.css" />
+    <link rel="stylesheet" href="../css/newsprint.css" />
+    <link rel="stylesheet" href="../css/article.css" />
+  </head>
+
+  <body>
+    <div class="top">
+      <div class="nav">
+        <div class="home">
+          <a href="../../pageList/index.html"><img src="../img/list.svg" alt="" /></a>
+        </div>
+        <div class="auther">
+          <span>G</span>
+          <span>r</span>
+          <span>o</span>
+          <span>w</span>
+          <span>i</span>
+          <span>n</span>
+          <span>g</span>
+          <span>/</span>
+          <span>A</span>
+          <span>r</span>
+          <span>t</span>
+          <span>i</span>
+          <span>c</span>
+          <span>l</span>
+          <span>e</span>
+        </div>
+        <div class="github">
+          <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <h1>微信登录</h1>
+      <h4 id="nodeapi">微信登录 node api</h4>
+<p>安装流程图来:<img src="https://res.wx.qq.com/wxdoc/dist/assets/img/api-login.2fcc9f35.jpg" alt="" /></p>
+<h5 id="">环境</h5>
+<ul>
+<li>node</li>
+<li>koa</li>
+<li>koa-router</li>
+<li>mysql</li>
+<li>squelize</li>
+<li>nodemon</li>
+</ul>
+<h4 id="-1">项目目录结构</h4>
+<pre><code class="shell language-shell">│  index.js
+│
+├─config
+│  │  consts.js
+│  │
+│  └─key
+│          private.key
+│          public.key
+│
+├─controler
+│      hi.js
+│      login.js
+│
+├─database
+│      index.js
+│
+├─model
+│      user.model.js
+│
+├─router
+│      hi.js
+│      login.js
+│
+├─service
+│      user.service.js
+│
+└─utils
+        jwt.js
+</code></pre>
+<p>目录见名只意,正常的 node 项目结构</p>
+<h5 id="-2">主要代码</h5>
+<ul>
+<li>微信登录代码</li>
+</ul>
+<blockquote>
+  <p>没有封装,只做简单测试, 登录成功后应该把token保存在本地, 下次请求的时候携带上就可以了</p>
+</blockquote>
+<pre><code class="js language-js">wx.login({
+  success(res) {
+    console.log(res);
+    if (res.code) {
+      wx.request({
+        method: 'POST',
+        url: 'http://127.0.0.1:7878/login',
+        data: {
+          code: res.code,
+        },
+        success(res) {
+          console.log(res);
+        },
+        fail(err) {
+          console.log(err);
+        },
+      });
+    }
+  },
+});
+</code></pre>
+<ul>
+<li>nodeapi 登录代码</li>
+</ul>
+<pre><code class="js language-js">const axios = require('axios');
+const jwt = require('../utils/jwt');
+const userServices = require('../service/user.service');
+
+const { APPID, APPSECRET } = require('../config/consts');
+
+class LoginControler {
+  async login(ctx, next) {
+    // 1. 获取小程序提供的code
+    const { code } = ctx.request.body;
+
+    // 2.换取openid 和 session_key
+    const result = await axios.get(
+      `https://api.weixin.qq.com/sns/jscode2session?appid=${APPID}&amp;secret=${APPSECRET}&amp;js_code=${code}&amp;grant_type=authorization_code`
+    );
+    const { session_key, openid } = result.data;
+
+    // 如果没有之前没有登录过,将用户数据储存到数据库中
+    let hasUser = await userServices.findOne(openid);
+
+    if (!hasUser) {
+      await userServices.save(openid, session_key);
+    }
+
+    // 3.自定义登录态
+    const token = jwt.sign({ session_key, openid });
+
+    // 返回值
+    ctx.body = {
+      message: '登录成功',
+      token,
+    };
+
+    await next();
+  }
+}
+
+module.exports = new LoginControler();
+</code></pre>
+<p>完!</p>
+      <div class="end">----本文结束----</div>
+      <div class="page">
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/../../list.html"
+          class="pre"
+        >
+          <img src="../img/leftArrow.svg" alt="" />
+          List
+        </a>
+        <a
+          href="https://wu-yu-pei.github.io/leetcode/src/html/持续部署.html"
+          class="next"
+        >
+          持续部署
+          <img src="../img/rightArrow.svg" alt="" />
+        </a>
+      </div>
+    </div>
+    <div class="fotter">
+      <p>All articles written with ❤ by Wu Yupei</p>
+      <p>Github · Gieee · QQ · WeChat</p>
+    </div>
+    <script src="../css/theme/prism.min.js"></script>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+    <script src="../js/notify.js"></script>
+  </body>
+</html>
