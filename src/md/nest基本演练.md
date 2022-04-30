@@ -6,7 +6,7 @@
 
 > 控制器的目的是接收应用的特定请求。路由机制控制哪个控制器接收哪些请求。通常，每个控制器有多个路由，不同的路由可以执行不同的操作。
 
-```ts
+```js
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
 
@@ -25,7 +25,7 @@ export class AppController {
 
 > Providers 是 Nest 的一个基本概念。许多基本的 Nest 类可能被视为 provider - service, repository, factory, helper 等等。 他们都可以通过 constructor 注入依赖关系。 这意味着对象可以彼此创建各种关系，并且“连接”对象实例的功能在很大程度上可以委托给 Nest 运行时系统。 Provider 只是一个用 @Injectable() 装饰器注释的类。
 
-```ts
+```js
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -40,7 +40,7 @@ export class AppService {
 
 > 模块是具有 @Module() 装饰器的类。 @Module() 装饰器提供了元数据，Nest 用它来组织应用程序结构。
 
-```ts
+```js
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -71,7 +71,7 @@ export class AppModule implements NestModule {
 
 cors 中间件
 
-```ts
+```js
 import { Request, Response } from 'express';
 
 export function cors(req: Request, res: Response, next: () => void) {
@@ -99,7 +99,7 @@ export function cors(req: Request, res: Response, next: () => void) {
 
 日志中间件
 
-```ts
+```js
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 
@@ -118,7 +118,7 @@ export class LoggerMiddleware implements NestMiddleware {
 
 自定义异常
 
-```ts
+```js
 import { UnauthorizedException, HttpStatus } from '@nestjs/common';
 // 自定义异常过滤器
 export class MyUnauthorizedException extends UnauthorizedException {
@@ -136,7 +136,7 @@ export class MyUnauthorizedException extends UnauthorizedException {
 
 异常过滤器
 
-```ts
+```js
 import { ExceptionFilter, Catch, ArgumentsHost, HttpException } from '@nestjs/common';
 import { Request, Response } from 'express';
 
@@ -169,7 +169,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
 > 守卫是一个使用 @Injectable() 装饰器的类。 守卫应该实现 CanActivate 接口。
 
-```ts
+```js
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import jwt from '../utils/jwt';
 
