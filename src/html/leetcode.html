@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-leetcode</title>
+    <link href="../css/theme//prism-one-dark.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/animate.min.css" />
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/notify.css" />
+    <link rel="stylesheet" href="../css/newsprint.css" />
+    <link rel="stylesheet" href="../css/article.css" />
+  </head>
+
+  <body>
+    <div class="top">
+      <div class="nav">
+        <div class="home">
+          <a href="../../pageList/index.html"><img src="../img/list.svg" alt="" /></a>
+        </div>
+        <div class="auther">
+          <span>G</span>
+          <span>r</span>
+          <span>o</span>
+          <span>w</span>
+          <span>i</span>
+          <span>n</span>
+          <span>g</span>
+          <span>/</span>
+          <span>A</span>
+          <span>r</span>
+          <span>t</span>
+          <span>i</span>
+          <span>c</span>
+          <span>l</span>
+          <span>e</span>
+        </div>
+        <div class="github">
+          <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <h1>leetcode</h1>
+      <h5 id="">刷两道算法题</h5>
+<ol start="219">
+<li>存在重复元素 II
+ 给你一个整数数组 nums 和一个整数 k ，判断数组中是否存在两个 不同的索引 i 和 j ，满足 nums[i] == nums[j] 且 abs(i - j) &lt;= k 。如果存在，返回 true ；否则，返回 false 。</li>
+</ol>
+<p>示例 1：</p>
+<p>输入：nums = [1,2,3,1], k = 3
+输出：true
+示例 2：</p>
+<p>输入：nums = [1,0,1,1], k = 1
+输出：true
+示例 3：</p>
+<p>输入：nums = [1,2,3,1,2,3], k = 2
+输出：false</p>
+<p>两种解法
+思路在代码里</p>
+<pre><code class="js language-js">var containsNearbyDuplicate = function (nums, k) {
+  // 1.思路: 找出每一项数组要查找的范围,然后遍历范围 求解
+  // for(let i = 0; i &lt; nums.length; i++) {
+  //     let target = nums[i];
+  //     let start = i - k;
+  //     let end = i + k;
+  //     if(start &lt; 0) {
+  //         start = 0
+  //         start = start + 1
+  //     }
+  //     for(let j = start; j&lt;= end &amp;&amp; j != i; j++) {
+  //         if(nums[j] == target) {
+  //             return true
+  //         }
+  //     }
+  // }
+  // return false
+
+  // 2.思路 : 搞一个map 存索引 每一次循环找目标
+  let map = new Map();
+  for (let i = 0; i &lt; nums.length; i++) {
+    if (map.has(nums[i]) &amp;&amp; i - map.get(nums[i]) &lt;= k) {
+      return true;
+    } else {
+      map.set(nums[i], i);
+    }
+  }
+  return false;
+};
+</code></pre>
+<ol start="66">
+<li>加一
+给定一个由 整数 组成的 非空 数组所表示的非负整数，在该数的基础上加一。</li>
+</ol>
+<p>最高位数字存放在数组的首位， 数组中每个元素只存储单个数字。</p>
+<p>你可以假设除了整数 0 之外，这个整数不会以零开头。</p>
+<p>示例 1：</p>
+<p>输入：digits = [1,2,3]
+输出：[1,2,4]
+解释：输入数组表示数字 123。
+示例 2：</p>
+<p>输入：digits = [4,3,2,1]
+输出：[4,3,2,2]
+解释：输入数组表示数字 4321。
+示例 3：</p>
+<p>输入：digits = [0]
+输出：[1]</p>
+<p>提示：</p>
+<p>1 &lt;= digits.length &lt;= 100
+0 &lt;= digits[i] &lt;= 9</p>
+<p>两种解法
+思路在代码里</p>
+<pre><code class="js language-js">/**
+ * @param {number[]} digits
+ * @return {number[]}
+ */
+var plusOne = function (digits) {
+  // 解法一: 转字符串 转数组
+  // digits =  digits.join('')
+  // digits = (digits * 1) + 1
+  // return (digits.toString()).split('')
+
+  //解法二: 循环遍历 计算
+  for (let i = digits.length - 1; i &gt;= 0; i--) {
+    if (digits[i] != 9) {
+      digits[i] += 1;
+      return digits;
+    } else {
+      digits[i] = 0;
+    }
+  }
+  return [1, ...digits];
+};
+</code></pre>
+      <div class="end">----本文结束----</div>
+      <div class="page">
+        <a
+          href="https://wu-yu-pei.github.io/blog/src/html/../../list.html"
+          class="pre"
+        >
+          <img src="../img/leftArrow.svg" alt="" />
+          List
+        </a>
+        <a
+          href="https://wu-yu-pei.github.io/blog/src/html/nest基本演练.html"
+          class="next"
+        >
+          nest基本演练
+          <img src="../img/rightArrow.svg" alt="" />
+        </a>
+      </div>
+    </div>
+    <div class="fotter">
+      <p>All articles written with ❤ by Wu Yupei</p>
+      <p>Github · Gieee · QQ · WeChat</p>
+    </div>
+    <script src="../css/theme/prism.min.js"></script>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+    <script src="../js/notify.js"></script>
+  </body>
+</html>
