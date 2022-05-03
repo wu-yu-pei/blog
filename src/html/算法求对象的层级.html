@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-算法求对象的层级</title>
+    <link href="../css/theme//prism-one-dark.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/animate.min.css" />
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/notify.css" />
+    <link rel="stylesheet" href="../css/newsprint.css" />
+    <link rel="stylesheet" href="../css/article.css" />
+  </head>
+
+  <body>
+    <div class="top">
+      <div class="nav">
+        <div class="home">
+          <a href="../../pageList/index.html"><img src="../img/list.svg" alt="" /></a>
+        </div>
+        <div class="auther">
+          <span>G</span>
+          <span>r</span>
+          <span>o</span>
+          <span>w</span>
+          <span>i</span>
+          <span>n</span>
+          <span>g</span>
+          <span>/</span>
+          <span>A</span>
+          <span>r</span>
+          <span>t</span>
+          <span>i</span>
+          <span>c</span>
+          <span>l</span>
+          <span>e</span>
+        </div>
+        <div class="github">
+          <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <h1>算法求对象的层级</h1>
+      <h4 id="">一个递归算法</h4>
+<blockquote>
+  <p>起初 在 b 站上看到这一题, 有视频教程, 但是我没看,想着刷了 100 多道算法题的我试试自己能不能做出来, 说实话,我还是觉得有些乏力,但是最终还是做出了了,花了大概 30 分钟,惭愧啊!</p>
+</blockquote>
+<pre><code class="js language-js">var obj = {
+  a: {
+    b: {
+      c: {
+        d: 'd',
+      },
+    },
+  },
+  b: 10,
+  c: {
+    d: {
+      e: {
+        f: {
+          g: {
+            i: 'i',
+          },
+        },
+      },
+    },
+  },
+};
+
+function getDeep(target, count) {
+  if (typeof target !== 'object') {
+    return 0;
+  }
+
+  let res = 0;
+  for (let key in target) {
+    res = Math.max(count, getDeep(target[key], count + 1));
+  }
+  return res;
+}
+
+let res = getDeep(obj, 1);
+
+console.log(res);
+</code></pre>
+      <div class="end">----本文结束----</div>
+      <div class="page">
+        <a
+          href="https://wu-yu-pei.github.io/blog/src/html/../../list.html"
+          class="pre"
+        >
+          <img src="../img/leftArrow.svg" alt="" />
+          List
+        </a>
+        <a
+          href="https://wu-yu-pei.github.io/blog/src/html/leetcode.html"
+          class="next"
+        >
+          leetcode
+          <img src="../img/rightArrow.svg" alt="" />
+        </a>
+      </div>
+    </div>
+    <div class="fotter">
+      <p>All articles written with ❤ by Wu Yupei</p>
+      <p>Github · Gieee · QQ · WeChat</p>
+    </div>
+    <script src="../css/theme/prism.min.js"></script>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+    <script src="../js/notify.js"></script>
+  </body>
+</html>
