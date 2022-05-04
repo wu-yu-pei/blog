@@ -1,5 +1,5 @@
 var lis = document.querySelectorAll('li');
-
+// 懒加载
 for (let i = 0; i < lis.length; i++) {
   let img = lis[i].querySelector('img');
   let obsever = new IntersectionObserver(
