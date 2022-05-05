@@ -177,12 +177,19 @@ ul {
 }
 
 /* progress */
+progress::-webkit-progress-value {
+  background: blue;
+}
+progress::-webkit-progress-bar {
+  background: #fff;
+}
 progress {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 5px;
+  height: 2px;
   margin: 0;
+  background: #fff;
   z-index: 99999;
 }
