@@ -37,4 +37,4 @@ jobs:
           SOURCE: "/"
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          TARGET: ${{ secrets.ACCESS_TARGET_PATH }}
+          TARGET: "/home/blog"
