@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-周任务二</title>
+    <link href="../css/theme//prism-one-dark.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/animate.min.css" />
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/notify.css" />
+    <link rel="stylesheet" href="../css/newsprint.css" />
+    <link rel="stylesheet" href="../css/article.css" />
+  </head>
+
+  <body>
+    <div class="top">
+      <div class="nav">
+        <div class="home">
+          <a href="../../pageList/index.html"><img src="../img/list.svg" alt="" /></a>
+        </div>
+        <div class="auther">
+          <span>G</span>
+          <span>r</span>
+          <span>o</span>
+          <span>w</span>
+          <span>i</span>
+          <span>n</span>
+          <span>g</span>
+          <span>/</span>
+          <span>A</span>
+          <span>r</span>
+          <span>t</span>
+          <span>i</span>
+          <span>c</span>
+          <span>l</span>
+          <span>e</span>
+        </div>
+        <div class="github">
+          <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <h1>周任务二</h1>
+      <h4 id="">周四</h4>
+<h5 id="-1">一.算法</h5>
+<ol start="680">
+<li>验证回文字符串 Ⅱ
+ 给定一个非空字符串 s，最多删除一个字符。判断是否能成为回文字符串。</li>
+</ol>
+<p>示例 1:</p>
+<p>输入: s = "aba"
+输出: true
+示例 2:</p>
+<p>输入: s = "abca"
+输出: true
+解释: 你可以删除 c 字符。
+示例 3:</p>
+<p>输入: s = "abc"
+输出: false</p>
+<p><strong>思路:</strong>
+与验证回文字符串思路一样,双指针, 一前一后.
+跳过一个数字,是回文字符串 return true</p>
+<pre><code class="js language-js">var validPalindrome = function (s) {
+  function isValid(left, right) {
+    while (left &lt; right) {
+      if (s[left] !== s[right]) {
+        return false;
+      }
+      left++;
+      right--;
+    }
+    return true;
+  }
+
+  let left = 0;
+  let right = s.length - 1;
+  while (left &lt; right) {
+    if (s[left] !== s[right]) {
+      return isValid(left + 1, right) || isValid(left, right - 1);
+    }
+    left++;
+    right--;
+  }
+  return true;
+};
+
+console.log(validPalindrome('abca'));
+</code></pre>
+<ol start="187">
+<li>重复的 DNA 序列
+ DNA 序列 由一系列核苷酸组成，缩写为 'A', 'C', 'G' 和 'T'.。</li>
+</ol>
+<p>例如，"ACGAATTCCG" 是一个 DNA 序列 。
+在研究 DNA 时，识别 DNA 中的重复序列非常有用。</p>
+<p>给定一个表示 DNA 序列 的字符串 s ，返回所有在 DNA 分子中出现不止一次的 长度为 10 的序列(子字符串)。你可以按 任意顺序 返回答案。</p>
+<p>示例 1：</p>
+<p>输入：s = "AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT"
+输出：["AAAAACCCCC","CCCCCAAAAA"]
+示例 2：</p>
+<p>输入：s = "AAAAAAAAAAAAA"
+输出：["AAAAAAAAAA"]</p>
+<p><strong>思路</strong>
+搞一个 map 存结果,一次取 10 个</p>
+<pre><code class="js language-js">/**
+ * @param {string} s
+ * @return {string[]}
+ */
+var findRepeatedDnaSequences = function (s) {
+  // 搞一个map 用来记录个数
+  let map = new Map();
+  // res用来储存结果
+  let res = [];
+  for (let i = 0; i &lt;= s.length - 10; i++) {
+    // 截取字符串
+    let str = s.substr(i, 10);
+    // 如果map中有
+    if (map.has(str)) {
+      // 更新个数
+      map.set(str, map.get(str) + 1);
+      // 如果个数超过两个就 向res中push结果
+      if (map.get(str) === 2) {
+        res.push(str);
+      }
+    } else {
+      // 如果没有就设置个数为 1
+      map.set(str, 1);
+    }
+  }
+  // 返回结果
+  return res;
+};
+</code></pre>
+<h5 id="nest">二.nest 掘金</h5>
+<blockquote>
+  <p>已完成</p>
+</blockquote>
+<p>代码地址:https://github.com/wu-yu-pei/nest-.git</p>
+<h4 id="nest-1">三.nest 文档</h4>
+<blockquote>
+  <p>已读 next 安全部分</p>
+</blockquote>
+<p>中文地址: https://docs.nestjs.cn/8/security
+官网地址: https://docs.nestjs.com/security/authentication
+<img src="../mdimg/nest-secrite.png" alt="" /></p>
+<h5 id="nuxt">四.nuxt 文档</h5>
+<blockquote>
+  <p>已读</p>
+</blockquote>
+<p>roter 部分 暂时未翻译</p>
+      <div class="end">----本文结束----</div>
+      <div class="page">
+        <a
+          href="https://wu-yu-pei.github.io/blog/src/html/../../list.html"
+          class="pre"
+        >
+          <img src="../img/leftArrow.svg" alt="" />
+          List
+        </a>
+        <a
+          href="https://wu-yu-pei.github.io/blog/src/html/周任务一.html"
+          class="next"
+        >
+          周任务一
+          <img src="../img/rightArrow.svg" alt="" />
+        </a>
+      </div>
+    </div>
+    <div class="fotter">
+      <p>All articles written with ❤ by Wu Yupei</p>
+      <p>Github · Gieee · QQ · WeChat</p>
+    </div>
+    <script src="../css/theme/prism.min.js"></script>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+    <script src="../js/notify.js"></script>
+  </body>
+</html>
