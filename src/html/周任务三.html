@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-周任务三</title>
+    <link href="../css/theme//prism-one-dark.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/animate.min.css" />
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/notify.css" />
+    <link rel="stylesheet" href="../css/newsprint.css" />
+    <link rel="stylesheet" href="../css/article.css" />
+  </head>
+
+  <body>
+    <div class="top">
+      <div class="nav">
+        <div class="home">
+          <a href="../../pageList/index.html"><img src="../img/list.svg" alt="" /></a>
+        </div>
+        <div class="auther">
+          <span>G</span>
+          <span>r</span>
+          <span>o</span>
+          <span>w</span>
+          <span>i</span>
+          <span>n</span>
+          <span>g</span>
+          <span>/</span>
+          <span>A</span>
+          <span>r</span>
+          <span>t</span>
+          <span>i</span>
+          <span>c</span>
+          <span>l</span>
+          <span>e</span>
+        </div>
+        <div class="github">
+          <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <h1>周任务三</h1>
+      <h4 id="">周五</h4>
+<h5 id="-1">一.算法</h5>
+<ol start="3">
+<li>无重复字符的最长子串</li>
+</ol>
+<blockquote>
+  <p>给定一个字符串 s ，请你找出其中不含有重复字符的 最长子串 的长度。</p>
+</blockquote>
+<p>示例 1:</p>
+<p>输入: s = "abcabcbb"
+输出: 3
+解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3。
+示例 2:</p>
+<p>输入: s = "bbbbb"
+输出: 1
+解释: 因为无重复字符的最长子串是 "b"，所以其长度为 1。
+示例 3:</p>
+<p>输入: s = "pwwkew"
+输出: 3
+解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
+请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串。</p>
+<p>提示：</p>
+<p>0 &lt;= s.length &lt;= 5 * 104
+s 由英文字母、数字、符号和空格组成</p>
+<p><strong>思路</strong></p>
+<ul>
+<li>双指针</li>
+<li>Set 数据结构辅助</li>
+</ul>
+<pre><code class="js language-js">    let set = new Set();
+    let j = 0;
+    let max = 0
+    for(let i = 0; i &lt; s.length; i++) {
+        if(!set.has(s[i])) {
+            set.add(s[i])
+            max = Math.max(max, set.size)
+        }else {
+            while(set.has(s[j])) {
+                set.delete(s[j])
+                j++
+            }
+            set.add(s[i])
+        }
+    }
+    return max;
+};
+</code></pre>
+<ol start="283">
+<li>移动零</li>
+</ol>
+<blockquote>
+  <p>给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。</p>
+</blockquote>
+<p>请注意 ，必须在不复制数组的情况下原地对数组进行操作。</p>
+<p>示例 1:</p>
+<p>输入: nums = [0,1,0,3,12]
+输出: [1,3,12,0,0]
+示例 2:</p>
+<p>输入: nums = [0]
+输出: [0]</p>
+<p>解一:</p>
+<pre><code class="js language-js">let j = 0;
+let len = nums.length;
+for (let i = 0; i &lt; len; i++) {
+  if (nums[i] == 0) continue;
+  nums[j] = nums[i];
+  j++;
+}
+nums.fill(0, j);
+return nums;
+</code></pre>
+<p>解二:</p>
+<pre><code class="js language-js">let i = (j = 0);
+while (i &lt; nums.length) {
+  if (nums[i] !== 0) {
+    [nums[i], nums[j]] = [nums[j], nums[i]];
+    j++;
+  }
+  i++;
+}
+return nums;
+</code></pre>
+<h5 id="nest">二.nest 掘金</h5>
+<blockquote>
+  <p>已看完 日志系统 拦截器 piple 等</p>
+</blockquote>
+<h4 id="nest-1">三.nest 文档</h4>
+<blockquote>
+  <p>已看完</p>
+</blockquote>
+<h5 id="nuxt">四.nuxt 文档</h5>
+<blockquote>
+  <p>未看</p>
+</blockquote>
+      <div class="end">----本文结束----</div>
+      <div class="page">
+        <a
+          href="https://wu-yu-pei.github.io/blog/src/html/../../list.html"
+          class="pre"
+        >
+          <img src="../img/leftArrow.svg" alt="" />
+          List
+        </a>
+        <a
+          href="https://wu-yu-pei.github.io/blog/src/html/周任务二.html"
+          class="next"
+        >
+          周任务二
+          <img src="../img/rightArrow.svg" alt="" />
+        </a>
+      </div>
+    </div>
+    <div class="fotter">
+      <p>All articles written with ❤ by Wu Yupei</p>
+      <p>Github · Gieee · QQ · WeChat</p>
+    </div>
+    <script src="../css/theme/prism.min.js"></script>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+    <script src="../js/notify.js"></script>
+  </body>
+</html>
