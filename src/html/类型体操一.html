@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-类型体操一</title>
+    <link href="../css/theme//prism-one-dark.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/animate.min.css" />
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/notify.css" />
+    <link rel="stylesheet" href="../css/newsprint.css" />
+    <link rel="stylesheet" href="../css/article.css" />
+  </head>
+
+  <body>
+    <div class="top">
+      <div class="nav">
+        <div class="home">
+          <a href="../../pageList/index.html"><img src="../img/list.svg" alt="" /></a>
+        </div>
+        <div class="auther">
+          <span>G</span>
+          <span>r</span>
+          <span>o</span>
+          <span>w</span>
+          <span>i</span>
+          <span>n</span>
+          <span>g</span>
+          <span>/</span>
+          <span>A</span>
+          <span>r</span>
+          <span>t</span>
+          <span>i</span>
+          <span>c</span>
+          <span>l</span>
+          <span>e</span>
+        </div>
+        <div class="github">
+          <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <h1>类型体操一</h1>
+      <h4 id="">类型体操</h4>
+<p>一.</p>
+<blockquote>
+  <p>实现 TS 内置的 Pick<T, K>，但不可以使用它。从类型 T 中选择出属性 K，构造成一个新的类型。</p>
+</blockquote>
+<pre><code class="js language-js">interface Todo {
+  title: string;
+  description: string;
+  completed: boolean;
+}
+
+
+type MyPick&lt;T, K extends keyof T&gt; = {
+  [props in K]: T[K];
+};
+
+type TodoPreview = MyPick&lt;Todo, 'title' | 'completed'&gt;;
+</code></pre>
+<p>二.</p>
+<blockquote>
+  <p>不要使用内置的 Readonly<T>，自己实现一个。该 Readonly 会接收一个 泛型参数，并返回一个完全一样的类型，只是所有属性都会被 readonly 所修饰。也就是不可以再对该对象的属性赋值。</p>
+</blockquote>
+<pre><code class="js language-js">interface Todo {
+  title: string;
+  description: string;
+}
+
+type MyReadonly&lt;T&gt; = {
+  readonly [key in keyof T]: T[key];
+};
+
+const todo: MyReadonly&lt;Todo&gt; = {
+  title: 'Hey',
+  description: 'foobar',
+};
+
+todo.title = 'Hello'; // Error: cannot reassign a readonly property
+todo.description = 'barFoo'; // Error: cannot reassign a readonly property
+</code></pre>
+<p>三.</p>
+<blockquote>
+  <p>传入一个元组类型，将这个元组类型转换为对象类型，这个对象类型的键/值都是从元组中遍历出来。</p>
+</blockquote>
+<pre><code class="js language-js">const tuple = ['tesla', 'model 3', 'model X', 'model Y'];
+
+// type TupleToObject&lt;T&gt; = {
+//   [key in keyof T]: T[key];
+// };
+
+type TupleToObject&lt;T extends string[]&gt; = { [K in T[number]]: K };
+
+type result = TupleToObject&lt;typeof tuple&gt;; // expected { tesla: 'tesla', 'model 3': 'model 3', 'model X': 'model X', 'model Y': 'model Y'}
+</code></pre>
+<p>四.</p>
+<blockquote>
+  <p>实现一个通用 First<T>，它接受一个数组 T 并返回它的第一个元素的类型。</p>
+</blockquote>
+<pre><code class="js language-js">type arr1 = ['a', 'b', 'c'];
+type arr2 = [3, 2, 1];
+
+// type First&lt;T extends any[]&gt; = T extends [infer F, ...infer R] ? F : never;
+
+type First&lt;T extends any[]&gt; = T extends [] ? never : T[0];
+
+// type First&lt;T extends any[]&gt; = T[0];
+
+type head1 = First&lt;arr1&gt;; // expected to be 'a'
+type head2 = First&lt;arr2&gt;; // expected to be 3
+</code></pre>
+<p>五.</p>
+<blockquote>
+  <p>实现内置的 Exclude <T, U>类型，但不能直接使用它本身。从联合类型 T 中排除 U 的类型成员，来构造一个新的类型。</p>
+</blockquote>
+<pre><code class="js language-js">// Exclude &lt;T, U&gt;
+type A = {
+  name: string;
+  age: number;
+};
+
+type B = {
+  name: string;
+  age: number;
+  class: string;
+};
+
+// 我的:
+// type MyExclude&lt;T, U extends T&gt; = {
+//   [K in keyof T]: T[K];
+// };
+
+// github:
+type MyExclude&lt;T, U&gt; = T extends U ? never : T
+
+type C = MyExclude&lt;A, B&gt;;
+</code></pre>
+<p>今天就5题吧,继续研究…</p>
+      <div class="end">----本文结束----</div>
+      <div class="page">
+        <a
+          href="https://wu-yu-pei.github.io/blog/src/html/../../list.html"
+          class="pre"
+        >
+          <img src="../img/leftArrow.svg" alt="" />
+          List
+        </a>
+        <a
+          href="https://wu-yu-pei.github.io/blog/src/html/周任务三.html"
+          class="next"
+        >
+          周任务三
+          <img src="../img/rightArrow.svg" alt="" />
+        </a>
+      </div>
+    </div>
+    <div class="fotter">
+      <p>All articles written with ❤ by Wu Yupei</p>
+      <p>Github · Gieee · QQ · WeChat</p>
+    </div>
+    <script src="../css/theme/prism.min.js"></script>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+    <script src="../js/notify.js"></script>
+  </body>
+</html>
