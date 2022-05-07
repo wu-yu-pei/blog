@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-类型体操二</title>
+    <link href="../css/theme//prism-one-dark.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/animate.min.css" />
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/notify.css" />
+    <link rel="stylesheet" href="../css/newsprint.css" />
+    <link rel="stylesheet" href="../css/article.css" />
+  </head>
+
+  <body>
+    <div class="top">
+      <div class="nav">
+        <div class="home">
+          <a href="../../pageList/index.html"><img src="../img/list.svg" alt="" /></a>
+        </div>
+        <div class="auther">
+          <span>G</span>
+          <span>r</span>
+          <span>o</span>
+          <span>w</span>
+          <span>i</span>
+          <span>n</span>
+          <span>g</span>
+          <span>/</span>
+          <span>A</span>
+          <span>r</span>
+          <span>t</span>
+          <span>i</span>
+          <span>c</span>
+          <span>l</span>
+          <span>e</span>
+        </div>
+        <div class="github">
+          <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <h1>类型体操二</h1>
+      <h4 id="">类型体操</h4>
+<blockquote>
+  <p>虽然我不知道以后公司会不会用 ts 来写代码,但是我还是想学习一下</p>
+  <p>infer 关键字练习</p>
+</blockquote>
+<p>1.获取 promise 里面的值</p>
+<pre><code class="js language-js">type P = Promise&lt;'pending'&gt;;
+
+type GetPromiseValue&lt;T&gt; = T extends Promise&lt;infer Value&gt; ? Value : never;
+
+const a: GetPromiseValue&lt;P&gt; = 'pending';
+</code></pre>
+<p>2.提取数组第一个元素类型</p>
+<pre><code class="js language-js">// 提取数组的第一个元素类型
+type arr = [1, 2, 3];
+
+// 第一个extends是类型约束 后面的 extends ?　: 是
+type GetFirstType&lt;T extends unknown[]&gt; = T extends [infer Value, ...unknown[]] ? Value : never;
+
+const a: GetFirstType&lt;arr&gt; = 1;
+</code></pre>
+<p>3.提取数组最后一个元素类型</p>
+<pre><code class="js language-js">type arr = [1, 2, 3];
+
+type GetLastType&lt;T extends unknown[]&gt; = T extends [...unknown[], infer Value] ? Value : never;
+
+const a: GetLastType&lt;arr&gt; = 3;
+</code></pre>
+<p>4.取剩余部分的元素类型</p>
+<pre><code class="js language-js">type arr = [1, 2, 3];
+
+type GetArgsType&lt;T extends unknown[]&gt; = T extends [...infer Value, unknown] ? Value : never;
+
+const a: GetArgsType&lt;arr&gt; = [1, 2];
+</code></pre>
+<p>5.取剩余部分的元素类型</p>
+<pre><code class="js language-js">type arr = [1, 2, 3];
+
+type GetArgsType&lt;T extends unknown[]&gt; = T extends [any, ...infer Value] ? Value : never;
+
+const a: GetArgsType&lt;arr&gt; = [2, 3];
+</code></pre>
+<p>6.字符串第一个开头</p>
+<pre><code class="js language-js">type StartWith&lt;Str extends string, SubStr extends string&gt; = Str extends `${SubStr}${string}`
+? true
+: false;
+
+const a: StartWith&lt;'abcde', 'a'&gt; = true;
+</code></pre>
+<p>字符串最后一个开头</p>
+<pre><code class="js language-js">type EndWith&lt;Str extends string, SubStr extends string&gt; = Str extends `${string}${SubStr}`
+? true
+: false;
+
+const a: EndWith&lt;'abcde', 'e'&gt; = true;
+</code></pre>
+<ol start="8">
+<li>替换字符串</li>
+</ol>
+<pre><code class="js language-js">type Replace&lt;
+Str extends string,
+From extends string,
+To extends string
+
+&gt; = Str extends `${infer A}${From}${infer B}` ? `${A}${To}${B}` : never;
+
+const a:Replace&lt;"abcde", 'b', 'n'&gt; = 'ancde'
+</code></pre>
+<ol start="9">
+<li>替换空格</li>
+</ol>
+<pre><code class="js language-js">// 替换右空格 有一个递归的过程
+type TrimRight&lt;Str extends string&gt; = Str extends `${infer Rest}${' ' | '\n' | '\t'}`
+? TrimRight&lt;Rest&gt;
+: Str;
+
+// const a: TrimRight&lt;'asdf asf asf sdf '&gt; = 'asdf asf asf sdf';
+
+// 替换左空格 有一个递归的过程
+type TrimLeft&lt;Str extends string&gt; = Str extends `${' ' | '\n' | '\t'}${infer Rest}`
+? TrimLeft&lt;Rest&gt;
+: Str;
+
+// const a: TrimLeft&lt;' asdf asf asf sdf'&gt; = 'asdf asf asf sdf';
+
+// 1替换两边空格
+type tirm&lt;Str extends string&gt; = TrimLeft&lt;TrimRight&lt;Str&gt;&gt;;
+</code></pre>
+<p>11.函数也可以提取类型</p>
+<pre><code class="js language-js">type GetParameters&lt;Func extends Function&gt; = Func extends (...args: infer Args) =&gt; unknown
+? Args
+: never;
+
+type func = (a: string, b: string) =&gt; any;
+
+const a: GetParameters&lt;func&gt; = ['1', '2'];
+</code></pre>
+<p>12.获取函数返回值类型</p>
+<pre><code class="js language-js">    type GetReturnType&lt;Func extends Function&gt; = Func extends (...args: any[]) =&gt; infer ReturnType
+    ? ReturnType
+    : never;
+
+type func = (a: string, b: string) =&gt; string;
+
+const a: GetReturnType&lt;func&gt; = 'a';
+</code></pre>
+      <div class="end">----本文结束----</div>
+      <div class="page">
+        <a
+          href="https://wu-yu-pei.github.io/blog/src/html/../../list.html"
+          class="pre"
+        >
+          <img src="../img/leftArrow.svg" alt="" />
+          List
+        </a>
+        <a
+          href="https://wu-yu-pei.github.io/blog/src/html/类型体操一.html"
+          class="next"
+        >
+          类型体操一
+          <img src="../img/rightArrow.svg" alt="" />
+        </a>
+      </div>
+    </div>
+    <div class="fotter">
+      <p>All articles written with ❤ by Wu Yupei</p>
+      <p>Github · Gieee · QQ · WeChat</p>
+    </div>
+    <script src="../css/theme/prism.min.js"></script>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+    <script src="../js/notify.js"></script>
+  </body>
+</html>
