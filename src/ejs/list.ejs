@@ -18,9 +18,7 @@
     <div class="top">
       <div class="nav">
         <div class="home">
-          <a href="../index.html"
-            ><img src="../src/img/home.svg" alt=""
-          /></a>
+          <a href="../index.html"><img src="../src/img/home.svg" alt="" /></a>
         </div>
         <div class="auther">
           <span>G</span>
@@ -50,8 +48,15 @@
             <img lazy-src="../src/imgs/<%= (data.length * page) - index %>.jpg" alt="" />
           </div>
           <div class="right">
-            <span class="author"> <%= item.ct %></span>
+            <!-- <span class="author">
+              <img src="../src/img/time.png" alt="">
+              <%= item.ct %>
+            </span> -->
             <span class="time">Growing</span>
+            <span class="author">
+              <img src="../src/img/time.png" alt="" />
+              <%= item.ct %>
+            </span>
           </div>
         </li>
         <% }); %>

@@ -147,7 +147,7 @@ a {
 }
 
 .content ul li .right span {
-  width: 100px;
+  width: 110px;
   text-align: right;
 }
 
@@ -156,7 +156,14 @@ a {
 }
 
 .content ul li .right span:nth-of-type(2) {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   color: #1bc6d6;
+}
+.content ul li .right span:nth-of-type(2) img {
+  width: 18px;
+  height: 18px;
 }
 
 .end {
