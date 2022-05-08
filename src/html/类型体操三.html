@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-类型体操三</title>
+    <link href="../css/theme//prism-one-dark.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/animate.min.css" />
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/notify.css" />
+    <link rel="stylesheet" href="../css/newsprint.css" />
+    <link rel="stylesheet" href="../css/article.css" />
+  </head>
+
+  <body>
+    <div class="top">
+      <div class="nav">
+        <div class="home">
+          <a href="../../pageList/index.html"><img src="../img/list.svg" alt="" /></a>
+        </div>
+        <div class="auther">
+          <span>G</span>
+          <span>r</span>
+          <span>o</span>
+          <span>w</span>
+          <span>i</span>
+          <span>n</span>
+          <span>g</span>
+          <span>/</span>
+          <span>A</span>
+          <span>r</span>
+          <span>t</span>
+          <span>i</span>
+          <span>c</span>
+          <span>l</span>
+          <span>e</span>
+        </div>
+        <div class="github">
+          <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <h1>类型体操三</h1>
+      <h4 id="">类型体操</h4>
+<blockquote>
+  <p>从一个类型　构造另一个类型</p>
+</blockquote>
+<p>1.数组从新构造 push</p>
+<pre><code class="js language-js">type tuple = [1, 2, 3];
+
+type Push&lt;T extends unknown[], V&gt; = [...T, V];
+
+const a: Push&lt;tuple, 5&gt; = [1, 2, 3, 5];
+</code></pre>
+<p>2.数组从新构造 unshifp</p>
+<pre><code class="js language-js">type tuple = [1, 2, 3];
+
+type Push&lt;T extends unknown[], V&gt; = [V, ...T];
+
+const a: Push&lt;tuple, 5&gt; = [5, 1, 2, 3];
+</code></pre>
+<p>3.数组从新构造 shift</p>
+<pre><code class="js language-js">type tuple = [1, 2, 3];
+
+type Unshif&lt;T extends unknown[]&gt; = T extends [infer Frist, ...infer Arg] ? Arg : never;
+
+const a: Unshif&lt;tuple&gt; = [2, 3];
+</code></pre>
+<p>4.数组从新构造 pop</p>
+<pre><code class="js language-js">type tuple = [1, 2, 3];
+
+type Unshif&lt;T extends unknown[]&gt; = T extends [...infer Arg, infer Last] ? Arg : never;
+
+const a: Unshif&lt;tuple&gt; = [1, 2];
+</code></pre>
+<p>5.数组的从新构造 合并两个</p>
+<pre><code class="js language-js">type a = [1, 2];
+type b = ['a', 'b'];
+
+type HeBing&lt;One extends unknown[], Two extends unknown[]&gt; = One extends [
+infer OneFirst,
+infer OneTwo
+]
+? Two extends [infer TwoFirst, infer TwoTwo]
+? [[OneFirst, TwoFirst], [OneTwo, TwoTwo]]
+: []
+: [];
+
+const c: HeBing&lt;a, b&gt; = [
+[1, 'a'],
+[2, 'b'],
+];
+</code></pre>
+<p>6.数组的从新构造 合并多个</p>
+<pre><code class="js language-js">type a = [1, 2, 3];
+type b = ['a', 'b', 'c'];
+
+type HeBing&lt;One extends unknown[], Two extends unknown[]&gt; = One extends [
+infer First,
+...infer OneArg
+]
+? Two extends [infer Two, ...infer TwoArg]
+? [[First, Two], ...HeBing&lt;OneArg, TwoArg&gt;]
+: []
+: [];
+
+const a: HeBing&lt;a, b&gt; = [
+[1, 'a'],
+[2, 'b'],
+[3, 'c'],
+];
+</code></pre>
+<p>7.字符串的构造 array Array</p>
+<pre><code class="js language-js">type str = 'array';
+
+type CapitalizeStr&lt;T extends string&gt; = T extends `${infer FirstWord}${infer Arg}`
+? `${Uppercase&lt;FirstWord&gt;}${Arg}`
+: T;
+
+const a: CapitalizeStr&lt;str&gt; = 'Array';
+</code></pre>
+<p>8.字符串的构造 dong<em>dong</em>dong 到 dongDongDong 的变换。</p>
+<pre><code class="js language-js">type CamelCase&lt;Str extends string&gt; = Str extends `${infer Left}_${infer Right}${infer Rest}`
+? `${Left}${Uppercase&lt;Right&gt;}${CamelCase&lt;Rest&gt;}`
+: Str;
+</code></pre>
+<blockquote>
+  <p>就学这么多</p>
+</blockquote>
+<p>!_!</p>
+      <div class="end">----本文结束----</div>
+      <div class="page">
+        <a
+          href="http://wuyupei.top/src/html/../../list.html"
+          class="pre"
+        >
+          <img src="../img/leftArrow.svg" alt="" />
+          List
+        </a>
+        <a
+          href="http://wuyupei.top/src/html/持续部署.html"
+          class="next"
+        >
+          持续部署
+          <img src="../img/rightArrow.svg" alt="" />
+        </a>
+      </div>
+    </div>
+    <div class="fotter">
+      <p>All articles written with ❤ by Wu Yupei</p>
+      <p>Github · Gieee · QQ · WeChat</p>
+    </div>
+    <script src="../css/theme/prism.min.js"></script>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+    <script src="../js/notify.js"></script>
+  </body>
+</html>
