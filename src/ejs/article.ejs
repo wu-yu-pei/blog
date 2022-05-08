@@ -48,14 +48,14 @@
       <div class="end">----本文结束----</div>
       <div class="page">
         <a
-          href="http://wuyupei.top/src/html/<%- pre === null ? '../../list' : pre  %>.html"
+          href="<%- pre === null ? '../../pageList/index' : ('../html/'+pre)  %>.html"
           class="pre"
         >
           <img src="../img/leftArrow.svg" alt="" />
           <%- pre === null ? 'List' : pre %>
         </a>
         <a
-          href="http://wuyupei.top/src/html/<%- next === null ? '../../list' : next  %>.html"
+          href="<%- next === null ? '../../pageList/index' : ('../html/'+next)  %>.html"
           class="next"
         >
           <%- next === null ? 'List' : next %>
@@ -71,5 +71,6 @@
     <script src="../js/click.js"></script>
     <script src="../js/scroll.js"></script>
     <script src="../js/notify.js"></script>
+    <script src="../js/progress.js"></script>
   </body>
 </html>
