@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-redis入门学习笔记</title>
+    <link href="../css/theme//prism-one-dark.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/animate.min.css" />
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/notify.css" />
+    <link rel="stylesheet" href="../css/newsprint.css" />
+    <link rel="stylesheet" href="../css/article.css" />
+  </head>
+
+  <body>
+    <div class="top">
+      <div class="nav">
+        <div class="home">
+          <a href="../../pageList/index.html"><img src="../img/list.svg" alt="" /></a>
+        </div>
+        <div class="auther">
+          <span>G</span>
+          <span>r</span>
+          <span>o</span>
+          <span>w</span>
+          <span>i</span>
+          <span>n</span>
+          <span>g</span>
+          <span>/</span>
+          <span>A</span>
+          <span>r</span>
+          <span>t</span>
+          <span>i</span>
+          <span>c</span>
+          <span>l</span>
+          <span>e</span>
+        </div>
+        <div class="github">
+          <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <h1>redis入门学习笔记</h1>
+      <h4 id="redis">Redis</h4>
+<blockquote>
+  <p>学习 redis 的目的 验证码需求 过期需求 登录需求 同意账号多人登录提示</p>
+</blockquote>
+<h5 id="">相关命令</h5>
+<pre><code class="bash language-bash">常用命令 String
+select 1 选择数据库
+
+get key  获取值
+
+set key value 设置值
+
+exists name 判断是否存在某个key
+
+expire name 10 设置过期事件
+
+FLUSHALL 清楚所有数据库内容
+
+FLUSHDB 清除当前数据库内容
+
+keys * 查看所有的keys
+
+ttl key 看一个数据还有多久过期
+
+move key 1移除当前读key
+
+type key 类型
+
+append key "value" 在key后追加字符串
+
+setLen 获取字符串长度
+
+incr/decr key +-1操作
+
+incrby key 10 一次加10
+
+get/setrange key 0 2 /  0  -1 获取/替换范围字符串
+
+setex set  with expire 设置过期事件
+
+setnx 不存在在设置
+
+常用命令 list
+Lpush userlist wuyupei
+Rpush userIst liuxu
+Lrange 0 -1
+Lpop
+Rpop
+Lindex userlist 0 获取指定位置list的值
+Llen userlist 长度
+lrem 移除指定的value
+rpoplpush 组合命令
+</code></pre>
+<h5 id="-1">简单的使用</h5>
+<blockquote>
+  <p>nodejs 连接远程服务器上的 redis 进行操作
+  相关代码
+  1.redis 连接</p>
+</blockquote>
+<pre><code class="js language-js">const Redis = require('ioredis');
+
+const redisConfing = {
+  port: 6379, // Redis port
+  host: '8.141.63.127', // Redis host
+  password: '19781209Wyp',
+  db: 0, // Defaults to 0
+};
+
+module.exports = new Redis(redisConfing);
+</code></pre>
+<p>2.简单的缓存操作</p>
+<pre><code class="js language-js">const express = require('express');
+const redis = require('./redis');
+
+const app = express();
+
+async function checkCache(req, res, next) {
+  let result = await redis.get('count');
+  if (result) {
+    console.log('缓存了');
+    redis.incr('count');
+    res.send(result);
+  } else {
+    next();
+  }
+}
+
+app.get('/user', checkCache, async (req, res) =&gt; {
+  console.log('没缓存');
+  let result = await redis.setex('count', 100, '1');
+  res.send(result);
+});
+
+app.listen(8080, () =&gt; {
+  console.log('server is runing at 8080');
+});
+</code></pre>
+<p>效果:
+请求第一次
+<img src="../mdimg/redis/a.png" alt="" />
+请求第二次
+<img src="../mdimg/redis/b.png" alt="" />
+请求第..次
+<img src="../mdimg/redis/d.png" alt="" />
+控制台输出
+<img src="../mdimg/redis/e.png" alt="" /></p>
+<p>另外如果相比每次都进行数据库操作,使用 redis 缓存要快的多</p>
+<h4 id="-2">总结</h4>
+<blockquote>
+  <p>今天知识入门,简单的使用,后面我还会继续深入学习,争取精通它 加油!</p>
+</blockquote>
+      <div class="end">----本文结束----</div>
+      <div class="page">
+        <a
+          href="../../pageList/index.html"
+          class="pre"
+        >
+          <img src="../img/leftArrow.svg" alt="" />
+          List
+        </a>
+        <a
+          href="../html/MyPage.html"
+          class="next"
+        >
+          MyPage
+          <img src="../img/rightArrow.svg" alt="" />
+        </a>
+      </div>
+    </div>
+    <div class="fotter">
+      <p>All articles written with ❤ by Wu Yupei</p>
+      <p>Github · Gieee · QQ · WeChat</p>
+    </div>
+    <script src="../css/theme/prism.min.js"></script>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+    <script src="../js/notify.js"></script>
+    <script src="../js/progress.js"></script>
+  </body>
+</html>
