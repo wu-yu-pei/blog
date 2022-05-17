@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-生成树形数据</title>
+    <link href="../css/theme//prism-one-dark.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/animate.min.css" />
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/notify.css" />
+    <link rel="stylesheet" href="../css/newsprint.css" />
+    <link rel="stylesheet" href="../css/article.css" />
+  </head>
+
+  <body>
+    <div class="top">
+      <div class="nav">
+        <div class="home">
+          <a href="../../pageList/index.html"><img src="../img/list.svg" alt="" /></a>
+        </div>
+        <div class="auther">
+          <span>G</span>
+          <span>r</span>
+          <span>o</span>
+          <span>w</span>
+          <span>i</span>
+          <span>n</span>
+          <span>g</span>
+          <span>/</span>
+          <span>A</span>
+          <span>r</span>
+          <span>t</span>
+          <span>i</span>
+          <span>c</span>
+          <span>l</span>
+          <span>e</span>
+        </div>
+        <div class="github">
+          <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <h1>生成树形数据</h1>
+      <h4 id="">生成树形数据</h4>
+<blockquote>
+  <p>给出一组有父子关系的数组数据,生成对应的树形数据</p>
+</blockquote>
+<h5 id="-1">比如:</h5>
+<pre><code class="js language-js">var arr = [
+  { id: '1', pid: 0, title: '一级标题一' },
+  { id: '2', pid: 0, title: '一级标题二' },
+  { id: '3', pid: 0, title: '一级标题三' },
+  { id: '4', pid: 1, title: '一级标题一下的二级标题一' },
+  { id: '5', pid: 1, title: '一级标题一下的二级标题二' },
+  { id: '6', pid: 1, title: '一级标题一下的二级标题三' },
+  { id: '7', pid: 2, title: '一级标题二下的二级标题一' },
+  { id: '8', pid: 2, title: '一级标题二下的二级标题二' },
+  { id: '9', pid: 3, title: '一级标题三下的二级标题一' },
+  { id: '10', pid: 9, title: '一级标题三下的二级标题一下的三级标题一' },
+];
+
+var result = [
+  {
+    id: '1',
+    pid: 0,
+    title: '一级标题一',
+    chlidren: [
+      { id: '4', pid: 1, title: '一级标题一下的二级标题一' },
+      { id: '5', pid: 1, title: '一级标题一下的二级标题二' },
+      { id: '6', pid: 1, title: '一级标题一下的二级标题三' },
+    ],
+  },
+  {
+    id: '2',
+    pid: 0,
+    title: '一级标题二',
+    chlidren: [
+      { id: '7', pid: 2, title: '一级标题二下的二级标题一' },
+      { id: '8', pid: 2, title: '一级标题二下的二级标题二' },
+    ],
+  },
+  {
+    id: '3',
+    pid: 0,
+    title: '一级标题三',
+    chlidren: [
+      {
+        id: '9',
+        pid: 3,
+        title: '一级标题三下的二级标题一',
+        children: [{ id: '10', pid: 9, title: '一级标题三下的二级标题一下的三级标题一' }],
+      },
+    ],
+  },
+];
+</code></pre>
+<h5 id="-2">代码实现</h5>
+<h6 id="-3">一</h6>
+<pre><code class="js language-js">arr.forEach((item, index) =&gt; {
+  item.children = arr.filter((citem, cindex) =&gt; {
+    return citem.pid == item.id;
+  });
+});
+let result = arr.filter((item) =&gt; item.pid == 0);
+console.log(result);
+</code></pre>
+<h6 id="-4">二</h6>
+<pre><code class="js language-js">let treeMapList = arr.reduce((pre, cur) =&gt; {
+  pre[cur.id] = cur;
+  return pre;
+}, {});
+
+let res = arr.reduce((pre, cur) =&gt; {
+  const pid = cur.pid;
+  const parent = treeMapList[pid];
+  if (parent) {
+    parent.children ? parent.children.push(cur) : (parent.children = [cur]);
+  } else if (cur.pid == 0) {
+    // 根
+    pre.push(cur);
+  }
+  return pre;
+}, []);
+console.log(res);
+</code></pre>
+<h6 id="-5">其他</h6>
+<p>递归</p>
+      <div class="end">----本文结束----</div>
+      <div class="page">
+        <a
+          href="../../pageList/index.html"
+          class="pre"
+        >
+          <img src="../img/leftArrow.svg" alt="" />
+          List
+        </a>
+        <a
+          href="../html/redis入门学习笔记.html"
+          class="next"
+        >
+          redis入门学习笔记
+          <img src="../img/rightArrow.svg" alt="" />
+        </a>
+      </div>
+    </div>
+    <div class="fotter">
+      <p>All articles written with ❤ by Wu Yupei</p>
+      <p>Github · Gieee · QQ · WeChat</p>
+    </div>
+    <script src="../css/theme/prism.min.js"></script>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+    <script src="../js/notify.js"></script>
+    <script src="../js/progress.js"></script>
+  </body>
+</html>
