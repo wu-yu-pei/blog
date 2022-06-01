@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-接入微信公众号登录</title>
+    <link href="../css/theme//prism-one-dark.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/animate.min.css" />
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/notify.css" />
+    <link rel="stylesheet" href="../css/newsprint.css" />
+    <link rel="stylesheet" href="../css/article.css" />
+  </head>
+
+  <body>
+    <div class="top">
+      <div class="nav">
+        <div class="home">
+          <a href="../../pageList/index.html"><img src="../img/list.svg" alt="" /></a>
+        </div>
+        <div class="auther">
+          <span>G</span>
+          <span>r</span>
+          <span>o</span>
+          <span>w</span>
+          <span>i</span>
+          <span>n</span>
+          <span>g</span>
+          <span>/</span>
+          <span>A</span>
+          <span>r</span>
+          <span>t</span>
+          <span>i</span>
+          <span>c</span>
+          <span>l</span>
+          <span>e</span>
+        </div>
+        <div class="github">
+          <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <h1>接入微信公众号登录</h1>
+      <h4 id="node">Node-接入微信公众号</h4>
+<blockquote>
+  <p>使用 express 接入微信公众号开发</p>
+</blockquote>
+<h5 id="">一、注册微信测试号</h5>
+<p>注册地址：https://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=sandbox/login
+微信扫码直接注册登录即可，登录成功后回给你一个 appID 和 appsecret 第二步验证的时候需要使用</p>
+<h5 id="node-1">二、使用 node 接入</h5>
+<blockquote>
+  <p>使用 express 框架</p>
+</blockquote>
+<h6 id="21">2.1 验证</h6>
+<blockquote>
+  <p>接入前需微信那边需要进行加密验证</p>
+</blockquote>
+<p>2.1.1 填写接口配置信息
+URL:http://3635333bb4.wicp.vip(这个如果没有服务器的话可以使用内网穿透工具)
+Token:ABCDEFGHIJKLM
+2.1.2 开始验证</p>
+<blockquote>
+  <p>需要些服务器代码与微信的服务器进行对接， 下面是对接过程：点击验证时，微信服务器会向我们的服务器发送一个 get 请求，进行验证</p>
+</blockquote>
+<pre><code class="js language-js">app.get('/', (req, res) =&gt; {
+  //1.获取微信服务器Get请求的参数 signature、timestamp、nonce、echostr
+  var signature = req.query.signature, //微信加密签名
+    timestamp = req.query.timestamp, //时间戳
+    nonce = req.query.nonce, //随机数
+    echostr = req.query.echostr; //随机字符串
+
+  //2.将token、timestamp、nonce三个参数进行字典序排序
+  var array = ['ABCDEFGHIJKLM', timestamp, nonce];
+  array.sort();
+
+  //3.将三个参数字符串拼接成一个字符串进行sha1加密
+  var tempStr = array.join('');
+  const hashCode = crypto.createHash('sha1'); //创建加密类型
+  var resultCode = hashCode.update(tempStr, 'utf8').digest('hex'); //对传入的字符串进行加密
+
+  //4.开发者获得加密后的字符串可与signature对比，标识该请求来源于微信
+  if (resultCode === signature) {
+    res.send(echostr);
+  } else {
+    res.send('mismatch');
+  }
+});
+</code></pre>
+<p>2.1.3 验证结果</p>
+<blockquote>
+  <p>验证成功后会提示配置成功，否则显示配置失败</p>
+</blockquote>
+<p>2.1.4 js 安全域名</p>
+<blockquote>
+  <p>这个的作用是可以在你配置的域名的网站上使用微信的 js-sdk 进行调用微信给我们开放的接口</p>
+</blockquote>
+<p>2.1.4 给出一个测试二维码</p>
+<blockquote>
+  <p>我们扫码这个二维码就可以进行开发了</p>
+</blockquote>
+<p>2.1.5 api 表</p>
+<blockquote>
+  <p>有我们可以调用的 api 都可以玩玩</p>
+</blockquote>
+<h5 id="-1">三、实例代码</h5>
+<blockquote>
+  <p>这个使用使用关注，取消关注开发的微信扫码登录</p>
+</blockquote>
+<pre><code class="js language-js">const express = require('express');
+const axios = require('axios');
+const cors = require('cors');
+const sha1 = require('sha1');
+const path = require('path');
+const crypto = require('crypto');
+const parseString = require('xml2js').parseString;
+const app = express();
+require('./redis');
+
+app.get('/', (req, res) =&gt; {
+  //1.获取微信服务器Get请求的参数 signature、timestamp、nonce、echostr
+  var signature = req.query.signature, //微信加密签名
+    timestamp = req.query.timestamp, //时间戳
+    nonce = req.query.nonce, //随机数
+    echostr = req.query.echostr; //随机字符串
+
+  //2.将token、timestamp、nonce三个参数进行字典序排序
+  var array = ['ABCDEFGHIJKLM', timestamp, nonce];
+  array.sort();
+
+  //3.将三个参数字符串拼接成一个字符串进行sha1加密
+  var tempStr = array.join('');
+  const hashCode = crypto.createHash('sha1'); //创建加密类型
+  var resultCode = hashCode.update(tempStr, 'utf8').digest('hex'); //对传入的字符串进行加密
+
+  //4.开发者获得加密后的字符串可与signature对比，标识该请求来源于微信
+  if (resultCode === signature) {
+    res.send(echostr);
+  } else {
+    res.send('mismatch');
+  }
+});
+
+app.use(cors());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+// 模拟数据库
+const users = [];
+// 模拟redis缓存
+const redis = {};
+var accessToken = '';
+
+const textMesg = (from, to, text) =&gt; {
+  return `&lt;xml&gt;
+            &lt;ToUserName&gt;&lt;![CDATA[${from}]]&gt;&lt;/ToUserName&gt;
+            &lt;FromUserName&gt;&lt;![CDATA[${to}]]&gt;&lt;/FromUserName&gt;
+            &lt;CreateTime&gt;${+new Date()}&lt;/CreateTime&gt;
+            &lt;MsgType&gt;&lt;![CDATA[text]]&gt;&lt;/MsgType&gt;
+            &lt;Content&gt;&lt;![CDATA[${text}]]&gt;&lt;/Content&gt;
+          &lt;/xml&gt;`;
+};
+// 配置信息
+const config = {
+  token: 'ABCDEFGHIJKLM',
+  appid: 'wx231e6fc91ca26440',
+  secret: '5d0efe03af9fa22c2ce1a6efdef441a8',
+};
+
+// 接受微信消息
+app.post('/', (request, respose) =&gt; {
+  request.on('data', (res) =&gt; {
+    const xmlData = String(res);
+    parseString(xmlData, (err, res) =&gt; {
+      console.log(res, res.xml.Event);
+
+      const from = res.xml.FromUserName;
+      const to = res.xml.ToUserName;
+      const type = res.xml.Event[0];
+      const userName = res.xml.FromUserName[0];
+      const EventKey = res.xml?.EventKey[0];
+
+      // 注册
+      if (type === 'subscribe') {
+        console.log(EventKey);
+        console.log('关注了');
+        // 创建用户
+        const user = {
+          open_id: userName,
+        };
+        users.push(user);
+        if (isNaN(Number(EventKey))) {
+          redis[EventKey.split('_')[1]] = user.open_id;
+        } else {
+          redis[EventKey] = user.open_id;
+        }
+        respose.send(textMesg(from, to, '感谢关注!'));
+      }
+      // 登录
+      if (type === 'SCAN') {
+        console.log('又来了');
+        respose.send(textMesg(from, to, '欢迎回来!'));
+      }
+      // 取关
+      if (type === 'unsubscribe') {
+        console.log('取关了,应该删除用户信息');
+      }
+    });
+  });
+});
+
+// 获取二维码
+app.get('/erweima', async (req, res) =&gt; {
+  // 获取access_token
+  const access_token = await getAccess_token(config.appid, config.secret); // access_token
+  accessToken = access_token;
+  const scene_id = Math.floor(Math.random() * 10000);
+
+  // 请求二维码
+  axios
+    .post('https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=' + access_token, {
+      action_name: 'QR_SCENE',
+      expire_seconds: 60,
+      action_info: {
+        scene: {
+          scene_id,
+          scene_str: 'asdfasdf',
+        },
+      },
+    })
+    .then((result) =&gt; {
+      let { ticket } = result.data;
+      res.send({
+        url: `https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=${ticket}`,
+        scene_id,
+      });
+    });
+});
+
+// 检查是否登录
+app.get('/check', async (req, res) =&gt; {
+  const { scene_id } = req.query;
+  console.log(redis);
+  if (redis[scene_id]) {
+    let result = await getUserInfo(accessToken, redis[scene_id]);
+    res.send(result);
+  } else {
+    res.send('error');
+  }
+});
+
+// 获取token
+function getAccess_token(appid, secret) {
+  return new Promise((resolve, reject) =&gt; {
+    axios
+      .get(
+        `https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&amp;appid=${appid}&amp;secret=${secret}`
+      )
+      .then((res) =&gt; {
+        resolve(res.data.access_token);
+      })
+      .catch((err) =&gt; {
+        console.log(err);
+      });
+  });
+}
+
+// 登录成功之后 获取用户信息
+function getUserInfo(access_token, openid) {
+  return new Promise((resolve, reject) =&gt; {
+    axios
+      .get(
+        `https://api.weixin.qq.com/cgi-bin/user/info?access_token=${access_token}&amp;openid=${openid}&amp;lang=zh_CN`
+      )
+      .then((res) =&gt; {
+        resolve(res.data);
+      })
+      .catch((err) =&gt; {
+        reject(err);
+      });
+  });
+}
+
+app.listen(8888, () =&gt; {
+  console.log('server is runing at 8888');
+});
+
+// 获取二维码 -&gt;　返回一个二维码和一个ｓｃｒｅ值 -&gt; 关注后把这个值设置到redis里面 -&gt; 前端沦陷检测redis是狗有值来确定用户是后关注 -&gt; 若未关注过 {走注册流程} 否则走登录流程
+</code></pre>
+<h5 id="jssdk">测试及微信 js-sdk 的使用</h5>
+<pre><code class="js language-js">var imgEl = document.querySelector('#img');
+axios.get('http://3635333bb4.wicp.vip/erweima').then((res) =&gt; {
+  console.log(res);
+  imgEl.setAttribute('src', res.data.url);
+  const scene_id = res.data.scene_id;
+});
+const timer = setInterval(() =&gt; {
+  axios
+    .get('http://127.0.0.1:8888/check', {
+      params: {
+        scene_id: 7984,
+      },
+    })
+    .then((res) =&gt; {
+      console.log(res.data);
+    });
+}, 1000);
+axios.get('http://3635333bb4.wicp.vip/code').then((res) =&gt; {
+  console.log(res);
+});
+wx.config({
+  debug: true,
+  appId: 'wx231e6fc91ca26440',
+  timestamp: +new Date(),
+  nonceStr: 'asdfasd',
+  signature:
+    'O3SMpm8bG7kJnF36aXbe89S4qQjNhk2CtXhvbFpBkwJ141T00raXQRSkSCGmY_H2yOazu_pXn1kQPCeg4LafNQ',
+  jsApiList: [],
+});
+wx.error(function (res) {
+  console.log(res);
+});
+
+wx.scanQRCode({
+  needResult: 0, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+  scanType: ['qrCode', 'barCode'], // 可以指定扫二维码还是一维码，默认二者都有
+  success: function (res) {
+    var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+  },
+});
+</code></pre>
+      <div class="end">----本文结束----</div>
+      <div class="page">
+        <a
+          href="../../pageList/index.html"
+          class="pre"
+        >
+          <img src="../img/leftArrow.svg" alt="" />
+          List
+        </a>
+        <a
+          href="../html/生成树形数据.html"
+          class="next"
+        >
+          生成树形数据
+          <img src="../img/rightArrow.svg" alt="" />
+        </a>
+      </div>
+    </div>
+    <div class="fotter">
+      <p>All articles written with ❤ by Wu Yupei</p>
+      <p>Github · Gieee · QQ · WeChat</p>
+    </div>
+    <script src="../css/theme/prism.min.js"></script>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+    <script src="../js/notify.js"></script>
+    <script src="../js/progress.js"></script>
+  </body>
+</html>
