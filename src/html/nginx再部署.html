@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-nginx再部署</title>
+    <link href="../css/theme//prism-one-dark.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/animate.min.css" />
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/notify.css" />
+    <link rel="stylesheet" href="../css/newsprint.css" />
+    <link rel="stylesheet" href="../css/article.css" />
+  </head>
+
+  <body>
+    <div class="top">
+      <div class="nav">
+        <div class="home">
+          <a href="../../pageList/index.html"><img src="../img/list.svg" alt="" /></a>
+        </div>
+        <div class="auther">
+          <span>G</span>
+          <span>r</span>
+          <span>o</span>
+          <span>w</span>
+          <span>i</span>
+          <span>n</span>
+          <span>g</span>
+          <span>/</span>
+          <span>A</span>
+          <span>r</span>
+          <span>t</span>
+          <span>i</span>
+          <span>c</span>
+          <span>l</span>
+          <span>e</span>
+        </div>
+        <div class="github">
+          <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <h1>nginx再部署</h1>
+      <h4 id="nginx">nginx 部署相关应用</h4>
+<blockquote>
+  <p>之前使用 nginx 部署应用，只会把应用部署再不同的端上，今天再学习部署，学会了二级域名的使用还挺方便</p>
+</blockquote>
+<h5 id="">相关配置如下</h5>
+<ul>
+<li>之前的配置</li>
+</ul>
+<pre><code class="shell language-shell"># vue3-vite
+server {
+    listen 5000;
+    server_name  127.0.0.1;
+    location / {
+         root /home/vue/vue3-vite-dist;
+         index  index.html index.htm;
+     }
+}
+
+# vue3-ts
+server {
+    listen 5001;
+    server_name  127.0.0.1;
+    location / {
+         root /home/vue/vue3-ts-dist;
+         index  index.html index.htm;
+     }
+}
+
+# index-page
+server {
+    listen 9999;
+    server_name  wuyupei.top;
+    location / {
+         root /home/index-page/dist;
+         index  index.html index.htm;
+     }
+}
+</code></pre>
+<ul>
+<li>现在的配置</li>
+</ul>
+<pre><code class="shell language-shell"># vue3-vite
+server {
+    listen 80;
+    server_name  v3js.wuyupei.top;
+    location / {
+         root /home/vue/vue3-vite-dist;
+         index  index.html index.htm;
+     }
+}
+
+# vue3-ts
+server {
+    listen 80;
+    server_name  v3ts.wuyupei.top;
+    location / {
+         root /home/vue/vue3-ts-dist;
+         index  index.html index.htm;
+     }
+}
+
+# blog
+server {
+    listen 80;
+    server_name  wuyupei.top;
+    location / {
+         root /home/blog;
+         index  index.html index.htm;
+     }
+}
+# index-page
+server {
+    listen 80;
+    server_name  page.wuyupei.top;
+    location / {
+         root /home/index-page/dist;
+         index  index.html index.htm;
+     }
+}
+</code></pre>
+<p>其他相关配置：</p>
+<ol>
+<li>代理：proxy_pass</li>
+<li>负载均衡：upstream {
+server 192.168.1.201
+…
+}</li>
+<li>负载均衡相关算法</li>
+</ol>
+<ul>
+<li>轮询等相关</li>
+<li>ip…</li>
+<li>url…</li>
+<li>…</li>
+</ul>
+<p><strong>明天继续 OLG</strong></p>
+      <div class="end">----本文结束----</div>
+      <div class="page">
+        <a
+          href="../../pageList/index.html"
+          class="pre"
+        >
+          <img src="../img/leftArrow.svg" alt="" />
+          List
+        </a>
+        <a
+          href="../html/接入微信公众号登录.html"
+          class="next"
+        >
+          接入微信公众号登录
+          <img src="../img/rightArrow.svg" alt="" />
+        </a>
+      </div>
+    </div>
+    <div class="fotter">
+      <p>All articles written with ❤ by Wu Yupei</p>
+      <p>Github · Gieee · QQ · WeChat</p>
+    </div>
+    <script src="../css/theme/prism.min.js"></script>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+    <script src="../js/notify.js"></script>
+    <script src="../js/progress.js"></script>
+  </body>
+</html>
