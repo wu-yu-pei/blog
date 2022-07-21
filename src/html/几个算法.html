@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-几个算法</title>
+    <link href="../css/theme//prism-one-dark.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/animate.min.css" />
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/notify.css" />
+    <link rel="stylesheet" href="../css/newsprint.css" />
+    <link rel="stylesheet" href="../css/article.css" />
+  </head>
+
+  <body>
+    <div class="top">
+      <div class="nav">
+        <div class="home">
+          <a href="../../pageList/index.html"><img src="../img/list.svg" alt="" /></a>
+        </div>
+        <div class="auther">
+          <span>G</span>
+          <span>r</span>
+          <span>o</span>
+          <span>w</span>
+          <span>i</span>
+          <span>n</span>
+          <span>g</span>
+          <span>/</span>
+          <span>A</span>
+          <span>r</span>
+          <span>t</span>
+          <span>i</span>
+          <span>c</span>
+          <span>l</span>
+          <span>e</span>
+        </div>
+        <div class="github">
+          <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <h1>几个算法</h1>
+      <h2 id="">算法小练习</h2>
+<blockquote>
+  <p>牛客上看到的几个字节算法题</p>
+</blockquote>
+<pre><code class="js language-js"> // 正则解析
+      let str = `[
+        {
+          text: '组件',
+          items: [
+            { text: 'Button', link: '/component/button' },
+            { text: 'Card', link: '/component/card' },
+            { text: 'Tag', link: '/component/tag' }
+          ]
+        }
+      ]`;
+      const reg = new RegExp();
+      const originConfing = /items: \[([\d\D]*)\]\n/.exec(str);
+      console.log(originConfing[0], originConfing[1]);
+
+      // 求数组中第k大和第m大的数的总和
+      let arr = [1, 2, 4, 4, 3, 5];
+
+      function getSum(arr, k, m) {
+        // 排序
+        let sortArr = arr.sort((a, b) =&gt; b - a);
+        // 去重
+        let sinplArr = [...new Set(sortArr)];
+
+        // 记录值
+        let max = sinplArr[k - 1];
+        let min = sinplArr[m - 1];
+
+        // 记录次数
+        let map = new Map();
+        for (let i = 0; i &lt; arr.length; i++) {
+          if (!map.has(arr[i])) {
+            map.set(arr[i], 1);
+          } else {
+            map.set(arr[i], map.get(arr[i]) + 1);
+          }
+        }
+
+        // 结果
+        const res = max * map.get(max) + min * map.get(min);
+
+        return res;
+      }
+
+      getSum(arr, 2, 4);
+
+      // 节流
+      function jieliu(fn, delay) {
+        let timer;
+        return function () {
+          if (!timer) {
+            timer = setTimeout(() =&gt; {
+              fn.apply(this, arguments);
+              timer = null;
+            }, delay);
+          }
+        };
+      }
+
+      // 防抖
+      function fangdou(fn, delay) {
+        let timer;
+        return function () {
+          if (timer) clearTimeout(timer);
+          timer = setTimeout(() =&gt; {
+            fn.apply(this, arguments);
+            timer = null;
+          }, delay);
+        };
+      }
+
+      function foo(a) {
+        console.log(a);
+      }
+
+      const fn = fangdou(foo, 500);
+
+      // fn(10);
+
+      window.addEventListener('resize', () =&gt; {
+        fn(10);
+      });
+
+      // 获取数组深度
+      function getArrayDep(arr) {
+        let max = 0;
+        for (let i = 0; i &lt; arr.length; i++) {
+          if (Array.isArray(arr[i])) {
+            max = Math.max(max, 1 + getArrayDep(arr[i]));
+          }
+        }
+        return max;
+      }
+
+      let a = getArrayDep([1, 2, [1, 2, [3]], [1, [2, [3, [4, 5, [1]]]]], [1, 2, [3]]]);
+      console.log(a);
+</code></pre>
+      <div class="end">----本文结束----</div>
+      <div class="page">
+        <a
+          href="../../pageList/index.html"
+          class="pre"
+        >
+          <img src="../img/leftArrow.svg" alt="" />
+          List
+        </a>
+        <a
+          href="../html/http缓存.html"
+          class="next"
+        >
+          http缓存
+          <img src="../img/rightArrow.svg" alt="" />
+        </a>
+      </div>
+    </div>
+    <div class="fotter">
+      <p>All articles written with ❤ by Wu Yupei</p>
+      <p>Github · Gieee · QQ · WeChat</p>
+    </div>
+    <script src="../css/theme/prism.min.js"></script>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+    <script src="../js/notify.js"></script>
+    <script src="../js/progress.js"></script>
+    <script src="../js/canvas.js"></script>
+  </body>
+</html>
