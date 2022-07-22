@@ -16,7 +16,7 @@
         <div>
           <img src="./src/img/user.jpg" alt="" />
           <p>
-            <span>Growing</span>
+            <span>Grow<span class="i">i</span>ng</span>
           </p>
           <p>
             <span>Live up to every love</span>
@@ -45,5 +45,42 @@
         </div>
       </div>
     </div>
+    <script>
+      let currentIndex = Math.floor(Math.random() * 9);
+
+      function changeBg(index) {
+        document.body.style.background = `url(./src/img/bg-img/${index}.jpg)`;
+        document.body.style.backgroundRepeat = 'no-repeat'
+      }
+
+      function throttle(fn, delay) {
+        let timer;
+        return function () {
+          if (!timer) {
+            timer = setTimeout(() => {
+              fn.apply(this, arguments);
+              timer = null;
+            }, delay);
+          }
+        };
+      }
+
+      const _changeBg = throttle(changeBg, 100);
+
+      changeBg(currentIndex);
+
+      document.addEventListener('wheel', (e) => {
+        const { deltaY } = e;
+        if (deltaY > 0) {
+          // 上一张
+          currentIndex = currentIndex >= 8 ? 0 : currentIndex + 1;
+          _changeBg(currentIndex);
+        } else {
+          //  下一张
+          currentIndex = currentIndex <= 0 ? 8 : currentIndex - 1;
+          _changeBg(currentIndex);
+        }
+      });
+    </script>
   </body>
 </html>

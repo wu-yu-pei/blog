@@ -3,6 +3,7 @@
   padding: 0;
   box-sizing: border-box;
   user-select: none;
+  cursor: pointer;
 }
 a {
   text-decoration: none;
@@ -11,9 +12,9 @@ a {
 body {
   width: 100vw;
   height: 100vh;
-  background: url(../img/home-bg.jpg);
   background-size: cover;
   color: #fff;
+  transition: all linear 0.2s;
 }
 .content {
   display: flex;
@@ -62,6 +63,21 @@ body {
   letter-spacing: 3px;
 }
 
+.content .top .i {
+  display: inline-block;
+  color: red;
+  animation: jump 0.8s linear infinite alternate;
+}
+
+@keyframes jump {
+  0% {
+    transform: scaleY(1) rotateX(0deg) translateY(0px);
+  }
+  100% {
+    transform: scaleY(1) rotateX(45deg) translateY(-15px);
+  }
+}
+
 .content .bottom {
   display: flex;
   flex-direction: column;
@@ -87,8 +103,14 @@ body {
   height: 25px;
   line-height: 25px;
   font-size: 16px;
+  font-family: fangsong;
   text-align: center;
   border: 1px solid #fff;
+  transition: all linear 0.2s;
+}
+.content .bottom .info a:hover {
+  border-radius: 5px;
+  transform: scale(1.1);
 }
 .content .bottom .my {
   display: flex;
