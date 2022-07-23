@@ -1,6 +1,6 @@
 var lis = document.querySelectorAll('li');
-// 懒加载
 for (let i = 0; i < lis.length; i++) {
+  // 懒加载
   let img = lis[i].querySelector('img');
   let obsever = new IntersectionObserver(
     ([{ isIntersecting }]) => {
@@ -18,4 +18,10 @@ for (let i = 0; i < lis.length; i++) {
     }
   );
   obsever.observe(lis[i]);
+
+  // 点击事件
+  lis[i].addEventListener('click', () => {
+    const link = lis[i].querySelector('a');
+    window.open(link.href, '_self');
+  });
 }
