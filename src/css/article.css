@@ -92,13 +92,15 @@ body {
 }
 
 .content {
+  position: relative;
+  z-index: 2;
   padding: 0 20px;
   max-width: 980px;
   overflow-x: scroll;
   height: 100%;
   margin: 0 auto;
-  background-color: #fff;
   overflow: hidden;
+  background: rgba(255, 255, 255, 0.5);
 }
 code {
   font-family: fangsong;
