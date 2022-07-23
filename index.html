@@ -69,6 +69,8 @@
 
       const _changeBg = throttle(changeBg, 100);
 
+      changeBg(1);
+
       document.addEventListener('wheel', (e) => {
         const { deltaY } = e;
         if (deltaY > 0) {
