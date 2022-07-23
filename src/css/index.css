@@ -15,6 +15,7 @@ body {
   background-size: cover;
   color: #fff;
   transition: all linear 0.2s;
+  background: url('../img/bg-img/0.jpg');
 }
 .content {
   display: flex;

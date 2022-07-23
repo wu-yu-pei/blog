@@ -51,8 +51,6 @@
       function changeBg(index) {
         document.body.style.background = `url(./src/img/bg-img/${index}.jpg)`;
         document.body.style.backgroundRepeat = 'no-repeat';
-        preLoadImg(index - 1);
-        preLoadImg(index + 1);
       }
 
       function throttle(fn, delay) {
@@ -69,7 +67,6 @@
 
       const _changeBg = throttle(changeBg, 100);
 
-      changeBg(currentIndex);
 
       document.addEventListener('wheel', (e) => {
         const { deltaY } = e;
