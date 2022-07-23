@@ -50,7 +50,9 @@
 
       function changeBg(index) {
         document.body.style.background = `url(./src/img/bg-img/${index}.jpg)`;
-        document.body.style.backgroundRepeat = 'no-repeat'
+        document.body.style.backgroundRepeat = 'no-repeat';
+        preLoadImg(index - 1);
+        preLoadImg(index + 1);
       }
 
       function throttle(fn, delay) {
@@ -81,6 +83,12 @@
           _changeBg(currentIndex);
         }
       });
+
+      function preLoadImg(i) {
+        if (i < 0 || i > 8) return;
+        const img = document.createElement('img');
+        img.src = `./src/img/bg-img/${i}.jpg`;
+      }
     </script>
   </body>
 </html>
