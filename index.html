@@ -73,9 +73,30 @@
         img.src = `./src/img/bg-img/${i}.jpg`;
       }
 
+      function createNotifyEl(text) {
+        const div = document.createElement('div');
+        div.innerHTML = text;
+        div.classList = 'notify animate__animated animate__fadeInTopRight';
+        document.body.appendChild(div);
+
+        function f1() {
+          div.classList = 'notify animate__animated animate__fadeOutUp';
+          clearTimeout(t1, f1);
+        }
+        function f2() {
+          document.body.removeChild(div);
+          clearTimeout(t2, f2);
+        }
+
+        var t1 = setTimeout(f1, 1500);
+        var t2 = setTimeout(f2, 3000);
+      }
+
       const _changeBg = throttle(changeBg, 100);
 
       changeBg(0);
+
+      createNotifyEl('👋,欢迎你！');
 
       document.addEventListener('wheel', (e) => {
         const { deltaY } = e;
