@@ -12,7 +12,7 @@ check.addEventListener('click', () => {
   if (isLight) {
     // 播放声音
     audio.play();
-    check.style.background = 'url(./src/img/hei.png) no-repeat';
+    check.style.background = 'url(./src/img/hei.png) no-repeat 100% 100%';
     document.documentElement.style.setProperty('--bg-color', '#f5f5d5');
     document.documentElement.style.setProperty('--a-color', '#000');
     document.documentElement.style.setProperty('--fo-color', '#000');
@@ -23,7 +23,7 @@ check.addEventListener('click', () => {
   } else {
     // 播放声音
     audio.play();
-    check.style.background = 'url(./src/img/bai.png) no-repeat';
+    check.style.background = 'url(./src/img/bai.png) no-repeat no-repeat 100% 100%';
     document.documentElement.style.setProperty('--bg-color', '#304156');
     document.documentElement.style.setProperty('--a-color', '#fff');
     document.documentElement.style.setProperty('--bb-color', '#000');
