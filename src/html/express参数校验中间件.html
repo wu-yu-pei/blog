@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growing-express参数校验中间件</title>
+    <link href="../css/theme//prism-one-dark.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/animate.min.css" />
+    <link rel="icon" href="../../favicon.ico" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/notify.css" />
+    <link rel="stylesheet" href="../css/newsprint.css" />
+    <link rel="stylesheet" href="../css/article.css" />
+  </head>
+
+  <body>
+    <div class="top">
+      <div class="nav">
+        <div class="home">
+          <a href="../../pageList/index.html"><img src="../img/list.svg" alt="" /></a>
+        </div>
+        <div class="auther">
+          <span>G</span>
+          <span>r</span>
+          <span>o</span>
+          <span>w</span>
+          <span>i</span>
+          <span>n</span>
+          <span>g</span>
+          <span>/</span>
+          <span>A</span>
+          <span>r</span>
+          <span>t</span>
+          <span>i</span>
+          <span>c</span>
+          <span>l</span>
+          <span>e</span>
+        </div>
+        <div class="github">
+          <a href="https://github.com/wu-yu-pei"><img src="../img/github.svg" alt="" /></a>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <h1>express参数校验中间件</h1>
+      <h1 id="node">技术学习- node 参数校验中间件封装</h1>
+<blockquote>
+  <p>对node案例中的参数校验进行封装思路：
+  使用封装为中间件 在router层进行检验 这样controller层的代码就非常的干净import</p>
+</blockquote>
+<pre><code class="js language-js">{ Router } from 'express';
+
+import newsController from './news.controller';
+import verifyPipe from '../../pipe/verify.pipe';
+import { ParamsPosition } from '../../common/enum';
+
+const newRoute = Router();
+
+// 尝试一下 封装参数检验
+// 但是 目前只能校验 参数是否必填 和 是否是指定类型，且只能通过中间件的方式来检验
+// 写起来 router层 不是很 干净 看着有些 厚重、重复
+// TODO 尝试把 参数检验 抽取到 controller层 并且保证controller层 代码的整洁
+// TODO 参考@hapi/joi （借助装饰器语法）
+
+newRoute.post('/news', verifyPipe.required(['title', 'type', 'content'], ParamsPosition.BODY), verifyPipe.required(['files'], ParamsPosition.REQ), newsController.createNews);
+
+newRoute.get('/news', verifyPipe.optionalMustNumber(['page', 'pageSize'], ParamsPosition.QUERY), newsController.getNews);
+
+newRoute.get('/news/:id', verifyPipe.mustNumber(['id'], ParamsPosition.PARAMS), newsController.getNewsDetail);
+
+newRoute.put('/news', verifyPipe.required(['id', 'title', 'type', 'content'], ParamsPosition.BODY), verifyPipe.mustNumber(['id'], ParamsPosition.BODY), newsController.updateNews);
+
+newRoute.delete('/news/:id', verifyPipe.mustNumber(['id'], ParamsPosition.PARAMS), newsController.deleteNews);
+
+export default newRoute;
+</code></pre>
+<h1 id="">检验中间件</h1>
+<ul>
+<li>基类</li>
+</ul>
+<pre><code class="js language-js">import { NextFunction } from 'express';
+import { BadRequest } from '../../errors';
+
+export default class BasePipe {
+  constructor() {}
+
+  required(paramsList, paramsPosition) {}
+
+  mustNumber(paramsList, paramsPosition) {}
+
+  optionalMustNumber(paramsList, paramsPosition) {}
+
+  verifyResultMessage(message: string[], next: NextFunction) {
+    if (message.length !== 0) {
+      throw new BadRequest(JSON.stringify(message));
+    } else {
+      next();
+    }
+  }
+}
+</code></pre>
+<ul>
+<li>子类 的校验方法 返回一个中间件</li>
+</ul>
+<pre><code class="js language-js">import { NextFunction, Request, Response } from 'express';
+import { isNumber } from '../common/utils/index';
+import { ParamsPosition } from '../common/enum';
+import BasePipe from '../common/base/baseVerify.pipe';
+
+class VerifyParamsPipe extends BasePipe {
+  // 参数校验 必填参数
+  required(paramsList: string[], paramsPosition = ParamsPosition.BODY) {
+    return (req: Request, res: Response, next: NextFunction) =&gt; {
+      const message = [];
+
+      for (let i = 0; i &lt; paramsList.length; i++) {
+        if (paramsPosition === ParamsPosition.REQ) {
+          if (!req[paramsList[i]]) {
+            message.push(`${paramsList[i]} 参数不能为空`);
+          }
+        } else {
+          if (!req[paramsPosition][paramsList[i]]) {
+            message.push(`${paramsList[i]} 参数不能为空`);
+          }
+        }
+      }
+
+      this.verifyResultMessage(message, next);
+    };
+  }
+
+  // 参数检验 是否为数字
+  mustNumber(paramsList: string[], paramsPosition = ParamsPosition.BODY) {
+    return (req: Request, res: Response, next: NextFunction) =&gt; {
+      const message = [];
+      for (let i = 0; i &lt; paramsList.length; i++) {
+        if (paramsPosition === ParamsPosition.REQ) {
+          if (!isNumber(req[paramsList[i]])) {
+            message.push(`${paramsList[i]} 应该为数字`);
+          }
+        } else {
+          if (!isNumber(req[paramsPosition][paramsList[i]])) {
+            message.push(`${paramsList[i]} 应该为数字`);
+          }
+        }
+      }
+
+      this.verifyResultMessage(message, next);
+    };
+  }
+
+  // 可选类型参数校验
+  optionalMustNumber(paramsList: string[], paramsPosition = ParamsPosition.BODY) {
+    return (req: Request, res: Response, next: NextFunction) =&gt; {
+      const message = [];
+      for (let i = 0; i &lt; paramsList.length; i++) {
+        if (paramsPosition === ParamsPosition.REQ) {
+          if (req[paramsList[i]] &amp;&amp; !isNumber(req[paramsList[i]])) {
+            message.push(`${paramsList[i]} 应该为数字`);
+          }
+        } else {
+          if (req[paramsPosition][paramsList[i]] &amp;&amp; !isNumber(req[paramsPosition][paramsList[i]])) {
+            message.push(`${paramsList[i]} 应该为数字`);
+          }
+        }
+      }
+
+      this.verifyResultMessage(message, next);
+    };
+  }
+}
+
+export default new VerifyParamsPipe();
+</code></pre>
+<h1 id="-1">总结</h1>
+<p>相对简单的检验 自己封装还是没问题的 但是对于复杂一点的参数检验 此中间件就显得非常乏力
+而且 router层 会有非常笨重的代码 来进行参数校验。</p>
+<h1 id="-2">下一步封装思路</h1>
+<ul>
+<li>尝试把 参数检验 抽取到 controller层 并且保证controller层 代码的整洁</li>
+<li>参考@hapi/joi （借助装饰器语法）</li>
+</ul>
+<h1 id="ai">关于 AI</h1>
+<p>在浏览一个 我关注的技术博主的博客中 看到了博主对ai的一些研究，还挺有趣。本地搭建AI开发环境 生成图片。我自己也试了试 但是环境没有部署成功（应该是电脑的问题）
+相关文章：
+https://antfu.me/posts/ai-qrcode
+https://antfu.me/posts/ai-qrcode-refine
+非常有意思。 接下来我也会继续研究 跟着博主一起学习ai。</p>
+      <div class="end">----本文结束----</div>
+      <div class="page">
+        <a
+          href="../../pageList/index.html"
+          class="pre"
+        >
+          <img src="../img/leftArrow.svg" alt="" />
+          List
+        </a>
+        <a
+          href="../html/防抖和节流.html"
+          class="next"
+        >
+          防抖和节流
+          <img src="../img/rightArrow.svg" alt="" />
+        </a>
+      </div>
+    </div>
+    <div class="fotter">
+      <p>All articles written with ❤ by Wu Yupei</p>
+      <p>Github · Gieee · QQ · WeChat</p>
+    </div>
+    <script src="../css/theme/prism.min.js"></script>
+    <script src="../js/click.js"></script>
+    <script src="../js/scroll.js"></script>
+    <script src="../js/notify.js"></script>
+    <script src="../js/progress.js"></script>
+    <script src="../js/canvas.js"></script>
+  </body>
+</html>
